@@ -33,6 +33,7 @@ export default async function EditOfferPage({ params }: EditOfferPageProps) {
     minPrice: Number(offer.minPrice),
     minRange: offer.minRange,
     maxRange: offer.maxRange,
+    fixPrice: offer.fixPrice ? Number(offer.fixPrice) : null,
     stockQuantity: offer.stockQuantity,
     priority: offer.priority
   }
