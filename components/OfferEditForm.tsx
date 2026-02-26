@@ -19,7 +19,7 @@ interface Offer {
   offerSubheadline: string | null
   imageUrl: string
   minPrice: number
-  fixPrice: number
+  fixPrice: number | null
   minRange: number
   maxRange: number
   stockQuantity: number
