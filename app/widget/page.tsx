@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { BidWidget } from '@/components/BidWidget'
 
+export const dynamic = 'force-dynamic'
+
 export default function WidgetPage() {
   const searchParams = useSearchParams()
   const shopId = searchParams.get('shopId')

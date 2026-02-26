@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 const translations = {
   en: {
     success: 'Bid Submitted Successfully!',
