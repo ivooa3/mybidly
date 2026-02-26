@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Shop {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  shopName     String?  @map("shop_name")
+
+  // Profile fields
+  firstName    String?  @map("first_name")
+  lastName     String?  @map("last_name")
+  shopUrl      String?  @map("shop_url")
+  orderEmail   String?  @map("order_email")
+
+  // Business address (stored as JSON)
+  businessAddress Json?  @map("business_address")
+
+  // Tax information
+  vatNumber    String?  @map("vat_number")
+
+  // Stripe Connect (for SaaS model)
+  stripeAccountId      String?  @unique @map("stripe_account_id")
+  stripeAccountStatus  String?  @default("pending") @map("stripe_account_status")
+  stripeOnboardingComplete Boolean @default(false) @map("stripe_onboarding_complete")
+
+  // Platform fee settings (for SaaS transaction fee model)
+  platformFeePercentage Decimal @default(8.0) @db.Decimal(5, 2) @map("platform_fee_percentage") // Default 8%
+  platformFeeEnabled    Boolean @default(true) @map("platform_fee_enabled")
+
+  // Admin panel fields
+  role                  String   @default("shop_owner") // "shop_owner" or "admin"
+  isActive              Boolean  @default(true) @map("is_active")
+  deactivatedAt         DateTime? @map("deactivated_at")
+  planTier              String   @default("free") @map("plan_tier") // "free", "pro", "business"
+
+  // User preferences
+  preferredLanguage     String   @default("en") @map("preferred_language") // "en" or "de"
+
+  // Password reset
+  resetToken            String?  @map("reset_token")
+  resetTokenExpiresAt   DateTime? @map("reset_token_expires_at")
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  offers      Offer[]
+  bids        Bid[]
+  widgetViews WidgetView[]
+
+  @@map("shops")
+}
+
+model Offer {
+  id               String   @id @default(cuid())
+  shopId           String   @map("shop_id")
+  productName      String   @map("product_name")
+  productSku       String   @map("product_sku")
+  scopeOfDelivery  String?  @map("scope_of_delivery")
+  offerHeadline    String?  @map("offer_headline")
+  offerSubheadline String?  @map("offer_subheadline")
+  imageUrl         String   @map("image_url")
+  minPrice         Decimal  @db.Decimal(10, 2) @map("min_price")
+  fixPrice         Decimal  @db.Decimal(10, 2) @default(24.60) @map("fix_price") // Fixed "Buy Now" price
+  minRange         Int      @default(-10) @map("min_range") // Min percentage range (e.g., -10 means -10%)
+  maxRange         Int      @default(25) @map("max_range")  // Max percentage range (e.g., 25 means +25%)
+  stockQuantity    Int      @map("stock_quantity")
+  priority         Int      @default(999) // Lower number = higher priority
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  bids Bid[]
+
+  @@index([shopId])
+  @@index([priority])
+  @@unique([shopId, priority])
+  @@unique([shopId, productSku])
+  @@map("offers")
+}
+
+model Bid {
+  id                    String    @id @default(cuid())
+  shopId                String    @map("shop_id")
+  offerId               String    @map("offer_id")
+  customerEmail         String    @map("customer_email")
+  customerName          String    @map("customer_name")
+  shippingAddress       Json      @map("shipping_address")
+  bidAmount             Decimal   @db.Decimal(10, 2) @map("bid_amount")
+  isFixPrice            Boolean   @default(false) @map("is_fix_price") // True if purchased at fix price
+  status                String    // 'pending', 'accepted', 'declined'
+  stripePaymentId       String    @unique @map("stripe_payment_id")
+  locale                String    // 'de' or 'en'
+  acceptanceEmailSentAt DateTime? @map("acceptance_email_sent_at")
+
+  // Platform fee tracking (for SaaS model)
+  platformFeeAmount     Decimal?  @db.Decimal(10, 2) @map("platform_fee_amount") // Fee collected by platform
+  shopOwnerAmount       Decimal?  @db.Decimal(10, 2) @map("shop_owner_amount")   // Amount shop owner received
+  stripeTransferId      String?   @map("stripe_transfer_id")                     // Stripe transfer ID for reconciliation
+
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  shop  Shop  @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  offer Offer @relation(fields: [offerId], references: [id], onDelete: Cascade)
+
+  @@index([shopId])
+  @@index([offerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("bids")
+}
+
+model WidgetView {
+  id            String   @id @default(cuid())
+  shopId        String   @map("shop_id")
+  offerId       String?  @map("offer_id") // Which offer was shown (can be null if no offers available)
+  productId     String?  @map("product_id") // Product ID from embed code (for future targeting)
+
+  // Visitor tracking
+  visitorId     String?  @map("visitor_id") // Session-based identifier (cookie or fingerprint)
+  ipAddress     String?  @map("ip_address") // For basic analytics (anonymized in EU)
+  userAgent     String?  @map("user_agent") // Browser info
+  referer       String?  // Where the widget was viewed (shop URL)
+
+  // Conversion tracking
+  didBid        Boolean  @default(false) @map("did_bid") // Did this view result in a bid?
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  shop Shop @relation(fields: [shopId], references: [id], onDelete: Cascade)
+
+  @@index([shopId])
+  @@index([offerId])
+  @@index([createdAt])
+  @@index([visitorId])
+  @@map("widget_views")
+}
