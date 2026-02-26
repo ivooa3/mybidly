@@ -13,7 +13,7 @@ interface BusinessAddress {
 interface Shop {
   id: string
   email: string
-  shopName: string
+  shopName: string | null
   firstName: string | null
   lastName: string | null
   shopUrl: string | null
