@@ -174,7 +174,7 @@ export const landingTranslations = {
       questions: [
         {
           q: "How does the bidding system work?",
-          a: "After a customer completes their purchase, they land on your thank-you page where they see relevant accessory offers. They use a slider to bid their desired price. You set minimum acceptable prices, and myBidly automatically accepts bids that meet your threshold."
+          a: "After a customer completes their purchase, they land on your thank-you page where they see relevant offers. They use a slider to bid their desired price. You set minimum acceptable prices, and myBidly automatically accepts bids that meet your threshold."
         },
         {
           q: "What if customers bid too low?",
@@ -190,7 +190,7 @@ export const landingTranslations = {
         },
         {
           q: "How do I get paid?",
-          a: "Customers pay via Stripe when they submit bids. Accepted payments go to your account minus our commission. You handle fulfillment and shipping directly."
+          a: "Customers pay via Stripe when they submit bids. Accepted payments go to your account minus our commission. You handle fulfillment and shipping directly. Additional charges may apply."
         },
         {
           q: "What about refunds?",
@@ -199,14 +199,6 @@ export const landingTranslations = {
         {
           q: "Can I offer multiple products?",
           a: "Yes, you can create unlimited offers. The widget automatically displays the highest priority product with available stock."
-        },
-        {
-          q: "Is it available in German?",
-          a: "Absolutely! The widget, emails, and dashboard support both German and English. Language is auto-detected based on customer browser settings."
-        },
-        {
-          q: "What's the pricing?",
-          a: "We offer two plans: Pay-As-You-Go (8% per transaction, no monthly fee) perfect for starting out, or Premium (€39/month, 0% transaction fee) for growing businesses. Choose what works best for you and switch anytime."
         },
         {
           q: "Do I need technical skills?",
@@ -419,7 +411,7 @@ export const landingTranslations = {
       questions: [
         {
           q: "Wie funktioniert das Gebotssystem?",
-          a: "Nachdem ein Kunde seinen Kauf abgeschlossen hat, landet er auf Ihrer Danke-Seite, wo er relevante Zubehörangebote sieht. Er nutzt einen Regler, um seinen gewünschten Preis zu bieten. Sie legen Mindestpreise fest, und myBidly akzeptiert automatisch Gebote, die Ihre Schwelle erreichen."
+          a: "Nachdem ein Kunde seinen Kauf abgeschlossen hat, landet er auf Ihrer Danke-Seite, wo er relevante Angebote sieht. Er nutzt einen Regler, um seinen gewünschten Preis zu bieten. Sie legen Mindestpreise fest, und myBidly akzeptiert automatisch Gebote, die Ihre Schwelle erreichen."
         },
         {
           q: "Was ist, wenn Kunden zu niedrig bieten?",
@@ -435,7 +427,7 @@ export const landingTranslations = {
         },
         {
           q: "Wie werde ich bezahlt?",
-          a: "Kunden zahlen via Stripe, wenn sie Gebote abgeben. Akzeptierte Zahlungen gehen auf Ihr Konto abzüglich unserer Provision. Sie handhaben Erfüllung und Versand direkt."
+          a: "Kunden zahlen via Stripe, wenn sie Gebote abgeben. Akzeptierte Zahlungen gehen auf Ihr Konto abzüglich unserer Provision. Sie handhaben Erfüllung und Versand direkt. Es können zusätzliche Gebühren anfallen."
         },
         {
           q: "Was ist mit Rückerstattungen?",
@@ -444,14 +436,6 @@ export const landingTranslations = {
         {
           q: "Kann ich mehrere Produkte anbieten?",
           a: "Ja, Sie können unbegrenzt Angebote erstellen. Das Widget zeigt automatisch das Produkt mit höchster Priorität und verfügbarem Lagerbestand an."
-        },
-        {
-          q: "Ist es auf Deutsch verfügbar?",
-          a: "Absolut! Das Widget, E-Mails und Dashboard unterstützen Deutsch und Englisch. Die Sprache wird automatisch basierend auf Browser-Einstellungen erkannt."
-        },
-        {
-          q: "Was kostet es?",
-          a: "Wir bieten zwei Pläne: Pay-As-You-Go (8% pro Transaktion, keine monatliche Gebühr) perfekt für den Einstieg, oder Premium (€39/Monat, 0% Transaktionsgebühr) für wachsende Unternehmen. Wählen Sie was am besten passt und wechseln Sie jederzeit."
         },
         {
           q: "Brauche ich technische Kenntnisse?",
