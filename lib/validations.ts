@@ -57,8 +57,8 @@ export const offerCreateSchema = z.object({
     .optional(),
   offerHeadline: z
     .string()
-    .max(200, 'Offer headline must be less than 200 characters')
-    .optional(),
+    .min(1, 'Offer headline is required')
+    .max(200, 'Offer headline must be less than 200 characters'),
   offerSubheadline: z
     .string()
     .max(300, 'Offer subheadline must be less than 300 characters')

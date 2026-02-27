@@ -46,6 +46,7 @@ const translations = {
     country: 'Country',
     payment: 'Payment Authorization',
     submitBid: 'Authorize Payment & Submit Bid',
+    buyNow: 'Buy Now',
     processing: 'Processing...',
     priceRangeInfo: 'Price range for this offer',
     sliderInfo: 'Drag the slider to set your bid amount',
@@ -68,6 +69,7 @@ const translations = {
     country: 'Land',
     payment: 'Zahlungsautorisierung',
     submitBid: 'Zahlung autorisieren & Gebot abgeben',
+    buyNow: 'Jetzt kaufen',
     processing: 'Verarbeitung...',
     priceRangeInfo: 'Preisspanne für dieses Angebot',
     sliderInfo: 'Ziehen Sie den Schieberegler, um Ihren Gebotsbetrag festzulegen',
@@ -377,7 +379,7 @@ function UnifiedPaymentForm({
         disabled={!stripe || isProcessing}
         className="w-full"
       >
-        {isProcessing ? t.processing : t.submitBid}
+        {isProcessing ? t.processing : (isFixPricePurchase ? t.buyNow : t.submitBid)}
       </Button>
     </form>
   )

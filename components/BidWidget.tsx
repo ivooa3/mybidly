@@ -34,7 +34,7 @@ const translations = {
     noOffers: 'No offers available at the moment.',
     inStock: 'In stock',
     makeYourBid: 'Make Your Bid',
-    buyNow: 'Buy It Now',
+    buyNow: 'Buy It Instantly',
     error: 'Failed to load offers. Please try again.'
   },
   de: {
@@ -44,7 +44,7 @@ const translations = {
     noOffers: 'Derzeit keine Angebote verfügbar.',
     inStock: 'Auf Lager',
     makeYourBid: 'Ihr Gebot abgeben',
-    buyNow: 'Sofort kaufen',
+    buyNow: 'Sofort und sicher kaufen',
     error: 'Angebote konnten nicht geladen werden. Bitte versuchen Sie es erneut.'
   }
 }

@@ -168,7 +168,7 @@ export function OfferForm() {
       />
 
       <Input
-        label="Offer Headline (optional)"
+        label="Offer Headline *"
         {...register('offerHeadline')}
         error={errors.offerHeadline?.message}
         placeholder="e.g., Want this helmet at a special price?"
