@@ -35,6 +35,7 @@ const translations = {
   en: {
     back: 'Back to Offers',
     yourBid: 'Your Bid',
+    buyItInstantly: 'Buy It Instantly',
     customerInfo: 'Customer Information',
     name: 'Full Name',
     email: 'Email Address',
@@ -58,6 +59,7 @@ const translations = {
   de: {
     back: 'Zurück zu Angeboten',
     yourBid: 'Ihr Gebot',
+    buyItInstantly: 'Sofort kaufen',
     customerInfo: 'Kundeninformationen',
     name: 'Vollständiger Name',
     email: 'E-Mail-Adresse',
@@ -487,7 +489,7 @@ export function BidForm({ offer, shopId, locale, onBack }: BidFormProps) {
 
       {/* Bid Amount Display */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">{t.yourBid}</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">{isFixPricePurchase ? t.buyItInstantly : t.yourBid}</h3>
         <div className="text-center">
           <p className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
             {formatCurrency(bidAmount)}
