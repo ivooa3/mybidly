@@ -180,22 +180,6 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Meeting Story */}
-          <div className="mb-16 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t.meetingTitle}</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t.meetingStory}
-            </p>
-          </div>
-
-          {/* Results */}
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t.resultTitle}</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t.resultStory}
-            </p>
-          </div>
-
           {/* Mission */}
           <div className="mb-16 bg-slate-900 text-white rounded-2xl p-8">
             <h2 className="text-3xl font-bold mb-4">{t.missionTitle}</h2>
