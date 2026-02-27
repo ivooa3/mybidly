@@ -45,7 +45,7 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
               {/* Product Image */}
               <div className="mb-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg overflow-hidden aspect-video flex items-center justify-center p-8">
                 <img
-                  src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800&q=80"
+                  src="/mybidly-product-demo.png"
                   alt="USB Type-C Cable"
                   className="w-full h-full object-contain"
                 />
