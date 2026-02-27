@@ -221,18 +221,16 @@ export const landingTranslations = {
       company: "Company",
       support: "Support",
       links: {
-        features: "Features",
         pricing: "Pricing",
         demo: "Demo",
         about: "About Us",
         contact: "Contact",
-        faq: "FAQ",
-        docs: "Documentation",
-        terms: "Terms of Service",
-        privacy: "Privacy Policy"
+        faq: "FAQ"
       },
       copyright: "© 2026 myBidly. All rights reserved.",
-      poweredBy: "Powered by"
+      poweredBy: "myBidly is a",
+      companyName: "Next Commerce",
+      companyText: "company"
     }
   },
 
@@ -458,18 +456,16 @@ export const landingTranslations = {
       company: "Unternehmen",
       support: "Support",
       links: {
-        features: "Funktionen",
         pricing: "Preise",
         demo: "Demo",
         about: "Über uns",
         contact: "Kontakt",
-        faq: "FAQ",
-        docs: "Dokumentation",
-        terms: "Nutzungsbedingungen",
-        privacy: "Datenschutz"
+        faq: "FAQ"
       },
       copyright: "© 2026 myBidly. Alle Rechte vorbehalten.",
-      poweredBy: "Powered by"
+      poweredBy: "myBidly ist ein",
+      companyName: "Next Commerce",
+      companyText: "Unternehmen"
     }
   }
 } as const

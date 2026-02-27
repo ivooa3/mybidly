@@ -230,7 +230,7 @@ export default function Home() {
       <Testimonials lang={lang} />
 
       {/* Pricing Section */}
-      <section className="py-20 bg-gradient-to-br from-purple-600 to-purple-500">
+      <section id="pricing" className="py-20 bg-gradient-to-br from-purple-600 to-purple-500">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             {t.pricing.title}
@@ -364,8 +364,7 @@ export default function Home() {
             <div>
               <h4 className="font-semibold text-white mb-3">{t.footer.product}</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/register" className="hover:text-purple-400 transition">{t.footer.links.features}</Link></li>
-                <li><Link href="/register" className="hover:text-purple-400 transition">{t.footer.links.pricing}</Link></li>
+                <li><a href="#pricing" className="hover:text-purple-400 transition">{t.footer.links.pricing}</a></li>
                 <li><a href="#demo" className="hover:text-purple-400 transition">{t.footer.links.demo}</a></li>
               </ul>
             </div>
@@ -374,8 +373,7 @@ export default function Home() {
             <div>
               <h4 className="font-semibold text-white mb-3">{t.footer.company}</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="https://www.next-commerce.io" className="hover:text-purple-400 transition">{t.footer.links.about}</Link></li>
-                <li><Link href="mailto:support@mybidly.io" className="hover:text-purple-400 transition">{t.footer.links.contact}</Link></li>
+                <li><Link href="/about" className="hover:text-purple-400 transition">{t.footer.links.about}</Link></li>
               </ul>
             </div>
 
@@ -384,7 +382,7 @@ export default function Home() {
               <h4 className="font-semibold text-white mb-3">{t.footer.support}</h4>
               <ul className="space-y-2 text-sm">
                 <li><a href="#faq" className="hover:text-purple-400 transition">{t.footer.links.faq}</a></li>
-                <li><Link href="mailto:support@mybidly.io" className="hover:text-purple-400 transition">{t.footer.links.docs}</Link></li>
+                <li><Link href="mailto:support@mybidly.io" className="hover:text-purple-400 transition">{t.footer.links.contact}</Link></li>
               </ul>
             </div>
           </div>
@@ -399,8 +397,9 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="text-purple-400 hover:text-purple-300 transition"
               >
-                Next Commerce
+                {t.footer.companyName}
               </a>
+              {' '}{t.footer.companyText}
             </p>
           </div>
         </div>
