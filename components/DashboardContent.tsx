@@ -3,6 +3,7 @@
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatCurrency } from '@/utils/calculations'
 import { TrialBanner } from './TrialBanner'
+import { PlanBanner } from './PlanBanner'
 
 interface TrialStatus {
   isInTrial: boolean
@@ -15,6 +16,7 @@ interface DashboardContentProps {
   shopName: string
   isAdmin: boolean
   trialStatus?: TrialStatus
+  planTier: 'payg' | 'premium'
   stats: {
     totalBids: number
     acceptedBids: number
@@ -25,7 +27,7 @@ interface DashboardContentProps {
   }
 }
 
-export function DashboardContent({ shopName, isAdmin, trialStatus, stats }: DashboardContentProps) {
+export function DashboardContent({ shopName, isAdmin, trialStatus, planTier, stats }: DashboardContentProps) {
   const { t } = useLanguage()
 
   const { totalBids, acceptedBids, totalViews, totalRevenue, conversionRate, viewToBidRate } = stats
@@ -47,6 +49,9 @@ export function DashboardContent({ shopName, isAdmin, trialStatus, stats }: Dash
           {t.dashboard.title}
         </p>
       </div>
+
+      {/* Plan Banner - Only show for non-admin users */}
+      {!isAdmin && <PlanBanner planTier={planTier} />}
 
       {/* Trial Banner - Only show for non-admin users */}
       {!isAdmin && trialStatus && (

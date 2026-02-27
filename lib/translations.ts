@@ -63,6 +63,14 @@ export const translations = {
       viewToBid: 'view-to-bid',
       conversion: 'Conversion',
       viewToSaleRate: 'View-to-sale rate',
+      currentPlan: 'Current Plan',
+      payAsYouGo: 'Pay-As-You-Go',
+      premium: 'Premium',
+      upgradeToPremium: 'Upgrade to Premium',
+      planPayg: '8% per transaction',
+      planPremium: '€39/month • 0% fees',
+      upgradeButton: 'Upgrade Now',
+      contactForUpgrade: 'Contact us to upgrade',
     },
     // Offers
     offers: {
@@ -302,6 +310,14 @@ export const translations = {
       viewToBid: 'Ansicht-zu-Gebot',
       conversion: 'Conversion',
       viewToSaleRate: 'Ansicht-zu-Verkauf-Rate',
+      currentPlan: 'Aktueller Plan',
+      payAsYouGo: 'Pay-As-You-Go',
+      premium: 'Premium',
+      upgradeToPremium: 'Auf Premium upgraden',
+      planPayg: '8% pro Transaktion',
+      planPremium: '€39/Monat • 0% Gebühren',
+      upgradeButton: 'Jetzt upgraden',
+      contactForUpgrade: 'Kontaktieren Sie uns für ein Upgrade',
     },
     // Offers
     offers: {

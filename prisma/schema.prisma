@@ -27,7 +27,7 @@ model Shop {
   platformFeePercentage    Decimal      @default(8.0) @map("platform_fee_percentage") @db.Decimal(5, 2)
   deactivatedAt            DateTime?    @map("deactivated_at")
   isActive                 Boolean      @default(true) @map("is_active")
-  planTier                 String       @default("free") @map("plan_tier")
+  planTier                 String       @default("payg") @map("plan_tier") // 'payg' or 'premium'
   role                     String       @default("shop_owner")
   preferredLanguage        String       @default("en") @map("preferred_language")
   resetToken               String?      @map("reset_token")

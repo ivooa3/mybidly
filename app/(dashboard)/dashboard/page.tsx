@@ -57,6 +57,7 @@ export default async function DashboardPage() {
       shopName={session.user.shopName}
       isAdmin={userIsAdmin}
       trialStatus={trialStatus}
+      planTier={shop.planTier as 'payg' | 'premium'}
       stats={{
         totalBids,
         acceptedBids,
