@@ -12,6 +12,9 @@ const FROM_EMAIL = process.env.NODE_ENV === 'production'
   ? 'myBidly <orders@mybidly.io>'
   : 'myBidly <onboarding@resend.dev>'
 
+// BCC all emails to support for monitoring
+const BCC_EMAIL = 'support@next-commerce.io'
+
 interface BidEmailData {
   customerName: string
   customerEmail: string
@@ -56,6 +59,7 @@ export async function sendBidConfirmationEmail(
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.customerEmail,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -91,6 +95,7 @@ export async function sendBidAcceptedEmail(
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.customerEmail,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -126,6 +131,7 @@ export async function sendBidDeclinedEmail(
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.customerEmail,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -154,6 +160,7 @@ export async function sendOrderNotificationToShopOwner(data: ShopOwnerEmailData)
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.shopOwnerEmail,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -190,6 +197,7 @@ export async function sendWelcomeEmail(
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -229,6 +237,7 @@ export async function sendPasswordResetEmail(
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
@@ -273,6 +282,7 @@ export async function sendMissedOpportunitiesEmail(data: MissedOpportunitiesEmai
     const result = await resend.emails.send({
       from: FROM_EMAIL,
       to: data.shopOwnerEmail,
+      bcc: BCC_EMAIL,
       subject,
       html
     })
