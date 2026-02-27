@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { formatCurrency } from '@/utils/calculations'
 import { format } from 'date-fns'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { detectEnvironment, getEnvironmentBadgeColor, getEnvironmentLabel } from '@/lib/environment-detector'
 
 interface User {
   id: string
@@ -133,6 +134,18 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
     )
   }
 
+  const getEnvironmentBadge = (shopUrl: string | null, createdAt: string) => {
+    const env = detectEnvironment(shopUrl, new Date(createdAt))
+    const colorClass = getEnvironmentBadgeColor(env)
+    const label = getEnvironmentLabel(env)
+
+    return (
+      <span className={`px-2 py-1 rounded text-xs font-semibold ${colorClass}`}>
+        {label}
+      </span>
+    )
+  }
+
   return (
     <>
       <div className="bg-white rounded-lg shadow-soft overflow-hidden">
@@ -145,6 +158,9 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Email
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Environment
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Role
@@ -177,6 +193,9 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-600">{user.email}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    {getEnvironmentBadge(user.shopUrl, user.createdAt)}
                   </td>
                   <td className="px-6 py-4">
                     {getRoleBadge(user.role)}
