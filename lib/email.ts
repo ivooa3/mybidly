@@ -240,6 +240,50 @@ export async function sendPasswordResetEmail(
   }
 }
 
+interface MissedOpportunitiesEmailData {
+  shopName: string
+  shopOwnerEmail: string
+  missedViewsThisWeek: number
+  missedViewsLastWeek: number
+  estimatedLostRevenue: number
+  averageBidAmount: number
+  acceptedBidsThisMonth: number
+  freeMonthlyLimit: number
+  locale: 'en' | 'de'
+}
+
+/**
+ * Send weekly missed opportunities email to shop owner
+ */
+export async function sendMissedOpportunitiesEmail(data: MissedOpportunitiesEmailData) {
+  const subject = data.locale === 'de'
+    ? `💰 Sie haben diese Woche ${data.missedViewsThisWeek} potenzielle Verkäufe verpasst`
+    : `💰 You missed ${data.missedViewsThisWeek} potential sales this week`
+
+  const html = data.locale === 'de'
+    ? getMissedOpportunitiesTemplateDE(data)
+    : getMissedOpportunitiesTemplateEN(data)
+
+  if (!resend) {
+    console.warn('Resend not configured - skipping missed opportunities email')
+    return null
+  }
+
+  try {
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: data.shopOwnerEmail,
+      subject,
+      html
+    })
+    console.log('Missed opportunities email sent:', result)
+    return result
+  } catch (error) {
+    console.error('Failed to send missed opportunities email:', error)
+    throw error
+  }
+}
+
 // Email Templates
 
 function getPasswordResetTemplateEN(email: string, resetUrl: string) {
@@ -923,6 +967,224 @@ function getWelcomeTemplateDE(shopName: string) {
       <div class="footer">
         <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+function getMissedOpportunitiesTemplateEN(data: MissedOpportunitiesEmailData) {
+  const percentChange = data.missedViewsLastWeek > 0
+    ? Math.round(((data.missedViewsThisWeek - data.missedViewsLastWeek) / data.missedViewsLastWeek) * 100)
+    : 0
+  const trend = percentChange > 0 ? 'up' : percentChange < 0 ? 'down' : 'same'
+  const trendEmoji = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️'
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+    .alert { background: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }
+    .box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b; }
+    .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+    .stat { text-align: center; padding: 15px; }
+    .stat-value { font-size: 32px; font-weight: bold; color: #dc2626; }
+    .stat-label { font-size: 14px; color: #6b7280; margin-top: 5px; }
+    .button { display: inline-block; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; font-size: 18px; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
+    .amount { font-size: 28px; font-weight: bold; color: #dc2626; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">💰 Your Weekly Report</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Missed Sales Opportunities</p>
+    </div>
+
+    <div class="content">
+      <div class="alert">
+        <h2 style="margin: 0 0 10px 0;">⚠️ ${data.shopName}, you're leaving money on the table!</h2>
+        <p style="margin: 0; font-size: 16px;">You've reached your free tier limit (${data.acceptedBidsThisMonth}/${data.freeMonthlyLimit} bids). Here's what you missed this week:</p>
+      </div>
+
+      <div class="box">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${data.missedViewsThisWeek}</div>
+            <div class="stat-label">Missed Customers</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">€${Math.round(data.estimatedLostRevenue)}</div>
+            <div class="stat-label">Lost Revenue</div>
+          </div>
+        </div>
+        ${percentChange !== 0 ? `
+        <p style="text-align: center; margin: 15px 0; color: #6b7280;">
+          ${trendEmoji} ${Math.abs(percentChange)}% ${trend === 'up' ? 'more' : 'fewer'} than last week
+        </p>
+        ` : ''}
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">📊 The Numbers Don't Lie</h3>
+        <ul style="line-height: 2;">
+          <li><strong>${data.missedViewsThisWeek} customers</strong> visited your widget this week</li>
+          <li>They were ready to bid <strong>~€${data.averageBidAmount.toFixed(2)} on average</strong></li>
+          <li>You could have earned an extra <strong class="amount">€${Math.round(data.estimatedLostRevenue)}</strong></li>
+          <li>But they couldn't because you hit the free tier limit</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">💡 Simple Math</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 10px;">Lost revenue this week:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold;">€${Math.round(data.estimatedLostRevenue)}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 10px;">Pro plan cost per week:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold;">€3.50</td>
+          </tr>
+          <tr style="background: #dcfce7;">
+            <td style="padding: 10px; font-weight: bold;">Your profit by upgrading:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">€${Math.round(data.estimatedLostRevenue - 3.5)}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <h3>Stop Losing Money</h3>
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/upgrade" class="button">
+          Upgrade to Pro - €14/month
+        </a>
+        <p style="margin-top: 15px; color: #6b7280; font-size: 14px;">
+          ✓ Unlimited bids &nbsp; ✓ No limits &nbsp; ✓ Cancel anytime
+        </p>
+      </div>
+
+      <div class="footer">
+        <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+        <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+        <p style="font-size: 12px; margin-top: 10px;">This is your weekly missed opportunities report. Unsubscribe in dashboard settings.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+function getMissedOpportunitiesTemplateDE(data: MissedOpportunitiesEmailData) {
+  const percentChange = data.missedViewsLastWeek > 0
+    ? Math.round(((data.missedViewsThisWeek - data.missedViewsLastWeek) / data.missedViewsLastWeek) * 100)
+    : 0
+  const trend = percentChange > 0 ? 'up' : percentChange < 0 ? 'down' : 'same'
+  const trendEmoji = trend === 'up' ? '📈' : trend === 'down' ? '📉' : '➡️'
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+    .alert { background: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }
+    .box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b; }
+    .stats { display: flex; justify-content: space-around; margin: 20px 0; }
+    .stat { text-align: center; padding: 15px; }
+    .stat-value { font-size: 32px; font-weight: bold; color: #dc2626; }
+    .stat-label { font-size: 14px; color: #6b7280; margin-top: 5px; }
+    .button { display: inline-block; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; font-size: 18px; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
+    .amount { font-size: 28px; font-weight: bold; color: #dc2626; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">💰 Ihr Wochenbericht</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Verpasste Verkaufschancen</p>
+    </div>
+
+    <div class="content">
+      <div class="alert">
+        <h2 style="margin: 0 0 10px 0;">⚠️ ${data.shopName}, Sie lassen Geld auf dem Tisch liegen!</h2>
+        <p style="margin: 0; font-size: 16px;">Sie haben Ihr Gratislimit erreicht (${data.acceptedBidsThisMonth}/${data.freeMonthlyLimit} Gebote). Das haben Sie diese Woche verpasst:</p>
+      </div>
+
+      <div class="box">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">${data.missedViewsThisWeek}</div>
+            <div class="stat-label">Verpasste Kunden</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">€${Math.round(data.estimatedLostRevenue)}</div>
+            <div class="stat-label">Entgangener Umsatz</div>
+          </div>
+        </div>
+        ${percentChange !== 0 ? `
+        <p style="text-align: center; margin: 15px 0; color: #6b7280;">
+          ${trendEmoji} ${Math.abs(percentChange)}% ${trend === 'up' ? 'mehr' : 'weniger'} als letzte Woche
+        </p>
+        ` : ''}
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">📊 Die Zahlen lügen nicht</h3>
+        <ul style="line-height: 2;">
+          <li><strong>${data.missedViewsThisWeek} Kunden</strong> haben Ihr Widget diese Woche besucht</li>
+          <li>Sie waren bereit, durchschnittlich <strong>~€${data.averageBidAmount.toFixed(2)}</strong> zu bieten</li>
+          <li>Sie hätten zusätzlich <strong class="amount">€${Math.round(data.estimatedLostRevenue)}</strong> verdienen können</li>
+          <li>Aber sie konnten nicht, weil Sie das Gratislimit erreicht haben</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">💡 Einfache Rechnung</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 10px;">Entgangener Umsatz diese Woche:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold;">€${Math.round(data.estimatedLostRevenue)}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 10px;">Pro-Plan Kosten pro Woche:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold;">€3,50</td>
+          </tr>
+          <tr style="background: #dcfce7;">
+            <td style="padding: 10px; font-weight: bold;">Ihr Gewinn durch Upgrade:</td>
+            <td style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">€${Math.round(data.estimatedLostRevenue - 3.5)}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <h3>Hören Sie auf, Geld zu verlieren</h3>
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/upgrade" class="button">
+          Auf Pro upgraden - €14/Monat
+        </a>
+        <p style="margin-top: 15px; color: #6b7280; font-size: 14px;">
+          ✓ Unbegrenzte Gebote &nbsp; ✓ Keine Limits &nbsp; ✓ Jederzeit kündbar
+        </p>
+      </div>
+
+      <div class="footer">
+        <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+        <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+        <p style="font-size: 12px; margin-top: 10px;">Dies ist Ihr wöchentlicher Bericht über verpasste Chancen. Abmelden in den Dashboard-Einstellungen.</p>
       </div>
     </div>
   </div>
