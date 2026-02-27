@@ -1,5 +1,19 @@
 # myBidly - Bid-Based Upsell Platform
 
+## IMPORTANT: Deployment Policy
+
+**NEVER deploy to production without explicit user confirmation.**
+
+When asked to deploy or when completing work:
+1. Complete all changes and testing
+2. Commit changes to git
+3. **STOP and ask user for confirmation before pushing to production**
+4. Only run `git push origin main` after receiving explicit "yes" or "deploy" confirmation from the user
+
+This ensures the user has final review and approval before any changes go live.
+
+---
+
 ## Project Overview
 
 **myBidly** is a post-purchase bid-based accessory upsell platform for e-commerce stores in the EU market. Customers bid on relevant accessories (batteries, helmets, warranties, express shipping) on thank-you pages after completing their primary purchase.
