@@ -28,7 +28,7 @@ export async function PATCH(
       return errorResponse('Invalid role')
     }
 
-    if (planTier && !['free', 'pro', 'business'].includes(planTier)) {
+    if (planTier && !['free', 'payg', 'premium'].includes(planTier)) {
       return errorResponse('Invalid plan tier')
     }
 
