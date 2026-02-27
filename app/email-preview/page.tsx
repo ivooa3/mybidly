@@ -3,11 +3,13 @@
 import { useState } from 'react'
 
 const emailTypes = [
-  { value: 'welcome', label: 'Welcome Email', hasLocale: true },
-  { value: 'bid-confirmation', label: 'Bid Confirmation', hasLocale: true },
-  { value: 'bid-accepted', label: 'Bid Accepted (Order Confirmation)', hasLocale: true },
-  { value: 'bid-declined', label: 'Bid Declined (Refund)', hasLocale: true },
-  { value: 'shop-owner', label: 'Shop Owner Order Notification', hasLocale: false },
+  { value: 'welcome', label: '🎉 Welcome Email', hasLocale: true },
+  { value: 'bid-confirmation', label: '💜 Bid Confirmation (After Payment)', hasLocale: true },
+  { value: 'bid-accepted', label: '✅ Bid Accepted (Order Confirmation)', hasLocale: true },
+  { value: 'bid-declined', label: '❌ Bid Declined (Refund)', hasLocale: true },
+  { value: 'shop-owner-order', label: '📦 Shop Owner Order Notification', hasLocale: true },
+  { value: 'password-reset', label: '🔐 Password Reset', hasLocale: true },
+  { value: 'missed-opportunities', label: '💰 Missed Opportunities (Weekly)', hasLocale: true, isNew: true },
 ]
 
 export default function EmailPreviewPage() {
@@ -44,7 +46,7 @@ export default function EmailPreviewPage() {
               >
                 {emailTypes.map((type) => (
                   <option key={type.value} value={type.value}>
-                    {type.label}
+                    {type.label} {type.isNew ? '⭐ NEW!' : ''}
                   </option>
                 ))}
               </select>

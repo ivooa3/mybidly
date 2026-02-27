@@ -751,7 +751,7 @@ function getBidDeclinedTemplateDE(data: BidEmailData) {
   `.trim()
 }
 
-function getShopOwnerOrderTemplate(data: ShopOwnerEmailData) {
+function getShopOwnerOrderTemplateEN(data: ShopOwnerEmailData) {
   const address = data.shippingAddress
   const addressHTML = `
     ${address.line1}<br>
@@ -859,6 +859,121 @@ function getShopOwnerOrderTemplate(data: ShopOwnerEmailData) {
 </body>
 </html>
   `.trim()
+}
+
+function getShopOwnerOrderTemplateDE(data: ShopOwnerEmailData) {
+  const address = data.shippingAddress
+  const addressHTML = `
+    ${address.line1}<br>
+    ${address.line2 ? address.line2 + '<br>' : ''}
+    ${address.postalCode} ${address.city}<br>
+    ${address.country}
+  `
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+    .box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #9333ea; }
+    .alert { background: #fef3c7; padding: 15px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
+    .amount { font-size: 24px; font-weight: bold; color: #9333ea; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 8px 0; }
+    td.label { font-weight: bold; width: 150px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">🎉 Neue Bestellung erhalten!</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">myBidly Bestellbenachrichtigung</p>
+    </div>
+
+    <div class="content">
+      <div class="alert">
+        <strong>⚡ Aktion erforderlich:</strong> Bitte bereiten Sie diese Bestellung vor und versenden Sie sie so schnell wie möglich.
+      </div>
+
+      <h2>Hallo ${data.shopName},</h2>
+
+      <p>Sie haben eine neue Bestellung über myBidly erhalten!</p>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">Bestellübersicht</h3>
+        <table>
+          <tr>
+            <td class="label">Produkt:</td>
+            <td>${data.productName}</td>
+          </tr>
+          <tr>
+            <td class="label">Artikelnummer:</td>
+            <td>${data.productSku}</td>
+          </tr>
+          <tr>
+            <td class="label">Bestellbetrag:</td>
+            <td><span class="amount">€${data.bidAmount.toFixed(2)}</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">Kundeninformationen</h3>
+        <table>
+          <tr>
+            <td class="label">Name:</td>
+            <td>${data.customerName}</td>
+          </tr>
+          <tr>
+            <td class="label">E-Mail:</td>
+            <td><a href="mailto:${data.customerEmail}">${data.customerEmail}</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">Lieferadresse</h3>
+        <p>${addressHTML}</p>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">Nächste Schritte</h3>
+        <ol>
+          <li>Bereiten Sie den Artikel für den Versand vor</li>
+          <li>Verpacken Sie ihn sicher</li>
+          <li>Versenden Sie an die oben angegebene Adresse</li>
+          <li>Der Kunde erwartet die Lieferung innerhalb von 3-5 Werktagen</li>
+        </ol>
+      </div>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/bids"
+           style="background: #9333ea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; display: inline-block;">
+          Im Dashboard anzeigen
+        </a>
+      </p>
+
+      <div class="footer">
+        <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+        <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+        <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische Benachrichtigung.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+// Wrapper function for backwards compatibility
+function getShopOwnerOrderTemplate(data: ShopOwnerEmailData) {
+  return getShopOwnerOrderTemplateEN(data)
 }
 
 function getWelcomeTemplateEN(shopName: string) {

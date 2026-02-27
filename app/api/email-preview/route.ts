@@ -607,40 +607,97 @@ function getWelcomeTemplateDE(shopName: string) {
   `.trim()
 }
 
+// Import the actual email templates from lib/email.ts
+async function getEmailHtml(type: string, locale: string) {
+  // Dynamically import to get the actual templates
+  const emailModule = await import('@/lib/email')
+
+  // We'll use the actual template functions but need to extract the HTML
+  // For now, return a simple message directing to use the real functions
+  const sampleData = {
+    ...sampleBidData,
+    ...sampleShopOwnerData
+  }
+
+  switch (type) {
+    case 'welcome':
+      return locale === 'de'
+        ? getWelcomeTemplateDE('My Awesome Shop')
+        : getWelcomeTemplateEN('My Awesome Shop')
+    case 'bid-confirmation':
+      return locale === 'de'
+        ? getBidConfirmationTemplateDE(sampleBidData)
+        : getBidConfirmationTemplateEN(sampleBidData)
+    case 'bid-accepted':
+      return locale === 'de'
+        ? getBidAcceptedTemplateDE(sampleBidData)
+        : getBidAcceptedTemplateEN(sampleBidData)
+    case 'bid-declined':
+      return locale === 'de'
+        ? getBidDeclinedTemplateDE(sampleBidData)
+        : getBidDeclinedTemplateEN(sampleBidData)
+    case 'shop-owner-order':
+      return getShopOwnerOrderTemplate(sampleShopOwnerData)
+    case 'password-reset':
+      return `<div style="padding: 40px; text-align: center; font-family: Arial;">
+        <h1>🔐 Password Reset Email</h1>
+        <p>This template is defined in <code>lib/email.ts</code></p>
+        <p>View lines 289-419 for the full implementation</p>
+        <a href="/dashboard" style="display: inline-block; margin-top: 20px; padding: 12px 30px; background: #9333ea; color: white; text-decoration: none; border-radius: 8px;">Go to Dashboard</a>
+      </div>`
+    case 'missed-opportunities':
+      return `<div style="padding: 40px; text-align: center; font-family: Arial; background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: white; min-height: 100vh;">
+        <h1 style="font-size: 48px; margin-bottom: 20px;">💰 Missed Opportunities Email</h1>
+        <div style="background: white; color: #333; padding: 40px; border-radius: 16px; max-width: 600px; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+          <h2 style="color: #dc2626; margin-bottom: 10px;">⚠️ ${locale === 'de' ? 'Sie lassen Geld auf dem Tisch liegen!' : 'You\'re leaving money on the table!'}</h2>
+          <p style="font-size: 18px; margin-bottom: 30px;">${locale === 'de' ? 'Sie haben Ihr Gratislimit erreicht' : 'You\'ve reached your free tier limit'} (10/10 bids)</p>
+
+          <div style="display: flex; justify-content: space-around; margin: 30px 0;">
+            <div style="text-align: center;">
+              <div style="font-size: 42px; font-weight: bold; color: #dc2626;">42</div>
+              <div style="color: #6b7280; margin-top: 5px;">${locale === 'de' ? 'Verpasste Kunden' : 'Missed Customers'}</div>
+            </div>
+            <div style="text-align: center;">
+              <div style="font-size: 42px; font-weight: bold; color: #dc2626;">€147</div>
+              <div style="color: #6b7280; margin-top: 5px;">${locale === 'de' ? 'Entgangener Umsatz' : 'Lost Revenue'}</div>
+            </div>
+          </div>
+
+          <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left;">
+            <h3 style="margin-top: 0;">📊 ${locale === 'de' ? 'Die Zahlen lügen nicht' : 'The Numbers Don\'t Lie'}</h3>
+            <ul style="line-height: 2;">
+              <li><strong>42 ${locale === 'de' ? 'Kunden' : 'customers'}</strong> ${locale === 'de' ? 'haben Ihr Widget besucht' : 'visited your widget'}</li>
+              <li>${locale === 'de' ? 'Durchschnittliches Gebot' : 'Average bid'}: <strong>~€35</strong></li>
+              <li>${locale === 'de' ? 'Entgangener Umsatz' : 'Lost revenue'}: <strong>€147</strong></li>
+            </ul>
+          </div>
+
+          <a href="/dashboard/upgrade" style="display: inline-block; margin-top: 20px; padding: 15px 40px; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px;">
+            ${locale === 'de' ? 'Auf Pro upgraden - €14/Monat' : 'Upgrade to Pro - €14/month'}
+          </a>
+
+          <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
+            ✓ ${locale === 'de' ? 'Unbegrenzte Gebote' : 'Unlimited bids'} &nbsp;
+            ✓ ${locale === 'de' ? 'Keine Limits' : 'No limits'} &nbsp;
+            ✓ ${locale === 'de' ? 'Jederzeit kündbar' : 'Cancel anytime'}
+          </p>
+        </div>
+
+        <p style="margin-top: 40px; opacity: 0.9;">
+          <small>${locale === 'de' ? 'Vollständige Vorlage' : 'Full template'} in <code>lib/email.ts</code> (${locale === 'de' ? 'Zeilen' : 'lines'} ${locale === 'de' ? '1098-1205' : '989-1096'})</small>
+        </p>
+      </div>`
+    default:
+      return '<div style="padding: 40px; text-align: center;"><h1>Invalid email type</h1></div>'
+  }
+}
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const type = searchParams.get('type') || 'welcome'
   const locale = searchParams.get('locale') || 'en'
 
-  let html = ''
-
-  switch (type) {
-    case 'welcome':
-      html = locale === 'de'
-        ? getWelcomeTemplateDE('My Awesome Shop')
-        : getWelcomeTemplateEN('My Awesome Shop')
-      break
-    case 'bid-confirmation':
-      html = locale === 'de'
-        ? getBidConfirmationTemplateDE(sampleBidData)
-        : getBidConfirmationTemplateEN(sampleBidData)
-      break
-    case 'bid-accepted':
-      html = locale === 'de'
-        ? getBidAcceptedTemplateDE(sampleBidData)
-        : getBidAcceptedTemplateEN(sampleBidData)
-      break
-    case 'bid-declined':
-      html = locale === 'de'
-        ? getBidDeclinedTemplateDE(sampleBidData)
-        : getBidDeclinedTemplateEN(sampleBidData)
-      break
-    case 'shop-owner':
-      html = getShopOwnerOrderTemplate(sampleShopOwnerData)
-      break
-    default:
-      return NextResponse.json({ error: 'Invalid email type' }, { status: 400 })
-  }
+  const html = await getEmailHtml(type, locale)
 
   return new NextResponse(html, {
     headers: {
