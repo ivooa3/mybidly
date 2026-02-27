@@ -153,8 +153,8 @@ export const landingTranslations = {
       },
       premium: {
         name: "Premium",
-        price: "€468",
-        priceNote: "per year",
+        price: "€55",
+        priceNote: "per month",
         desc: "For growing businesses",
         feature1: "0% transaction fee",
         feature2: "Unlimited offers",
@@ -162,7 +162,7 @@ export const landingTranslations = {
         feature4: "All features included",
         feature5: "No branding",
         cta: "Start Premium",
-        note: "Best value - Save €120 annually",
+        note: "Billed yearly at €660",
         badge: "Best Value"
       }
     },
@@ -398,8 +398,8 @@ export const landingTranslations = {
       },
       premium: {
         name: "Premium",
-        price: "€468",
-        priceNote: "pro Jahr",
+        price: "€55",
+        priceNote: "pro Monat",
         desc: "Für wachsende Unternehmen",
         feature1: "0% Transaktionsgebühr",
         feature2: "Unbegrenzte Angebote",
@@ -407,7 +407,7 @@ export const landingTranslations = {
         feature4: "Alle Funktionen inklusive",
         feature5: "Kein Branding",
         cta: "Premium starten",
-        note: "Bester Wert - Sparen Sie €120 jährlich",
+        note: "Jährliche Abrechnung zu €660",
         badge: "Bester Wert"
       }
     },

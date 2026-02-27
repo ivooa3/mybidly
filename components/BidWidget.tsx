@@ -221,17 +221,17 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex gap-3">
               <button
                 onClick={handleOfferClick}
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 text-base rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105"
+                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 text-base rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105"
               >
                 {t.makeYourBid}
               </button>
 
               <button
                 onClick={handleBuyNowClick}
-                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 text-base rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+                className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 text-base rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
               >
                 <span>{t.buyNow}</span>
                 <span className="text-lg font-bold">{formatCurrency(offer.fixPrice)}</span>

@@ -45,15 +45,15 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
               {/* Product Image */}
               <div className="mb-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg overflow-hidden aspect-video flex items-center justify-center p-8">
                 <img
-                  src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800&q=80"
-                  alt="Portable Power Bank"
+                  src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800&q=80"
+                  alt="USB Type-C Cable"
                   className="w-full h-full object-contain"
                 />
               </div>
 
               {/* Product Name */}
               <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {lang === 'en' ? 'Portable Power Bank 10,000mAh' : 'Tragbare Powerbank 10.000mAh'}
+                {lang === 'en' ? 'USB Type-C Kabel' : 'USB Type-C Kabel'}
               </h3>
               <p className="text-sm text-gray-600 mb-6">
                 {lang === 'en' ? 'Want this product at a special price?' : 'Möchten Sie dieses Produkt zum Sonderpreis?'}

@@ -30,6 +30,7 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
 
   const adminNavItems = [
     { label: t.sidebar.adminUsers, href: '/admin/users' },
+    { label: t.sidebar.adminAnalytics, href: '/admin/analytics' },
   ]
 
   const handleExitImpersonation = async () => {
@@ -140,6 +141,22 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
               <p className="text-xs opacity-90 mt-1">
                 {planTier === 'premium' ? t.dashboard.planPremium : t.dashboard.planPayg}
               </p>
+              <a
+                href="https://buy.stripe.com/test_fZu14g7055PaaRZ0Pl7EQ00"
+                onClick={(e) => {
+                  // Check environment on click
+                  const isProduction = window.location.hostname === 'mybidly.io'
+                  if (isProduction) {
+                    e.preventDefault()
+                    window.location.href = 'mailto:support@next-commerce.io?subject=Upgrade to Premium'
+                  }
+                }}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block mt-2 text-xs underline hover:opacity-80 transition-opacity"
+              >
+                {t.dashboard.upgradeToPremium}
+              </a>
             </div>
           </div>
         )}
