@@ -140,9 +140,11 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
                 : 'bg-gradient-to-r from-gray-600 to-gray-500 text-white'
             )}>
               {planTier === 'premium' ? t.dashboard.premium : planTier === 'payg' ? t.dashboard.payAsYouGo : 'Free'}
-              <p className="text-xs opacity-90 mt-1">
-                {planTier === 'premium' ? t.dashboard.planPremium : planTier === 'payg' ? t.dashboard.planPayg : 'Limited features'}
-              </p>
+              {planTier !== 'premium' && (
+                <p className="text-xs opacity-90 mt-1">
+                  {planTier === 'payg' ? t.dashboard.planPayg : 'Limited features'}
+                </p>
+              )}
               {planTier !== 'premium' && (
                 <a
                   href="https://buy.stripe.com/test_fZu14g7055PaaRZ0Pl7EQ00"
