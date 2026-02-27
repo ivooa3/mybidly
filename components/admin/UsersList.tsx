@@ -99,14 +99,14 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
   const getPlanBadge = (tier: string) => {
     const styles = {
       free: 'bg-gray-100 text-gray-800',
-      pro: 'bg-blue-100 text-blue-800',
-      business: 'bg-red-100 text-red-800'
+      payg: 'bg-blue-100 text-blue-800',
+      premium: 'bg-purple-100 text-purple-800'
     }
 
     const labels = {
       free: 'Free',
-      pro: 'Paid',
-      business: 'Expired'
+      payg: 'Pay As You Go',
+      premium: 'Premium'
     }
 
     return (
@@ -381,8 +381,8 @@ function EditUserModal({
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="free">Free</option>
-                <option value="pro">Paid</option>
-                <option value="business">Expired</option>
+                <option value="payg">Pay As You Go</option>
+                <option value="premium">Premium</option>
               </select>
             </div>
           </div>

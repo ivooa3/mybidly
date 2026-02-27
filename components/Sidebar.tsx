@@ -13,7 +13,7 @@ interface SidebarProps {
     impersonatingFrom?: string
   }
   isAdmin: boolean
-  planTier: 'payg' | 'premium'
+  planTier: 'free' | 'payg' | 'premium'
 }
 
 export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
@@ -135,28 +135,32 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
               'px-3 py-2 rounded-lg text-sm font-medium text-center',
               planTier === 'premium'
                 ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                : planTier === 'payg'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                : 'bg-gradient-to-r from-gray-600 to-gray-500 text-white'
             )}>
-              {planTier === 'premium' ? t.dashboard.premium : t.dashboard.payAsYouGo}
+              {planTier === 'premium' ? t.dashboard.premium : planTier === 'payg' ? t.dashboard.payAsYouGo : 'Free'}
               <p className="text-xs opacity-90 mt-1">
-                {planTier === 'premium' ? t.dashboard.planPremium : t.dashboard.planPayg}
+                {planTier === 'premium' ? t.dashboard.planPremium : planTier === 'payg' ? t.dashboard.planPayg : 'Limited features'}
               </p>
-              <a
-                href="https://buy.stripe.com/test_fZu14g7055PaaRZ0Pl7EQ00"
-                onClick={(e) => {
-                  // Check environment on click
-                  const isProduction = window.location.hostname === 'mybidly.io'
-                  if (isProduction) {
-                    e.preventDefault()
-                    window.location.href = 'mailto:support@next-commerce.io?subject=Upgrade to Premium'
-                  }
-                }}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block mt-2 text-xs underline hover:opacity-80 transition-opacity"
-              >
-                {t.dashboard.upgradeToPremium}
-              </a>
+              {planTier !== 'premium' && (
+                <a
+                  href="https://buy.stripe.com/test_fZu14g7055PaaRZ0Pl7EQ00"
+                  onClick={(e) => {
+                    // Check environment on click
+                    const isProduction = window.location.hostname === 'mybidly.io'
+                    if (isProduction) {
+                      e.preventDefault()
+                      window.location.href = 'mailto:support@next-commerce.io?subject=Upgrade to Premium'
+                    }
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block mt-2 text-xs underline hover:opacity-80 transition-opacity"
+                >
+                  {t.dashboard.upgradeToPremium}
+                </a>
+              )}
             </div>
           </div>
         )}

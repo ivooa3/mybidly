@@ -256,6 +256,12 @@ export const translations = {
       premium: 'Premium',
       enterprise: 'Enterprise',
     },
+    // Auth
+    auth: {
+      accountDeactivated: 'Your account is deactivated. Contact us at support@mybidly.io',
+      invalidCredentials: 'Invalid email or password',
+      loginFailed: 'Login failed. Please try again.',
+    },
   },
   de: {
     // Sidebar
@@ -511,6 +517,12 @@ export const translations = {
       free: 'Kostenlos',
       premium: 'Premium',
       enterprise: 'Enterprise',
+    },
+    // Auth
+    auth: {
+      accountDeactivated: 'Ihr Konto wurde deaktiviert. Kontaktieren Sie uns unter support@mybidly.io',
+      invalidCredentials: 'Ungültige E-Mail oder Passwort',
+      loginFailed: 'Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.',
     },
   },
 }

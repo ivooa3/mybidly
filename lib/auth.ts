@@ -30,6 +30,11 @@ export const authConfig: NextAuthConfig = {
           return null
         }
 
+        // Check if account is active
+        if (!shop.isActive) {
+          throw new Error('ACCOUNT_DEACTIVATED')
+        }
+
         // Verify password
         const isValidPassword = await bcrypt.compare(
           password,
