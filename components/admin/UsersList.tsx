@@ -8,7 +8,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 interface User {
   id: string
   email: string
-  shopName: string
+  shopName: string | null
   shopUrl: string | null
   firstName: string | null
   lastName: string | null
