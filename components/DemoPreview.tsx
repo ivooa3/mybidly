@@ -43,20 +43,17 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
             {/* Widget Content */}
             <div className="p-6">
               {/* Product Image */}
-              <div className="mb-6 bg-gray-100 rounded-lg overflow-hidden aspect-video flex items-center justify-center">
-                <div className="text-center p-8">
-                  <svg className="w-20 h-20 mx-auto text-purple-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                  </svg>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {lang === 'en' ? 'Product Image' : 'Produktbild'}
-                  </p>
-                </div>
+              <div className="mb-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg overflow-hidden aspect-video flex items-center justify-center p-8">
+                <img
+                  src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800&q=80"
+                  alt="Portable Power Bank"
+                  className="w-full h-full object-contain"
+                />
               </div>
 
               {/* Product Name */}
               <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {lang === 'en' ? 'Your Product Name' : 'Ihr Produktname'}
+                {lang === 'en' ? 'Portable Power Bank 10,000mAh' : 'Tragbare Powerbank 10.000mAh'}
               </h3>
               <p className="text-sm text-gray-600 mb-6">
                 {lang === 'en' ? 'Want this product at a special price?' : 'Möchten Sie dieses Produkt zum Sonderpreis?'}
