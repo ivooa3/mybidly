@@ -4,11 +4,11 @@ export const landingTranslations = {
     hero: {
       title: "Turn Every Thank-You Page Into Your Next Sale",
       subtitle: "Let customers bid on accessories post-purchase. Boost revenue without changing your checkout.",
-      cta: "Start Free Trial",
+      cta: "Get Started",
       ctaSecondary: "Watch Demo",
       trustBadge1: "No credit card required",
       trustBadge2: "Setup in 10 minutes",
-      trustBadge3: "7-day free trial"
+      trustBadge3: "Start from €0/month"
     },
 
     // Problem Section
@@ -134,18 +134,37 @@ export const landingTranslations = {
       ]
     },
 
-    // Pricing/Trial
-    trial: {
-      title: "Start Your Free Trial Today",
-      subtitle: "No credit card required. Cancel anytime.",
-      price: "Only €14/month",
-      priceNote: "(excl. VAT)",
-      feature1: "7 days free OR your first order (whichever comes first)",
-      feature2: "Unlimited offers",
-      feature3: "Email support",
-      feature4: "All features included",
-      cta: "Start Free Trial",
-      note: "Cancel anytime. No long-term commitment."
+    // Pricing
+    pricing: {
+      title: "Simple, Transparent Pricing",
+      subtitle: "Choose the plan that fits your business",
+      payg: {
+        name: "Pay-As-You-Go",
+        price: "8%",
+        priceNote: "per transaction",
+        desc: "Perfect for getting started",
+        feature1: "No monthly fee",
+        feature2: "Unlimited offers",
+        feature3: "Email support",
+        feature4: "All features included",
+        feature5: "Powered by myBidly branding",
+        cta: "Get Started",
+        note: "Only pay when you make sales"
+      },
+      premium: {
+        name: "Premium",
+        price: "€39",
+        priceNote: "per month",
+        desc: "For growing businesses",
+        feature1: "0% transaction fee",
+        feature2: "Unlimited offers",
+        feature3: "Priority support",
+        feature4: "All features included",
+        feature5: "No branding",
+        cta: "Start Premium",
+        note: "Cancel anytime. No commitment.",
+        badge: "Best Value"
+      }
     },
 
     // FAQ
@@ -186,8 +205,8 @@ export const landingTranslations = {
           a: "Absolutely! The widget, emails, and dashboard support both German and English. Language is auto-detected based on customer browser settings."
         },
         {
-          q: "What's the pricing after the trial?",
-          a: "Just €14/month (excl. VAT). No hidden fees, no per-transaction charges. Cancel anytime with no long-term commitment."
+          q: "What's the pricing?",
+          a: "We offer two plans: Pay-As-You-Go (8% per transaction, no monthly fee) perfect for starting out, or Premium (€39/month, 0% transaction fee) for growing businesses. Choose what works best for you and switch anytime."
         },
         {
           q: "Do I need technical skills?",
@@ -200,8 +219,8 @@ export const landingTranslations = {
     finalCta: {
       title: "Ready to Turn Thank-You Pages Into Revenue?",
       subtitle: "Join 500+ stores earning more with myBidly",
-      cta: "Start Free Trial",
-      guarantee: "14-day money-back guarantee"
+      cta: "Get Started",
+      guarantee: "Cancel anytime, no commitment"
     },
 
     // Footer
@@ -230,11 +249,11 @@ export const landingTranslations = {
     hero: {
       title: "Verwandeln Sie jede Danke-Seite in Ihren nächsten Verkauf",
       subtitle: "Lassen Sie Kunden nach dem Kauf auf Zubehör bieten. Steigern Sie den Umsatz ohne Checkout-Änderungen.",
-      cta: "Kostenlos testen",
+      cta: "Jetzt starten",
       ctaSecondary: "Demo ansehen",
       trustBadge1: "Keine Kreditkarte erforderlich",
       trustBadge2: "In 10 Minuten eingerichtet",
-      trustBadge3: "7 Tage kostenlos testen"
+      trustBadge3: "Ab €0/Monat"
     },
 
     // Problem Section
@@ -360,18 +379,37 @@ export const landingTranslations = {
       ]
     },
 
-    // Pricing/Trial
-    trial: {
-      title: "Starten Sie heute Ihre kostenlose Testversion",
-      subtitle: "Keine Kreditkarte erforderlich. Jederzeit kündbar.",
-      price: "Nur €14/Monat",
-      priceNote: "(zzgl. MwSt.)",
-      feature1: "7 Tage kostenlos ODER Ihre erste Bestellung (je nachdem, was zuerst eintritt)",
-      feature2: "Unbegrenzte Angebote",
-      feature3: "E-Mail-Support",
-      feature4: "Alle Funktionen inklusive",
-      cta: "Kostenlos testen",
-      note: "Jederzeit kündbar. Keine langfristige Bindung."
+    // Pricing
+    pricing: {
+      title: "Einfache, transparente Preise",
+      subtitle: "Wählen Sie den Plan, der zu Ihrem Unternehmen passt",
+      payg: {
+        name: "Pay-As-You-Go",
+        price: "8%",
+        priceNote: "pro Transaktion",
+        desc: "Perfekt für den Einstieg",
+        feature1: "Keine monatliche Gebühr",
+        feature2: "Unbegrenzte Angebote",
+        feature3: "E-Mail-Support",
+        feature4: "Alle Funktionen inklusive",
+        feature5: "Powered by myBidly Branding",
+        cta: "Jetzt starten",
+        note: "Zahlen Sie nur bei Verkäufen"
+      },
+      premium: {
+        name: "Premium",
+        price: "€39",
+        priceNote: "pro Monat",
+        desc: "Für wachsende Unternehmen",
+        feature1: "0% Transaktionsgebühr",
+        feature2: "Unbegrenzte Angebote",
+        feature3: "Prioritäts-Support",
+        feature4: "Alle Funktionen inklusive",
+        feature5: "Kein Branding",
+        cta: "Premium starten",
+        note: "Jederzeit kündbar. Keine Bindung.",
+        badge: "Bester Wert"
+      }
     },
 
     // FAQ
@@ -412,8 +450,8 @@ export const landingTranslations = {
           a: "Absolut! Das Widget, E-Mails und Dashboard unterstützen Deutsch und Englisch. Die Sprache wird automatisch basierend auf Browser-Einstellungen erkannt."
         },
         {
-          q: "Was kostet es nach der Testphase?",
-          a: "Nur €14/Monat (zzgl. MwSt.). Keine versteckten Gebühren, keine Transaktionsgebühren. Jederzeit kündbar ohne langfristige Bindung."
+          q: "Was kostet es?",
+          a: "Wir bieten zwei Pläne: Pay-As-You-Go (8% pro Transaktion, keine monatliche Gebühr) perfekt für den Einstieg, oder Premium (€39/Monat, 0% Transaktionsgebühr) für wachsende Unternehmen. Wählen Sie was am besten passt und wechseln Sie jederzeit."
         },
         {
           q: "Brauche ich technische Kenntnisse?",
@@ -426,8 +464,8 @@ export const landingTranslations = {
     finalCta: {
       title: "Bereit, Danke-Seiten in Umsatz zu verwandeln?",
       subtitle: "Über 500 Shops verdienen mehr mit myBidly",
-      cta: "Kostenlos testen",
-      guarantee: "14-Tage Geld-zurück-Garantie"
+      cta: "Jetzt starten",
+      guarantee: "Jederzeit kündbar, keine Bindung"
     },
 
     // Footer
