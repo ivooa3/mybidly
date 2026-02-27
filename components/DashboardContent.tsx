@@ -2,7 +2,6 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatCurrency } from '@/utils/calculations'
-import { PlanBanner } from './PlanBanner'
 
 interface DashboardContentProps {
   shopName: string
@@ -40,9 +39,6 @@ export function DashboardContent({ shopName, isAdmin, planTier, stats }: Dashboa
           {t.dashboard.title}
         </p>
       </div>
-
-      {/* Plan Banner - Only show for non-admin users */}
-      {!isAdmin && <PlanBanner planTier={planTier} />}
 
       {/* Stats Grid - Admin sees 5 boxes including plan tier, regular users see 3-column grid */}
       {isAdmin ? (

@@ -153,8 +153,8 @@ export const landingTranslations = {
       },
       premium: {
         name: "Premium",
-        price: "€39",
-        priceNote: "per month",
+        price: "€468",
+        priceNote: "per year",
         desc: "For growing businesses",
         feature1: "0% transaction fee",
         feature2: "Unlimited offers",
@@ -162,7 +162,7 @@ export const landingTranslations = {
         feature4: "All features included",
         feature5: "No branding",
         cta: "Start Premium",
-        note: "Cancel anytime. No commitment.",
+        note: "Best value - Save €120 annually",
         badge: "Best Value"
       }
     },
@@ -220,7 +220,7 @@ export const landingTranslations = {
       title: "Ready to Turn Thank-You Pages Into Revenue?",
       subtitle: "Join 500+ stores earning more with myBidly",
       cta: "Get Started",
-      guarantee: "Cancel anytime, no commitment"
+      guarantee: "Start earning more today"
     },
 
     // Footer
@@ -398,8 +398,8 @@ export const landingTranslations = {
       },
       premium: {
         name: "Premium",
-        price: "€39",
-        priceNote: "pro Monat",
+        price: "€468",
+        priceNote: "pro Jahr",
         desc: "Für wachsende Unternehmen",
         feature1: "0% Transaktionsgebühr",
         feature2: "Unbegrenzte Angebote",
@@ -407,7 +407,7 @@ export const landingTranslations = {
         feature4: "Alle Funktionen inklusive",
         feature5: "Kein Branding",
         cta: "Premium starten",
-        note: "Jederzeit kündbar. Keine Bindung.",
+        note: "Bester Wert - Sparen Sie €120 jährlich",
         badge: "Bester Wert"
       }
     },
@@ -465,7 +465,7 @@ export const landingTranslations = {
       title: "Bereit, Danke-Seiten in Umsatz zu verwandeln?",
       subtitle: "Über 500 Shops verdienen mehr mit myBidly",
       cta: "Jetzt starten",
-      guarantee: "Jederzeit kündbar, keine Bindung"
+      guarantee: "Starten Sie noch heute und verdienen Sie mehr"
     },
 
     // Footer

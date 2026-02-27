@@ -13,9 +13,10 @@ interface SidebarProps {
     impersonatingFrom?: string
   }
   isAdmin: boolean
+  planTier: 'payg' | 'premium'
 }
 
-export function Sidebar({ user, isAdmin }: SidebarProps) {
+export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
   const pathname = usePathname()
   const { language, t, setLanguage } = useLanguage()
 
@@ -121,8 +122,28 @@ export function Sidebar({ user, isAdmin }: SidebarProps) {
         )}
       </nav>
 
-      {/* Language Switcher & Logout */}
+      {/* Plan Tier, Language Switcher & Logout */}
       <div className="p-4 border-t border-gray-200">
+        {/* Plan Tier Display - Only show for non-admin users */}
+        {!isAdmin && (
+          <div className="mb-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">
+              {t.dashboard.currentPlan}
+            </p>
+            <div className={clsx(
+              'px-3 py-2 rounded-lg text-sm font-medium text-center',
+              planTier === 'premium'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+            )}>
+              {planTier === 'premium' ? t.dashboard.premium : t.dashboard.payAsYouGo}
+              <p className="text-xs opacity-90 mt-1">
+                {planTier === 'premium' ? t.dashboard.planPremium : t.dashboard.planPayg}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Language Switcher */}
         <div className="mb-4">
           <p className="text-xs font-semibold text-gray-400 uppercase mb-2 px-2">

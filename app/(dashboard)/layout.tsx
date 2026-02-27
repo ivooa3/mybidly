@@ -29,7 +29,7 @@ export default async function DashboardLayout({
   // Check if user is active and has completed setup
   const user = await prisma.shop.findUnique({
     where: { id: actualUserId },
-    select: { isActive: true, shopName: true, shopUrl: true, preferredLanguage: true }
+    select: { isActive: true, shopName: true, shopUrl: true, preferredLanguage: true, planTier: true }
   })
 
   if (!user?.isActive && !impersonatingFrom) {
@@ -52,12 +52,13 @@ export default async function DashboardLayout({
     impersonatingFrom: impersonatingFrom
   } : session.user
 
-  const userLanguage = (user.preferredLanguage || 'en') as Language
+  const userLanguage = (user?.preferredLanguage || 'en') as Language
+  const planTier = (user?.planTier || 'payg') as 'payg' | 'premium'
 
   return (
     <LanguageProvider initialLanguage={userLanguage}>
       <div className="flex h-screen bg-gray-100">
-        <Sidebar user={displayUser} isAdmin={userIsAdmin} />
+        <Sidebar user={displayUser} isAdmin={userIsAdmin} planTier={planTier} />
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>

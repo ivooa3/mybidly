@@ -13,28 +13,49 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Language Toggle - Fixed Top Right */}
-      <div className="fixed top-4 right-4 z-50 flex gap-2 bg-white rounded-lg shadow-lg p-1 border border-gray-200">
-        <button
-          onClick={() => setLang('en')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-            lang === 'en'
-              ? 'bg-purple-600 text-white'
-              : 'text-gray-700 hover:bg-gray-100'
-          }`}
+      {/* German Banner - Fixed Top Left */}
+      {lang === 'de' && (
+        <div className="fixed top-4 left-4 z-50 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-2 animate-bounce">
+          <span className="text-lg">🎉</span>
+          <span className="text-sm font-semibold">
+            Jetzt live in Deutschland, Österreich und Schweiz
+          </span>
+        </div>
+      )}
+
+      {/* Header - Fixed Top Right */}
+      <div className="fixed top-4 right-4 z-50 flex gap-3">
+        {/* Login Button */}
+        <Link
+          href="/login"
+          className="bg-white rounded-lg shadow-lg px-6 py-2 border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
         >
-          🇬🇧 EN
-        </button>
-        <button
-          onClick={() => setLang('de')}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition ${
-            lang === 'de'
-              ? 'bg-purple-600 text-white'
-              : 'text-gray-700 hover:bg-gray-100'
-          }`}
-        >
-          🇩🇪 DE
-        </button>
+          {lang === 'en' ? 'Login' : 'Anmelden'}
+        </Link>
+
+        {/* Language Toggle */}
+        <div className="flex gap-2 bg-white rounded-lg shadow-lg p-1 border border-gray-200">
+          <button
+            onClick={() => setLang('en')}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition ${
+              lang === 'en'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            🇬🇧 EN
+          </button>
+          <button
+            onClick={() => setLang('de')}
+            className={`px-4 py-2 rounded-md text-sm font-medium transition ${
+              lang === 'de'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            🇩🇪 DE
+          </button>
+        </div>
       </div>
 
       {/* Hero Section */}
