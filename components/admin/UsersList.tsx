@@ -124,16 +124,6 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
     )
   }
 
-  const getRoleBadge = (role: string) => {
-    return (
-      <span className={`px-2 py-1 rounded text-xs font-semibold ${
-        role === 'admin' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-      }`}>
-        {role === 'admin' ? 'Admin' : 'User'}
-      </span>
-    )
-  }
-
   const getEnvironmentBadge = (shopUrl: string | null, createdAt: string) => {
     const env = detectEnvironment(shopUrl, new Date(createdAt))
     const colorClass = getEnvironmentBadgeColor(env)
@@ -161,9 +151,6 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Environment
-                </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Role
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Subscription
@@ -196,9 +183,6 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
                   </td>
                   <td className="px-6 py-4">
                     {getEnvironmentBadge(user.shopUrl, user.createdAt)}
-                  </td>
-                  <td className="px-6 py-4">
-                    {getRoleBadge(user.role)}
                   </td>
                   <td className="px-6 py-4">
                     {getPlanBadge(user.planTier)}
