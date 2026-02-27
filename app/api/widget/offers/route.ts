@@ -28,6 +28,23 @@ export async function GET(request: NextRequest) {
       return errorResponse('Shop not found or inactive', 404)
     }
 
+    // Check if shop has reached free tier limit (10 accepted bids/month)
+    const now = new Date()
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+
+    const acceptedBidsThisMonth = await prisma.bid.count({
+      where: {
+        shopId: shopId,
+        status: 'accepted',
+        createdAt: {
+          gte: startOfMonth
+        }
+      }
+    })
+
+    const FREE_TIER_LIMIT = 10
+    const hasReachedLimit = acceptedBidsThisMonth >= FREE_TIER_LIMIT
+
     // Domain validation: Check if request is from authorized domain
     if (shop.shopUrl && referer) {
       try {
@@ -71,6 +88,50 @@ export async function GET(request: NextRequest) {
       },
       orderBy: { priority: 'asc' } // Lower priority number = higher priority
     })
+
+    // Track widget view with appropriate viewType
+    let viewType = 'shown'
+
+    if (hasReachedLimit) {
+      viewType = 'limit_reached'
+    } else if (!offer) {
+      viewType = 'no_offers'
+    } else if (offer.stockQuantity === 0) {
+      viewType = 'out_of_stock'
+    }
+
+    // Always track the view (even when widget won't be shown)
+    try {
+      const visitorId = request.headers.get('x-visitor-id') || request.headers.get('x-forwarded-for') || 'unknown'
+      const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+      const userAgent = request.headers.get('user-agent')
+
+      await prisma.widgetView.create({
+        data: {
+          shopId: shopId,
+          offerId: offer?.id || null,
+          productId: productId,
+          visitorId: visitorId,
+          ipAddress: ipAddress,
+          userAgent: userAgent,
+          referer: referer,
+          viewType: viewType,
+          didBid: false
+        }
+      })
+    } catch (trackingError) {
+      // Don't fail the request if tracking fails
+      console.error('Widget view tracking error:', trackingError)
+    }
+
+    // If limit reached, return special response
+    if (hasReachedLimit) {
+      return successResponse({
+        offers: [],
+        limitReached: true,
+        message: 'Free tier limit reached'
+      })
+    }
 
     // If no offer found, return empty array for backwards compatibility
     if (!offer) {

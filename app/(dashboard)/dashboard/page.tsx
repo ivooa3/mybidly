@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { isAdmin } from '@/lib/admin-middleware'
 import { DashboardContent } from '@/components/DashboardContent'
+import { getMissedOpportunities, getBidLimitStatus } from '@/lib/missed-opportunities'
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -14,7 +15,7 @@ export default async function DashboardPage() {
   const userIsAdmin = await isAdmin()
 
   // Get stats
-  const [acceptedBids, totalBids, totalViews, revenueData] = await Promise.all([
+  const [acceptedBids, totalBids, totalViews, revenueData, missedOpportunities, bidLimitStatus] = await Promise.all([
     prisma.bid.count({ where: { shopId: session.user.shopId, status: 'accepted' } }),
     prisma.bid.count({ where: { shopId: session.user.shopId } }),
     // Only count views for admins
@@ -26,7 +27,9 @@ export default async function DashboardPage() {
         platformFeeAmount: true,
         shopOwnerAmount: true
       }
-    })
+    }),
+    getMissedOpportunities(session.user.shopId),
+    getBidLimitStatus(session.user.shopId)
   ])
 
   // Calculate conversion rates
@@ -46,7 +49,9 @@ export default async function DashboardPage() {
         totalViews,
         totalRevenue,
         conversionRate,
-        viewToBidRate
+        viewToBidRate,
+        missedOpportunities,
+        bidLimitStatus
       }}
     />
   )
