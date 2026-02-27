@@ -35,11 +35,6 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
         <div className="max-w-md mx-auto">
           {/* Demo Widget Card */}
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            {/* myBidly Brand Bar */}
-            <div className="bg-gradient-to-r from-purple-600 to-purple-500 px-4 py-2">
-              <span className="text-white text-sm font-semibold">myBidly</span>
-            </div>
-
             {/* Widget Content */}
             <div className="p-6">
               {/* Product Image */}
@@ -56,7 +51,7 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
 
               {/* Product Name */}
               <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {lang === 'en' ? 'Premium Bicycle Helmet' : 'Premium Fahrradhelm'}
+                {lang === 'en' ? 'Product Name' : 'Produktname'}
               </h3>
               <p className="text-sm text-gray-600 mb-6">
                 {lang === 'en' ? 'Want this product at a special price?' : 'Möchten Sie dieses Produkt zum Sonderpreis?'}
@@ -97,12 +92,6 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
               <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity">
                 {lang === 'en' ? 'Submit and Pay' : 'Absenden und bezahlen'}
               </button>
-
-              {/* Footer */}
-              <p className="text-xs text-center text-gray-500 mt-4">
-                {lang === 'en' ? 'Powered by' : 'Powered by'}{' '}
-                <span className="text-purple-600 font-medium">Next Commerce</span>
-              </p>
             </div>
           </div>
 
@@ -110,8 +99,8 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
           <div className="mt-6 bg-slate-800 border border-slate-700 rounded-lg p-4">
             <p className="text-slate-300 text-sm text-center">
               {lang === 'en'
-                ? '👆 This is what customers see after checkout. They slide to bid, then pay via Stripe.'
-                : '👆 Das sehen Kunden nach dem Checkout. Sie wählen den Preis per Regler und zahlen via Stripe.'}
+                ? '👆 This is what your customers will see on your Thank you page'
+                : '👆 Das sehen Ihre Kunden auf Ihrer Dankesseite'}
             </p>
           </div>
         </div>
