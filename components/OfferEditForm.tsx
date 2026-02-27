@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { ImageUpload } from '@/components/ui/ImageUpload'
 import { calculateRecommendedRange, formatCurrency, roundToSpecialDecimals } from '@/utils/calculations'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface Offer {
   id: string
@@ -32,6 +33,7 @@ interface OfferEditFormProps {
 
 export function OfferEditForm({ offer }: OfferEditFormProps) {
   const router = useRouter()
+  const { t } = useLanguage()
   const [error, setError] = useState<string | null>(null)
   const [recommendedRange, setRecommendedRange] = useState({
     min: 0,
@@ -136,14 +138,14 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Product Name"
+          label={t.offers.productName}
           {...register('productName')}
           error={errors.productName?.message}
           placeholder="e.g., Premium Bicycle Helmet"
         />
 
         <Input
-          label="Product SKU *"
+          label={t.offers.productSku}
           {...register('productSku')}
           error={errors.productSku?.message}
           placeholder="e.g., HELMET-001"
@@ -151,27 +153,27 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
       </div>
 
       <Input
-        label="Scope of Delivery (optional)"
+        label={t.offers.scopeOfDelivery}
         {...register('scopeOfDelivery')}
         error={errors.scopeOfDelivery?.message}
         placeholder="e.g., 1x Helmet, 1x Carrying bag, 1x User manual"
-        helperText="Will be shown as a tooltip on the product page"
+        helperText={t.offers.scopeHelper}
       />
 
       <Input
-        label="Offer Headline (optional)"
+        label={t.offers.headline}
         {...register('offerHeadline')}
         error={errors.offerHeadline?.message}
         placeholder="e.g., Want this helmet at a special price?"
-        helperText="Custom headline shown in the widget"
+        helperText={t.offers.headlineHelper}
       />
 
       <Input
-        label="Offer Subheadline (optional)"
+        label={t.offers.subheadline}
         {...register('offerSubheadline')}
         error={errors.offerSubheadline?.message}
         placeholder="e.g., Make your bid and get it delivered to your doorstep!"
-        helperText="Custom subheadline shown in the widget"
+        helperText={t.offers.subheadlineHelper}
       />
 
       <Controller
@@ -188,7 +190,7 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Minimum Selling Price (€) *"
+          label={t.offers.minSellingPrice}
           type="number"
           step="0.01"
           {...register('minPrice', { valueAsNumber: true })}
@@ -198,7 +200,7 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
         />
 
         <Input
-          label="Fix Selling Price (€) *"
+          label={t.offers.fixSellingPrice}
           type="number"
           step="0.01"
           {...register('fixPrice', {
@@ -208,13 +210,13 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
           error={errors.fixPrice?.message}
           placeholder="24.60"
           tooltip="Bids at or above this price are instantly accepted and charged. (incl. VAT)"
-          helperText={recommendedFixPrice > 0 ? `💡 Recommended: ${formatCurrency(recommendedFixPrice)}` : undefined}
+          helperText={recommendedFixPrice > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(recommendedFixPrice)}` : undefined}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Minimum Range (€) *"
+          label={t.offers.minRange}
           type="number"
           step="0.20"
           {...register('minRange', {
@@ -224,11 +226,11 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
           error={errors.minRange?.message}
           placeholder="27.00"
           tooltip="Minimum bid price in euros (incl. VAT)"
-          helperText={recommendedMinRangeValue > 0 ? `💡 Recommended: ${formatCurrency(recommendedMinRangeValue)}` : undefined}
+          helperText={recommendedMinRangeValue > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(recommendedMinRangeValue)}` : undefined}
         />
 
         <Input
-          label="Maximum Range (€) *"
+          label={t.offers.maxRange}
           type="number"
           step="0.20"
           {...register('maxRange', {
@@ -238,13 +240,13 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
           error={errors.maxRange?.message}
           placeholder="37.50"
           tooltip="Maximum bid price in euros (incl. VAT)"
-          helperText={recommendedRange.max > 0 ? `💡 Recommended: ${formatCurrency(roundToSpecialDecimals(recommendedRange.max))}` : undefined}
+          helperText={recommendedRange.max > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(roundToSpecialDecimals(recommendedRange.max))}` : undefined}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Stock Quantity *"
+          label={t.offers.stockQuantity}
           type="number"
           {...register('stockQuantity', { valueAsNumber: true })}
           error={errors.stockQuantity?.message}
@@ -253,7 +255,7 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
         />
 
         <Input
-          label="Priority Offer *"
+          label={t.offers.priorityOffer}
           type="number"
           {...register('priority', { valueAsNumber: true })}
           error={errors.priority?.message}
@@ -268,7 +270,7 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
           disabled={isSubmitting}
           className="flex-1"
         >
-          {isSubmitting ? 'Updating...' : 'Update Offer'}
+          {isSubmitting ? t.offers.updating : t.offers.updateOffer}
         </Button>
 
         <Button
@@ -276,7 +278,7 @@ export function OfferEditForm({ offer }: OfferEditFormProps) {
           variant="secondary"
           onClick={() => router.push('/dashboard/offers')}
         >
-          Cancel
+          {t.common.cancel}
         </Button>
       </div>
     </form>

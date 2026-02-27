@@ -166,7 +166,7 @@ export function OfferForm() {
         {...register('scopeOfDelivery')}
         error={errors.scopeOfDelivery?.message}
         placeholder="e.g., 1x Helmet, 1x Carrying bag, 1x User manual"
-        helperText="Will be shown as a tooltip on the product page"
+        helperText={t.offers.scopeHelper}
       />
 
       <Input
@@ -174,7 +174,7 @@ export function OfferForm() {
         {...register('offerHeadline')}
         error={errors.offerHeadline?.message}
         placeholder="e.g., Want this helmet at a special price?"
-        helperText="Custom headline shown in the widget"
+        helperText={t.offers.headlineHelper}
       />
 
       <Input
@@ -182,7 +182,7 @@ export function OfferForm() {
         {...register('offerSubheadline')}
         error={errors.offerSubheadline?.message}
         placeholder="e.g., Make your bid and get it delivered to your doorstep!"
-        helperText="Custom subheadline shown in the widget"
+        helperText={t.offers.subheadlineHelper}
       />
 
       <Controller
@@ -219,7 +219,7 @@ export function OfferForm() {
           error={errors.fixPrice?.message}
           placeholder="24.60"
           tooltip="Bids at or above this price are instantly accepted and charged. (incl. VAT)"
-          helperText={recommendedFixPrice > 0 ? `💡 Recommended: ${formatCurrency(recommendedFixPrice)}` : undefined}
+          helperText={recommendedFixPrice > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(recommendedFixPrice)}` : undefined}
         />
       </div>
 
@@ -235,7 +235,7 @@ export function OfferForm() {
           error={errors.minRange?.message}
           placeholder="27.00"
           tooltip="Minimum bid price in euros (incl. VAT)"
-          helperText={recommendedMinRangeValue > 0 ? `💡 Recommended: ${formatCurrency(recommendedMinRangeValue)}` : undefined}
+          helperText={recommendedMinRangeValue > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(recommendedMinRangeValue)}` : undefined}
         />
 
         <Input
@@ -249,7 +249,7 @@ export function OfferForm() {
           error={errors.maxRange?.message}
           placeholder="37.50"
           tooltip="Maximum bid price in euros (incl. VAT)"
-          helperText={recommendedRange.max > 0 ? `💡 Recommended: ${formatCurrency(roundToSpecialDecimals(recommendedRange.max))}` : undefined}
+          helperText={recommendedRange.max > 0 ? `💡 ${t.offers.recommended}: ${formatCurrency(roundToSpecialDecimals(recommendedRange.max))}` : undefined}
         />
       </div>
 
@@ -273,7 +273,7 @@ export function OfferForm() {
           error={errors.priority?.message}
           placeholder={nextPriority.toString()}
           tooltip="Set display order: 1 = shown first, 2 = second, etc. Only one offer shows at a time based on priority and stock availability"
-          helperText={`💡 Next available position: ${nextPriority}`}
+          helperText={`💡 ${t.offers.nextAvailable}: ${nextPriority}`}
         />
       </div>
 

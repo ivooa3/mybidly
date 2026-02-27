@@ -105,11 +105,19 @@ export const translations = {
       items: 'items',
       creating: 'Creating...',
       createOffer: 'Create Offer',
+      updating: 'Updating...',
+      updateOffer: 'Update Offer',
       saveOffer: 'Save Offer',
       cancelEdit: 'Cancel',
       deleteConfirm: 'Are you sure you want to delete this offer?',
       deleteSuccess: 'Offer deleted successfully',
       saveSuccess: 'Offer saved successfully',
+      // Helper text
+      scopeHelper: 'Will be shown as a tooltip on the product page',
+      headlineHelper: 'Custom headline shown in the widget',
+      subheadlineHelper: 'Custom subheadline shown in the widget',
+      recommended: 'Recommended',
+      nextAvailable: 'Next available position',
     },
     // Bids
     bids: {
@@ -352,11 +360,19 @@ export const translations = {
       items: 'Artikel',
       creating: 'Erstellen...',
       createOffer: 'Angebot erstellen',
+      updating: 'Aktualisieren...',
+      updateOffer: 'Angebot aktualisieren',
       saveOffer: 'Angebot speichern',
       cancelEdit: 'Abbrechen',
       deleteConfirm: 'Sind Sie sicher, dass Sie dieses Angebot löschen möchten?',
       deleteSuccess: 'Angebot erfolgreich gelöscht',
       saveSuccess: 'Angebot erfolgreich gespeichert',
+      // Helper text
+      scopeHelper: 'Wird als Tooltip auf der Produktseite angezeigt',
+      headlineHelper: 'Benutzerdefinierte Überschrift im Widget angezeigt',
+      subheadlineHelper: 'Benutzerdefinierte Unterüberschrift im Widget angezeigt',
+      recommended: 'Empfohlen',
+      nextAvailable: 'Nächste verfügbare Position',
     },
     // Bids
     bids: {
