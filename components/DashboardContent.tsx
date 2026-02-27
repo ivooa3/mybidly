@@ -2,20 +2,11 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatCurrency } from '@/utils/calculations'
-import { TrialBanner } from './TrialBanner'
 import { PlanBanner } from './PlanBanner'
-
-interface TrialStatus {
-  isInTrial: boolean
-  daysRemaining: number
-  endedByFirstOrder: boolean
-  trialEndsAt: Date | null
-}
 
 interface DashboardContentProps {
   shopName: string
   isAdmin: boolean
-  trialStatus?: TrialStatus
   planTier: 'payg' | 'premium'
   stats: {
     totalBids: number
@@ -27,7 +18,7 @@ interface DashboardContentProps {
   }
 }
 
-export function DashboardContent({ shopName, isAdmin, trialStatus, planTier, stats }: DashboardContentProps) {
+export function DashboardContent({ shopName, isAdmin, planTier, stats }: DashboardContentProps) {
   const { t } = useLanguage()
 
   const { totalBids, acceptedBids, totalViews, totalRevenue, conversionRate, viewToBidRate } = stats
@@ -53,18 +44,9 @@ export function DashboardContent({ shopName, isAdmin, trialStatus, planTier, sta
       {/* Plan Banner - Only show for non-admin users */}
       {!isAdmin && <PlanBanner planTier={planTier} />}
 
-      {/* Trial Banner - Only show for non-admin users */}
-      {!isAdmin && trialStatus && (
-        <TrialBanner
-          daysRemaining={trialStatus.daysRemaining}
-          endedByFirstOrder={trialStatus.endedByFirstOrder}
-          isInTrial={trialStatus.isInTrial}
-        />
-      )}
-
-      {/* Stats Grid - Admin sees widget views, regular users see 3-column grid */}
+      {/* Stats Grid - Admin sees 5 boxes including plan tier, regular users see 3-column grid */}
       {isAdmin ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           <div className="bg-white rounded-lg shadow-soft p-8 flex flex-col items-center justify-center">
             <p className="text-sm font-medium text-gray-600 mb-3">{t.dashboard.widgetViews}</p>
             <p className="text-5xl font-bold text-blue-600">{totalViews}</p>
@@ -89,6 +71,16 @@ export function DashboardContent({ shopName, isAdmin, trialStatus, planTier, sta
               {totalViews > 0 ? formatConversionRate((acceptedBids / totalViews) * 100) : '0%'}
             </p>
             <p className="text-xs text-gray-500 mt-2">{t.dashboard.viewToSaleRate}</p>
+          </div>
+
+          <div className={`${planTier === 'premium' ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-500 to-indigo-500'} rounded-lg shadow-soft p-8 flex flex-col items-center justify-center text-white`}>
+            <p className="text-sm font-medium mb-3 opacity-90">{t.dashboard.currentPlan}</p>
+            <p className="text-3xl font-bold mb-2">
+              {planTier === 'premium' ? t.dashboard.premium : t.dashboard.payAsYouGo}
+            </p>
+            <p className="text-xs opacity-90">
+              {planTier === 'premium' ? t.dashboard.planPremium : t.dashboard.planPayg}
+            </p>
           </div>
         </div>
       ) : (
