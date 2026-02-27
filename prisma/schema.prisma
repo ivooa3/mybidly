@@ -32,6 +32,8 @@ model Shop {
   preferredLanguage        String       @default("en") @map("preferred_language")
   resetToken               String?      @map("reset_token")
   resetTokenExpiresAt      DateTime?    @map("reset_token_expires_at")
+  trialEndsAt              DateTime?    @map("trial_ends_at")
+  trialEndedByFirstOrder   Boolean      @default(false) @map("trial_ended_by_first_order")
   bids                     Bid[]
   offers                   Offer[]
   widgetViews              WidgetView[]

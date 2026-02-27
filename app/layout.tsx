@@ -7,7 +7,25 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'myBidly - Bid-Based Upsells',
-  description: 'Post-purchase upsell platform for e-commerce',
+  description: 'Turn Every Thank-You Page Into Your Next Sale',
+  keywords: 'upsell, post-purchase, e-commerce, bid-based, thank you page, conversion optimization',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
+  openGraph: {
+    title: 'myBidly - Bid-Based Upsells',
+    description: 'Turn Every Thank-You Page Into Your Next Sale',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'myBidly',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'myBidly - Bid-Based Upsells',
+    description: 'Turn Every Thank-You Page Into Your Next Sale',
+  },
 }
 
 export default function RootLayout({

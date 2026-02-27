@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { isAdmin } from '@/lib/admin-middleware'
 import { DashboardContent } from '@/components/DashboardContent'
 import { getMissedOpportunities, getBidLimitStatus } from '@/lib/missed-opportunities'
+import { getTrialStatus } from '@/lib/trial'
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -13,6 +14,18 @@ export default async function DashboardPage() {
 
   // Check if user is admin
   const userIsAdmin = await isAdmin()
+
+  // Get shop info for trial status
+  const shop = await prisma.shop.findUnique({
+    where: { id: session.user.shopId }
+  })
+
+  if (!shop) {
+    return null
+  }
+
+  // Calculate trial status
+  const trialStatus = getTrialStatus(shop)
 
   // Get stats
   const [acceptedBids, totalBids, totalViews, revenueData, missedOpportunities, bidLimitStatus] = await Promise.all([
@@ -43,6 +56,7 @@ export default async function DashboardPage() {
     <DashboardContent
       shopName={session.user.shopName}
       isAdmin={userIsAdmin}
+      trialStatus={trialStatus}
       stats={{
         totalBids,
         acceptedBids,

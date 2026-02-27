@@ -8,7 +8,7 @@ export const landingTranslations = {
       ctaSecondary: "Watch Demo",
       trustBadge1: "No credit card required",
       trustBadge2: "Setup in 10 minutes",
-      trustBadge3: "14-day free trial"
+      trustBadge3: "7-day free trial"
     },
 
     // Problem Section
@@ -140,7 +140,7 @@ export const landingTranslations = {
       subtitle: "No credit card required. Cancel anytime.",
       price: "Only €14/month",
       priceNote: "(excl. VAT)",
-      feature1: "14 days free trial",
+      feature1: "7 days free OR your first order (whichever comes first)",
       feature2: "Unlimited offers",
       feature3: "Email support",
       feature4: "All features included",
@@ -234,7 +234,7 @@ export const landingTranslations = {
       ctaSecondary: "Demo ansehen",
       trustBadge1: "Keine Kreditkarte erforderlich",
       trustBadge2: "In 10 Minuten eingerichtet",
-      trustBadge3: "14 Tage kostenlos testen"
+      trustBadge3: "7 Tage kostenlos testen"
     },
 
     // Problem Section
@@ -366,7 +366,7 @@ export const landingTranslations = {
       subtitle: "Keine Kreditkarte erforderlich. Jederzeit kündbar.",
       price: "Nur €14/Monat",
       priceNote: "(zzgl. MwSt.)",
-      feature1: "14 Tage kostenlos testen",
+      feature1: "7 Tage kostenlos ODER Ihre erste Bestellung (je nachdem, was zuerst eintritt)",
       feature2: "Unbegrenzte Angebote",
       feature3: "E-Mail-Support",
       feature4: "Alle Funktionen inklusive",

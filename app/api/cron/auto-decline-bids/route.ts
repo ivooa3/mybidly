@@ -93,6 +93,27 @@ export async function GET(request: NextRequest) {
             }
           })
 
+          // Check if this is the shop's first accepted order - end trial if so
+          const previousAcceptedBids = await prisma.bid.count({
+            where: {
+              shopId: bid.shop.id,
+              status: 'accepted',
+              id: { not: bid.id } // Exclude current bid
+            }
+          })
+
+          if (previousAcceptedBids === 0) {
+            // This is the first accepted order - end trial
+            await prisma.shop.update({
+              where: { id: bid.shop.id },
+              data: {
+                trialEndedByFirstOrder: true,
+                trialEndsAt: new Date() // Set trial end date to now
+              }
+            })
+            console.log(`🎉 Shop ${bid.shop.id} trial ended by first order`)
+          }
+
           acceptedBids.push(bid.id)
 
           // Send acceptance email to customer

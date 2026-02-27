@@ -34,11 +34,15 @@ export async function POST(request: NextRequest) {
     // Hash password
     const passwordHash = await bcrypt.hash(password, 10)
 
+    // Calculate trial end date (7 days from now)
+    const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
     // Create shop without shopName (will be set during first-time setup)
     const shop = await prisma.shop.create({
       data: {
         email,
         passwordHash,
+        trialEndsAt,
       },
       select: {
         id: true,

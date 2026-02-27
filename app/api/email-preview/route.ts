@@ -658,7 +658,7 @@ async function getEmailHtml(type: string, locale: string) {
               <div style="color: #6b7280; margin-top: 5px;">${locale === 'de' ? 'Verpasste Kunden' : 'Missed Customers'}</div>
             </div>
             <div style="text-align: center;">
-              <div style="font-size: 42px; font-weight: bold; color: #dc2626;">€147</div>
+              <div style="font-size: 42px; font-weight: bold; color: #dc2626;">€2,394</div>
               <div style="color: #6b7280; margin-top: 5px;">${locale === 'de' ? 'Entgangener Umsatz' : 'Lost Revenue'}</div>
             </div>
           </div>
@@ -667,8 +667,8 @@ async function getEmailHtml(type: string, locale: string) {
             <h3 style="margin-top: 0;">📊 ${locale === 'de' ? 'Die Zahlen lügen nicht' : 'The Numbers Don\'t Lie'}</h3>
             <ul style="line-height: 2;">
               <li><strong>42 ${locale === 'de' ? 'Kunden' : 'customers'}</strong> ${locale === 'de' ? 'haben Ihr Widget besucht' : 'visited your widget'}</li>
-              <li>${locale === 'de' ? 'Durchschnittliches Gebot' : 'Average bid'}: <strong>~€35</strong></li>
-              <li>${locale === 'de' ? 'Entgangener Umsatz' : 'Lost revenue'}: <strong>€147</strong></li>
+              <li>${locale === 'de' ? 'Durchschnittliches Gebot' : 'Average bid'}: <strong>~€57</strong></li>
+              <li>${locale === 'de' ? 'Entgangener Umsatz' : 'Lost revenue'}: <strong>€2,394</strong> (42 × €57)</li>
             </ul>
           </div>
 
@@ -682,10 +682,6 @@ async function getEmailHtml(type: string, locale: string) {
             ✓ ${locale === 'de' ? 'Jederzeit kündbar' : 'Cancel anytime'}
           </p>
         </div>
-
-        <p style="margin-top: 40px; opacity: 0.9;">
-          <small>${locale === 'de' ? 'Vollständige Vorlage' : 'Full template'} in <code>lib/email.ts</code> (${locale === 'de' ? 'Zeilen' : 'lines'} ${locale === 'de' ? '1098-1205' : '989-1096'})</small>
-        </p>
       </div>`
     default:
       return '<div style="padding: 40px; text-align: center;"><h1>Invalid email type</h1></div>'

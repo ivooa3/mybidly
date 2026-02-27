@@ -2,10 +2,19 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatCurrency } from '@/utils/calculations'
+import { TrialBanner } from './TrialBanner'
+
+interface TrialStatus {
+  isInTrial: boolean
+  daysRemaining: number
+  endedByFirstOrder: boolean
+  trialEndsAt: Date | null
+}
 
 interface DashboardContentProps {
   shopName: string
   isAdmin: boolean
+  trialStatus?: TrialStatus
   stats: {
     totalBids: number
     acceptedBids: number
@@ -16,7 +25,7 @@ interface DashboardContentProps {
   }
 }
 
-export function DashboardContent({ shopName, isAdmin, stats }: DashboardContentProps) {
+export function DashboardContent({ shopName, isAdmin, trialStatus, stats }: DashboardContentProps) {
   const { t } = useLanguage()
 
   const { totalBids, acceptedBids, totalViews, totalRevenue, conversionRate, viewToBidRate } = stats
@@ -38,6 +47,15 @@ export function DashboardContent({ shopName, isAdmin, stats }: DashboardContentP
           {t.dashboard.title}
         </p>
       </div>
+
+      {/* Trial Banner - Only show for non-admin users */}
+      {!isAdmin && trialStatus && (
+        <TrialBanner
+          daysRemaining={trialStatus.daysRemaining}
+          endedByFirstOrder={trialStatus.endedByFirstOrder}
+          isInTrial={trialStatus.isInTrial}
+        />
+      )}
 
       {/* Stats Grid - Admin sees widget views, regular users see 3-column grid */}
       {isAdmin ? (

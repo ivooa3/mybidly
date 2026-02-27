@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { successResponse, errorResponse } from '@/lib/api-response'
+import { getTrialStatus } from '@/lib/trial'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,32 +19,27 @@ export async function GET(request: NextRequest) {
     const referer = request.headers.get('referer')
     const origin = request.headers.get('origin')
 
-    // Fetch shop to validate domain
+    // Fetch shop to validate domain and check trial status
     const shop = await prisma.shop.findUnique({
       where: { id: shopId },
-      select: { shopUrl: true, isActive: true, preferredLanguage: true }
+      select: {
+        shopUrl: true,
+        isActive: true,
+        preferredLanguage: true,
+        createdAt: true,
+        trialEndsAt: true,
+        trialEndedByFirstOrder: true,
+        planTier: true
+      }
     })
 
     if (!shop || !shop.isActive) {
       return errorResponse('Shop not found or inactive', 404)
     }
 
-    // Check if shop has reached free tier limit (10 accepted bids/month)
-    const now = new Date()
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-
-    const acceptedBidsThisMonth = await prisma.bid.count({
-      where: {
-        shopId: shopId,
-        status: 'accepted',
-        createdAt: {
-          gte: startOfMonth
-        }
-      }
-    })
-
-    const FREE_TIER_LIMIT = 10
-    const hasReachedLimit = acceptedBidsThisMonth >= FREE_TIER_LIMIT
+    // Check trial status
+    const trialStatus = getTrialStatus(shop)
+    const hasReachedLimit = !trialStatus.isInTrial && shop.planTier === 'free'
 
     // Domain validation: Check if request is from authorized domain
     if (shop.shopUrl && referer) {
@@ -93,7 +89,7 @@ export async function GET(request: NextRequest) {
     let viewType = 'shown'
 
     if (hasReachedLimit) {
-      viewType = 'limit_reached'
+      viewType = 'trial_ended' // Changed from limit_reached to trial_ended
     } else if (!offer) {
       viewType = 'no_offers'
     } else if (offer.stockQuantity === 0) {
@@ -124,12 +120,12 @@ export async function GET(request: NextRequest) {
       console.error('Widget view tracking error:', trackingError)
     }
 
-    // If limit reached, return special response
+    // If trial ended, return special response
     if (hasReachedLimit) {
       return successResponse({
         offers: [],
-        limitReached: true,
-        message: 'Free tier limit reached'
+        trialEnded: true,
+        message: 'Trial period has ended'
       })
     }
 
