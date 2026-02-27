@@ -15,7 +15,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* German Banner - Fixed Top Left */}
       {lang === 'de' && (
-        <div className="fixed top-4 left-4 z-50 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-2 animate-bounce">
+        <div className="fixed top-4 left-4 z-50 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-2">
           <span className="text-lg">🎉</span>
           <span className="text-sm font-semibold">
             Jetzt live in Deutschland, Österreich und Schweiz
