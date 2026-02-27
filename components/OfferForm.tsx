@@ -9,9 +9,11 @@ import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { ImageUpload } from '@/components/ui/ImageUpload'
 import { calculateRecommendedRange, formatCurrency, roundToSpecialDecimals } from '@/utils/calculations'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export function OfferForm() {
   const router = useRouter()
+  const { t } = useLanguage()
   const [error, setError] = useState<string | null>(null)
   const [recommendedRange, setRecommendedRange] = useState({
     min: 0,
@@ -145,14 +147,14 @@ export function OfferForm() {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Product Name"
+          label={t.offers.productName}
           {...register('productName')}
           error={errors.productName?.message}
           placeholder="e.g., Premium Bicycle Helmet"
         />
 
         <Input
-          label="Product SKU *"
+          label={t.offers.productSku}
           {...register('productSku')}
           error={errors.productSku?.message}
           placeholder="e.g., HELMET-001"
@@ -160,7 +162,7 @@ export function OfferForm() {
       </div>
 
       <Input
-        label="Scope of Delivery (optional)"
+        label={t.offers.scopeOfDelivery}
         {...register('scopeOfDelivery')}
         error={errors.scopeOfDelivery?.message}
         placeholder="e.g., 1x Helmet, 1x Carrying bag, 1x User manual"
@@ -168,7 +170,7 @@ export function OfferForm() {
       />
 
       <Input
-        label="Offer Headline *"
+        label={t.offers.headline}
         {...register('offerHeadline')}
         error={errors.offerHeadline?.message}
         placeholder="e.g., Want this helmet at a special price?"
@@ -176,7 +178,7 @@ export function OfferForm() {
       />
 
       <Input
-        label="Offer Subheadline (optional)"
+        label={t.offers.subheadline}
         {...register('offerSubheadline')}
         error={errors.offerSubheadline?.message}
         placeholder="e.g., Make your bid and get it delivered to your doorstep!"
@@ -197,7 +199,7 @@ export function OfferForm() {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Minimum Selling Price (€) *"
+          label={t.offers.minSellingPrice}
           type="number"
           step="0.01"
           {...register('minPrice', { valueAsNumber: true })}
@@ -207,7 +209,7 @@ export function OfferForm() {
         />
 
         <Input
-          label="Fix Selling Price (€) *"
+          label={t.offers.fixSellingPrice}
           type="number"
           step="0.01"
           {...register('fixPrice', {
@@ -223,7 +225,7 @@ export function OfferForm() {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Minimum Range (€) *"
+          label={t.offers.minRange}
           type="number"
           step="0.20"
           {...register('minRange', {
@@ -237,7 +239,7 @@ export function OfferForm() {
         />
 
         <Input
-          label="Maximum Range (€) *"
+          label={t.offers.maxRange}
           type="number"
           step="0.20"
           {...register('maxRange', {
@@ -253,7 +255,7 @@ export function OfferForm() {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Stock Quantity *"
+          label={t.offers.stockQuantity}
           type="number"
           {...register('stockQuantity', { valueAsNumber: true })}
           error={errors.stockQuantity?.message}
@@ -262,7 +264,7 @@ export function OfferForm() {
         />
 
         <Input
-          label="Priority Offer *"
+          label={t.offers.priorityOffer}
           type="number"
           {...register('priority', {
             valueAsNumber: true,
@@ -281,7 +283,7 @@ export function OfferForm() {
           disabled={isSubmitting}
           className="flex-1"
         >
-          {isSubmitting ? 'Creating...' : 'Create Offer'}
+          {isSubmitting ? t.offers.creating : t.offers.createOffer}
         </Button>
 
         <Button
@@ -289,7 +291,7 @@ export function OfferForm() {
           variant="secondary"
           onClick={() => router.back()}
         >
-          Cancel
+          {t.common.cancel}
         </Button>
       </div>
     </form>
