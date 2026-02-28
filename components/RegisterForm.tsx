@@ -8,7 +8,11 @@ import { shopRegisterSchema, type ShopRegisterInput } from '@/lib/validations'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  selectedPlan?: string | null
+}
+
+export function RegisterForm({ selectedPlan }: RegisterFormProps) {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
@@ -28,7 +32,10 @@ export function RegisterForm() {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          ...data,
+          selectedPlan: selectedPlan || null
+        })
       })
 
       const result = await response.json()

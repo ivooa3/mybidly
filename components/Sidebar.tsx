@@ -200,7 +200,7 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
 
         {/* Sign Out Button */}
         <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
         >
           {t.sidebar.signOut}

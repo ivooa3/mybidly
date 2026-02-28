@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = validation.data
+    const selectedPlan = body.selectedPlan // Get selected plan from request body
 
     // Check if email already exists
     const existingShop = await prisma.shop.findUnique({
@@ -37,17 +38,24 @@ export async function POST(request: NextRequest) {
     // Calculate trial end date (7 days from now)
     const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
+    // Set plan tier based on registration source
+    const planTier = selectedPlan === 'premium' ? 'premium' : 'payg'
+
     // Create shop without shopName (will be set during first-time setup)
     const shop = await prisma.shop.create({
       data: {
         email,
         passwordHash,
         trialEndsAt,
+        registrationSource: selectedPlan || null, // Save registration source
+        planTier, // Set plan tier based on registration source
       },
       select: {
         id: true,
         email: true,
         createdAt: true,
+        registrationSource: true,
+        planTier: true,
       }
     })
 

@@ -342,7 +342,7 @@ export default function Home() {
                 ))}
               </ul>
               <Link
-                href="/register"
+                href="/register?plan=premium"
                 className="inline-block w-full px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
               >
                 {t.pricing.premium.cta}

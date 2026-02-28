@@ -34,6 +34,7 @@ model Shop {
   resetTokenExpiresAt      DateTime?    @map("reset_token_expires_at")
   trialEndsAt              DateTime?    @map("trial_ends_at")
   trialEndedByFirstOrder   Boolean      @default(false) @map("trial_ended_by_first_order")
+  registrationSource       String?      @map("registration_source") // 'premium', 'payg', or null
   bids                     Bid[]
   offers                   Offer[]
   widgetViews              WidgetView[]
