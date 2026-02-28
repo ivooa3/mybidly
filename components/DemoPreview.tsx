@@ -141,7 +141,10 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
                       </div>
 
                       {/* Create Button */}
-                      <button className="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                      <button
+                        onClick={nextSlide}
+                        className="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity"
+                      >
                         {lang === 'en' ? 'Create Offer' : 'Angebot erstellen'}
                       </button>
                     </div>
@@ -209,10 +212,16 @@ export function DemoPreview({ lang }: DemoPreviewProps) {
 
                     {/* CTA Buttons */}
                     <div className="flex gap-3">
-                      <button className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                      <button
+                        onClick={nextSlide}
+                        className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity"
+                      >
                         {lang === 'en' ? 'Make Your Bid' : 'Gebot abgeben'}
                       </button>
-                      <button className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity">
+                      <button
+                        onClick={nextSlide}
+                        className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 rounded-lg hover:opacity-90 transition-opacity"
+                      >
                         {lang === 'en' ? 'Buy It Instantly' : 'Sofort kaufen'}
                       </button>
                     </div>
