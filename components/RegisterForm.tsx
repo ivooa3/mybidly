@@ -95,6 +95,30 @@ export function RegisterForm() {
             <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
           )}
         </div>
+
+        <div>
+          <label className="flex items-start">
+            <input
+              type="checkbox"
+              {...register('acceptTerms')}
+              className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+            />
+            <span className="ml-2 text-sm text-gray-700">
+              I accept the{' '}
+              <a
+                href="https://next-commerce.io/terms-of-services/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-600 hover:underline font-semibold"
+              >
+                Terms of Service
+              </a>
+            </span>
+          </label>
+          {errors.acceptTerms && (
+            <p className="mt-1 text-sm text-red-600">{errors.acceptTerms.message}</p>
+          )}
+        </div>
       </div>
 
       <Button

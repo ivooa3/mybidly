@@ -50,7 +50,10 @@ export async function GET(request: NextRequest) {
         // Allow localhost for testing
         const isLocalhost = refererDomain.includes('localhost') || refererDomain.includes('127.0.0.1')
 
-        if (!isLocalhost && shopDomain !== refererDomain) {
+        // Allow mybidly.io for widget preview in dashboard
+        const isMyBidlyPreview = refererDomain.includes('mybidly.io')
+
+        if (!isLocalhost && !isMyBidlyPreview && shopDomain !== refererDomain) {
           console.warn(`Domain mismatch: ${refererDomain} !== ${shopDomain}`)
           return errorResponse('Widget not authorized for this domain', 403)
         }

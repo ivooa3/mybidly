@@ -9,7 +9,10 @@ const profileUpdateSchema = z.object({
   shopName: z.string().min(1, 'Shop name is required'),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  shopUrl: z.string().min(1, 'Shop URL is required'),
+  shopUrl: z.string().optional().refine(
+    (val) => !val || val === '' || val.length >= 1,
+    { message: 'Shop URL must be a valid URL' }
+  ),
   orderEmail: z.string().optional().refine(
     (val) => !val || val === '' || z.string().email().safeParse(val).success,
     { message: 'Order email must be a valid email address' }

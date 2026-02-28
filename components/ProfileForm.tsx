@@ -197,10 +197,9 @@ export function ProfileForm({ shop }: ProfileFormProps) {
               label="Shop URL *"
               name="shopUrl"
               value={shop.shopUrl || ''}
-              disabled
               required
               placeholder="https://johnsbikes.com"
-              tooltip="Cannot be changed. Contact support if needed."
+              tooltip="Your shop's website URL (e.g., https://johnsbikes.com)"
             />
 
             <Input

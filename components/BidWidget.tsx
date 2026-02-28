@@ -237,6 +237,35 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
                 <span className="text-lg font-bold">{formatCurrency(offer.fixPrice)}</span>
               </button>
             </div>
+
+            {/* Footer with Terms of Service and Powered by myBidly.io */}
+            <div className="mt-6 pt-4 border-t border-gray-200 text-center space-y-2">
+              <p className="text-xs text-gray-500">
+                {locale === 'en'
+                  ? 'By using this service, you agree to the '
+                  : 'Durch die Nutzung dieses Dienstes stimmen Sie den '}
+                <a
+                  href="https://next-commerce.io/terms-of-services/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-600 hover:underline"
+                >
+                  {locale === 'en' ? 'Terms of Service' : 'Nutzungsbedingungen'}
+                </a>
+                {locale === 'de' ? ' zu' : ''}
+              </p>
+              <p className="text-xs text-gray-400">
+                Powered by{' '}
+                <a
+                  href="https://mybidly.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-600 hover:underline font-semibold"
+                >
+                  myBidly.io
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
