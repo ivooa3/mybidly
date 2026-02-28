@@ -39,6 +39,10 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
     window.location.href = '/admin/users'
   }
 
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/', redirect: true })
+  }
+
   return (
     <aside className="w-64 bg-white shadow-lg flex flex-col">
       {/* Logo */}
@@ -200,7 +204,7 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
 
         {/* Sign Out Button */}
         <button
-          onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
+          onClick={handleSignOut}
           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
         >
           {t.sidebar.signOut}
