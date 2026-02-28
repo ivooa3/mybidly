@@ -9,8 +9,11 @@ const profileUpdateSchema = z.object({
   shopName: z.string().min(1, 'Shop name is required'),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  shopUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
-  orderEmail: z.string().email('Invalid email').optional().or(z.literal('')),
+  shopUrl: z.string().min(1, 'Shop URL is required'),
+  orderEmail: z.string().optional().refine(
+    (val) => !val || val === '' || z.string().email().safeParse(val).success,
+    { message: 'Order email must be a valid email address' }
+  ),
   businessAddress: z.object({
     street: z.string().optional(),
     city: z.string().optional(),
@@ -33,7 +36,10 @@ export async function PATCH(request: NextRequest) {
     // Validate input
     const validation = profileUpdateSchema.safeParse(body)
     if (!validation.success) {
-      return errorResponse(validation.error.errors[0].message, 400)
+      // Return ALL validation errors, not just the first one
+      const errors = validation.error.errors.map(err => `${err.path.join('.')}: ${err.message}`).join(', ')
+      console.log('Validation errors:', errors)
+      return errorResponse(errors, 400)
     }
 
     const data = validation.data

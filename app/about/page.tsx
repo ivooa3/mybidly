@@ -15,18 +15,18 @@ export default function AboutPage() {
       intro: "myBidly was born from a simple observation: online shops were leaving money on the table, every single day.",
 
       paulTitle: "Meet Paul",
-      paulRole: "Co-Founder & Tech Visionary",
-      paulStory: "Paul spent years building e-commerce platforms for enterprise clients. He watched them pour thousands into driving traffic, only to see customers disappear after checkout. \"We're solving the hardest problem - getting people to buy,\" he'd say, \"but then we just... let them leave.\" The waste frustrated him. He knew there had to be a better way.",
+      paulRole: "Innovation Lead at Next Commerce",
+      paulStory: "Paul worked at Next Commerce building e-commerce solutions for clients. He noticed a pattern: shops invested heavily in driving traffic, only to watch customers disappear after checkout. \"We help them make the first sale,\" he'd say, \"but then we just let them leave.\" This frustrated him deeply.",
 
       sventjeTitle: "Meet Sventje",
-      sventjeRole: "Co-Founder & Customer Champion",
-      sventjeStory: "Sventje ran a small online store selling sustainable outdoor gear. She experienced the same problem firsthand. \"I'd see customers buy a jacket, and I knew they'd need waterproofing spray or a repair kit, but by the time they left my checkout, it was too late.\" She tried traditional upsell tools, but they felt pushy and killed conversions. She wanted something that felt natural - something that gave customers a voice.",
+      sventjeRole: "Product Strategist at Next Commerce",
+      sventjeStory: "Sventje joined Next Commerce after running her own sustainable outdoor gear store. She experienced the post-checkout problem firsthand and tried every upsell tool available. They all felt pushy and killed conversions. She wanted something different - something that gave customers control.",
 
-      meetingTitle: "A Chance Meeting",
-      meetingStory: "Paul and Sventje met at a small e-commerce conference in Berlin. Over coffee, Sventje mentioned her frustration. \"What if customers could bid?\" she wondered out loud. \"Let them decide what they're willing to pay. Make it fun, not forceful.\" Paul's eyes lit up. That night, he sketched out the first prototype on a napkin. Three weeks later, they launched the beta version in Sventje's store.",
+      meetingTitle: "The Internal Pitch",
+      meetingStory: "At a Next Commerce team meeting, Sventje shared her idea: \"What if customers could bid on thank-you pages?\" Paul immediately saw the potential. Next Commerce encouraged internal innovation, so they pitched it. The leadership team gave them the green light to build it as an internal product. This was exactly what they'd always dreamed of - creating their own innovative solution.",
 
-      resultTitle: "The Results",
-      resultStory: "The first month, Sventje added €2,400 in revenue she would have otherwise missed. Customers loved the bidding experience - it felt like a game, not a sales tactic. Word spread. Soon, other shop owners in her network wanted in. That's when Paul and Sventje realized they had something special.",
+      resultTitle: "The Launch",
+      resultStory: "They built the first version in three weeks and tested it with a pilot shop. First month: €2,400 in extra revenue. Customers loved it. It felt like a game, not a sales tactic. The Next Commerce team was thrilled. They gave Paul and Sventje full support to turn myBidly into a standalone product under the Next Commerce umbrella.",
 
       missionTitle: "Our Mission",
       missionText: "Today, myBidly helps hundreds of solo-preneurs and small businesses across Europe turn their thank-you pages into revenue engines. We built this for people like Sventje - passionate shop owners who care about their customers and want to grow sustainably.",
@@ -54,18 +54,18 @@ export default function AboutPage() {
       intro: "myBidly entstand aus einer einfachen Beobachtung: Online-Shops verschenkten jeden Tag Geld.",
 
       paulTitle: "Das ist Paul",
-      paulRole: "Mitgründer & Tech-Visionär",
-      paulStory: "Paul baute jahrelang E-Commerce-Plattformen für Unternehmenskunden. Er sah, wie sie Tausende investierten, um Traffic zu generieren, nur um zuzusehen, wie Kunden nach dem Checkout verschwanden. \"Wir lösen das schwierigste Problem - Menschen zum Kauf zu bewegen\", sagte er oft, \"aber dann lassen wir sie einfach... gehen.\" Diese Verschwendung frustrierte ihn. Er wusste, es musste einen besseren Weg geben.",
+      paulRole: "Innovationsleiter bei Next Commerce",
+      paulStory: "Paul arbeitete bei Next Commerce und baute E-Commerce-Lösungen für Kunden. Er bemerkte ein Muster: Shops investierten massiv in Traffic-Generierung, nur um zuzusehen, wie Kunden nach dem Checkout verschwanden. \"Wir helfen ihnen beim ersten Verkauf\", sagte er oft, \"aber dann lassen wir sie einfach gehen.\" Das frustrierte ihn zutiefst.",
 
       sventjeTitle: "Das ist Sventje",
-      sventjeRole: "Mitgründerin & Kundenverfechterin",
-      sventjeStory: "Sventje führte einen kleinen Online-Shop für nachhaltige Outdoor-Ausrüstung. Sie erlebte dasselbe Problem am eigenen Leib. \"Ich sah Kunden eine Jacke kaufen, und ich wusste, sie würden Imprägnierungsspray oder ein Reparaturset brauchen, aber sobald sie meinen Checkout verlassen hatten, war es zu spät.\" Sie probierte traditionelle Upsell-Tools aus, aber die fühlten sich aufdringlich an und töteten Konversionen. Sie wollte etwas Natürliches - etwas, das Kunden eine Stimme gab.",
+      sventjeRole: "Produktstrategin bei Next Commerce",
+      sventjeStory: "Sventje kam zu Next Commerce, nachdem sie ihren eigenen Shop für nachhaltige Outdoor-Ausrüstung geführt hatte. Sie erlebte das Post-Checkout-Problem am eigenen Leib und probierte jedes verfügbare Upsell-Tool aus. Alle fühlten sich aufdringlich an und töteten Konversionen. Sie wollte etwas anderes - etwas, das Kunden Kontrolle gibt.",
 
-      meetingTitle: "Eine zufällige Begegnung",
-      meetingStory: "Paul und Sventje trafen sich auf einer kleinen E-Commerce-Konferenz in Berlin. Bei einem Kaffee erwähnte Sventje ihre Frustration. \"Was, wenn Kunden bieten könnten?\", überlegte sie laut. \"Lass sie entscheiden, was sie bereit sind zu zahlen. Mach es spielerisch, nicht zwingend.\" Pauls Augen leuchteten auf. An jenem Abend skizzierte er den ersten Prototyp auf einer Serviette. Drei Wochen später starteten sie die Beta-Version in Sventjes Shop.",
+      meetingTitle: "Der interne Pitch",
+      meetingStory: "Bei einem Next Commerce Team-Meeting teilte Sventje ihre Idee: \"Was, wenn Kunden auf Danke-Seiten bieten könnten?\" Paul sah sofort das Potenzial. Next Commerce förderte interne Innovation, also pitchten sie die Idee. Das Leadership-Team gab grünes Licht, es als internes Produkt zu entwickeln. Das war genau das, wovon sie immer geträumt hatten - ihre eigene innovative Lösung zu erschaffen.",
 
-      resultTitle: "Die Ergebnisse",
-      resultStory: "Im ersten Monat generierte Sventje €2.400 zusätzlichen Umsatz, den sie sonst verpasst hätte. Kunden liebten das Bieterlebnis - es fühlte sich wie ein Spiel an, nicht wie eine Verkaufstaktik. Es sprach sich herum. Bald wollten andere Shop-Besitzer in ihrem Netzwerk auch mitmachen. Da erkannten Paul und Sventje, dass sie etwas Besonderes hatten.",
+      resultTitle: "Der Launch",
+      resultStory: "Sie bauten die erste Version in drei Wochen und testeten sie mit einem Pilot-Shop. Erster Monat: €2.400 zusätzlicher Umsatz. Kunden liebten es. Es fühlte sich wie ein Spiel an, nicht wie eine Verkaufstaktik. Das Next Commerce Team war begeistert. Sie gaben Paul und Sventje volle Unterstützung, myBidly zu einem eigenständigen Produkt unter dem Next Commerce Dach zu entwickeln.",
 
       missionTitle: "Unsere Mission",
       missionText: "Heute hilft myBidly Hunderten von Solopreneuren und kleinen Unternehmen in ganz Europa, ihre Dankesseiten in Umsatzmaschinen zu verwandeln. Wir haben dies für Menschen wie Sventje gebaut - leidenschaftliche Shop-Besitzer, die sich um ihre Kunden kümmern und nachhaltig wachsen wollen.",

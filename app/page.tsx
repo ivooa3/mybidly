@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Testimonials } from '@/components/Testimonials'
+import { CustomerTestimonials } from '@/components/CustomerTestimonials'
 import { FAQ } from '@/components/FAQ'
 import { DemoPreview } from '@/components/DemoPreview'
 import { landingTranslations, type Language } from '@/lib/translations/landing'
@@ -13,11 +14,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* German Banner - Fixed Top Left */}
+      {/* German Banner - Top Center on Mobile, Top Left on Desktop */}
       {lang === 'de' && (
-        <div className="fixed top-4 left-4 z-50 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-2">
-          <span className="text-lg">🎉</span>
-          <span className="text-sm font-semibold">
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 z-40 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg shadow-lg px-3 py-2 md:px-4 flex items-center gap-2">
+          <span className="text-base md:text-lg">🎉</span>
+          <span className="text-xs md:text-sm font-semibold whitespace-nowrap">
             Jetzt live in Deutschland, Österreich und Schweiz
           </span>
         </div>
@@ -61,7 +62,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pt-20 pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
+          <div className="text-center max-w-5xl mx-auto">
+            {/* Urgency Badge */}
+            <div className="inline-flex items-center gap-2 bg-orange-100 border border-orange-300 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+              <span>{t.hero.urgencyBadge}</span>
+            </div>
+
             {/* Logo/Brand */}
             <h1 className="text-6xl sm:text-7xl font-bold mb-6">
               <span className="bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 bg-clip-text text-transparent">
@@ -75,9 +81,10 @@ export default function Home() {
             </h2>
 
             {/* Subheadline */}
-            <p className="text-xl sm:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-              {t.hero.subtitle}
-            </p>
+            <div className="text-xl sm:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+              <p className="mb-2">{t.hero.subtitle}</p>
+              <p className="font-bold text-purple-600">{t.hero.subtitleBold}</p>
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -124,107 +131,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-300 rounded-full opacity-20 blur-3xl"></div>
       </section>
 
-      {/* How The Bidding Works - Detailed Explanation */}
-      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t.howTheBiddingWorks.title}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t.howTheBiddingWorks.subtitle}
-            </p>
-          </div>
-
-          {/* Steps Flow */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {/* Step 1: Choose Product */}
-            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step1.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step1.title}</h3>
-              <p className="text-gray-600">{t.howTheBiddingWorks.step1.desc}</p>
-            </div>
-
-            {/* Step 2: Set Price Range */}
-            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step2.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step2.title}</h3>
-              <p className="text-gray-600 mb-3">{t.howTheBiddingWorks.step2.desc}</p>
-              <div className="bg-slate-100 rounded-lg px-4 py-2 text-center">
-                <span className="text-sm font-mono text-gray-700">{t.howTheBiddingWorks.step2.visual}</span>
-              </div>
-            </div>
-
-            {/* Step 3: Secret Minimum */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step3.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step3.title}</h3>
-              <p className="text-gray-600 mb-3">{t.howTheBiddingWorks.step3.desc}</p>
-              <div className="inline-block bg-orange-200 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full">
-                {t.howTheBiddingWorks.step3.badge}
-              </div>
-            </div>
-
-            {/* Step 4: Customer Bids */}
-            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step4.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step4.title}</h3>
-              <p className="text-gray-600">{t.howTheBiddingWorks.step4.desc}</p>
-            </div>
-
-            {/* Step 5: 10-20 Minute Wait */}
-            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step5.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step5.title}</h3>
-              <p className="text-gray-600">{t.howTheBiddingWorks.step5.desc}</p>
-            </div>
-
-            {/* Step 6: Auto Accept/Decline */}
-            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
-              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step6.icon}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step6.title}</h3>
-              <p className="text-gray-600">{t.howTheBiddingWorks.step6.desc}</p>
-            </div>
-          </div>
-
-          {/* Key Insight Box */}
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl p-8 text-center shadow-xl">
-            <div className="text-6xl mb-4">{t.howTheBiddingWorks.insight.icon}</div>
-            <h3 className="text-2xl font-bold text-white mb-4">{t.howTheBiddingWorks.insight.title}</h3>
-            <p className="text-xl text-purple-100 leading-relaxed">{t.howTheBiddingWorks.insight.desc}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t.problem.title}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t.problem.subtitle}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[t.problem.pain1, t.problem.pain2, t.problem.pain3].map((pain, idx) => (
-              <div key={idx} className="text-center p-6">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{pain.title}</h3>
-                <p className="text-gray-600">{pain.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
+      {/* How myBidly Works */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -267,6 +174,46 @@ export default function Home() {
         <DemoPreview lang={lang} />
       </div>
 
+      {/* CTA after Demo */}
+      <section className="py-12 bg-gradient-to-br from-purple-50 to-slate-50">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <Link
+            href="/register"
+            className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
+          >
+            {t.hero.cta}
+          </Link>
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {t.problem.title}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {t.problem.subtitle}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[t.problem.pain1, t.problem.pain2, t.problem.pain3].map((pain, idx) => (
+              <div key={idx} className="text-center p-6">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{pain.title}</h3>
+                <p className="text-gray-600">{pain.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Benefits Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -301,15 +248,35 @@ export default function Home() {
       {/* Testimonials */}
       <Testimonials lang={lang} />
 
+      {/* Customer Testimonials */}
+      <CustomerTestimonials lang={lang} />
+
+      {/* CTA after Customer Testimonials */}
+      <section className="py-12 bg-white">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <Link
+            href="/register"
+            className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
+          >
+            {t.hero.cta}
+          </Link>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-gradient-to-br from-purple-600 to-purple-500">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             {t.pricing.title}
           </h2>
-          <p className="text-xl text-purple-100 mb-12">
+          <p className="text-xl text-purple-100 mb-4">
             {t.pricing.subtitle}
           </p>
+
+          {/* Pricing Comparison */}
+          <div className="inline-block bg-yellow-400 text-gray-900 px-6 py-3 rounded-lg font-bold text-lg mb-12">
+            💰 {t.pricing.comparison}
+          </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Pay-As-You-Go Plan */}
@@ -389,6 +356,18 @@ export default function Home() {
           <p className="text-white text-sm mt-8">
             {t.finalCta.guarantee}
           </p>
+        </div>
+      </section>
+
+      {/* CTA before FAQ */}
+      <section className="py-12 bg-white">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <Link
+            href="/register"
+            className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
+          >
+            {t.hero.cta}
+          </Link>
         </div>
       </section>
 
