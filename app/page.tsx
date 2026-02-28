@@ -124,6 +124,78 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-300 rounded-full opacity-20 blur-3xl"></div>
       </section>
 
+      {/* How The Bidding Works - Detailed Explanation */}
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              {t.howTheBiddingWorks.title}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {t.howTheBiddingWorks.subtitle}
+            </p>
+          </div>
+
+          {/* Steps Flow */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {/* Step 1: Choose Product */}
+            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step1.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step1.title}</h3>
+              <p className="text-gray-600">{t.howTheBiddingWorks.step1.desc}</p>
+            </div>
+
+            {/* Step 2: Set Price Range */}
+            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step2.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step2.title}</h3>
+              <p className="text-gray-600 mb-3">{t.howTheBiddingWorks.step2.desc}</p>
+              <div className="bg-slate-100 rounded-lg px-4 py-2 text-center">
+                <span className="text-sm font-mono text-gray-700">{t.howTheBiddingWorks.step2.visual}</span>
+              </div>
+            </div>
+
+            {/* Step 3: Secret Minimum */}
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border-2 border-orange-200 hover:border-orange-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step3.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step3.title}</h3>
+              <p className="text-gray-600 mb-3">{t.howTheBiddingWorks.step3.desc}</p>
+              <div className="inline-block bg-orange-200 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full">
+                {t.howTheBiddingWorks.step3.badge}
+              </div>
+            </div>
+
+            {/* Step 4: Customer Bids */}
+            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step4.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step4.title}</h3>
+              <p className="text-gray-600">{t.howTheBiddingWorks.step4.desc}</p>
+            </div>
+
+            {/* Step 5: 10-20 Minute Wait */}
+            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step5.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step5.title}</h3>
+              <p className="text-gray-600">{t.howTheBiddingWorks.step5.desc}</p>
+            </div>
+
+            {/* Step 6: Auto Accept/Decline */}
+            <div className="bg-white rounded-xl p-6 border-2 border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all">
+              <div className="text-5xl mb-4">{t.howTheBiddingWorks.step6.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.howTheBiddingWorks.step6.title}</h3>
+              <p className="text-gray-600">{t.howTheBiddingWorks.step6.desc}</p>
+            </div>
+          </div>
+
+          {/* Key Insight Box */}
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-purple-500 rounded-2xl p-8 text-center shadow-xl">
+            <div className="text-6xl mb-4">{t.howTheBiddingWorks.insight.icon}</div>
+            <h3 className="text-2xl font-bold text-white mb-4">{t.howTheBiddingWorks.insight.title}</h3>
+            <p className="text-xl text-purple-100 leading-relaxed">{t.howTheBiddingWorks.insight.desc}</p>
+          </div>
+        </div>
+      </section>
+
       {/* Problem Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

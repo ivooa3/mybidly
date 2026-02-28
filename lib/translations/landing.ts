@@ -29,6 +29,49 @@ export const landingTranslations = {
       }
     },
 
+    // How The Bidding Works (Detailed Explanation)
+    howTheBiddingWorks: {
+      title: "How The Bidding Works",
+      subtitle: "Understand the core mechanism in 60 seconds",
+      step1: {
+        icon: "📦",
+        title: "You Choose Product",
+        desc: "Decide which product to show on your thank-you page (e.g., phone case, warranty, accessory)"
+      },
+      step2: {
+        icon: "💶",
+        title: "You Set Price Range",
+        desc: "Set min/max bid range (e.g., €5-€15). Customer sees this range.",
+        visual: "€5 to €15"
+      },
+      step3: {
+        icon: "🔒",
+        title: "You Set Secret Minimum",
+        desc: "Set your minimum selling price (e.g., €7). Customer does NOT see this.",
+        badge: "Hidden from customer"
+      },
+      step4: {
+        icon: "🎯",
+        title: "Customer Bids Once",
+        desc: "Customer slides the price selector and places ONE bid anywhere in your range"
+      },
+      step5: {
+        icon: "⏰",
+        title: "10-20 Minute Wait",
+        desc: "Customer receives decision via email after 10-20 minutes (feels like manual review)"
+      },
+      step6: {
+        icon: "⚡",
+        title: "Auto Accept/Decline",
+        desc: "Bid ≥ €7 → Auto-accepted ✅ | Bid < €7 → Auto-declined + Refunded ❌"
+      },
+      insight: {
+        icon: "💡",
+        title: "The Key Insight",
+        desc: "The customer already purchased from you. Now you can sell more without spending on ads. Good product = fair bids = more revenue!"
+      }
+    },
+
     // How It Works
     howItWorks: {
       title: "How myBidly Works",
@@ -261,6 +304,49 @@ export const landingTranslations = {
       pain3: {
         title: "Komplexe Einrichtung",
         desc: "Traditionelle Upsell-Tools benötigen Entwickler und Wochen zur Implementierung"
+      }
+    },
+
+    // How The Bidding Works (Detailed Explanation)
+    howTheBiddingWorks: {
+      title: "So Funktioniert Das Bieten",
+      subtitle: "Das Kernprinzip in 60 Sekunden verstehen",
+      step1: {
+        icon: "📦",
+        title: "Du wählst Produkt",
+        desc: "Entscheide, welches Produkt auf deiner Danke-Seite angezeigt wird (z.B. Handyhülle, Garantie, Zubehör)"
+      },
+      step2: {
+        icon: "💶",
+        title: "Du setzt Preisspanne",
+        desc: "Bestimme min/max (z.B. €5-€15). Der Kunde sieht diese Spanne.",
+        visual: "€5 bis €15"
+      },
+      step3: {
+        icon: "🔒",
+        title: "Du setzt geheimen Mindestpreis",
+        desc: "Setze deinen Mindestverkaufspreis (z.B. €7). Der Kunde sieht das NICHT.",
+        badge: "Versteckt vor Kunde"
+      },
+      step4: {
+        icon: "🎯",
+        title: "Kunde bietet einmal",
+        desc: "Kunde verschiebt Preisregler und gibt EIN Gebot in deiner Spanne ab"
+      },
+      step5: {
+        icon: "⏰",
+        title: "10-20 Minuten Wartezeit",
+        desc: "Kunde erhält Entscheidung per E-Mail nach 10-20 Minuten (wirkt wie manuelle Prüfung)"
+      },
+      step6: {
+        icon: "⚡",
+        title: "Automatische Entscheidung",
+        desc: "Gebot ≥ €7 → Angenommen ✅ | Gebot < €7 → Abgelehnt + Rückerstattung ❌"
+      },
+      insight: {
+        icon: "💡",
+        title: "Der Schlüssel",
+        desc: "Der Kunde hat bereits bei dir gekauft. Jetzt kannst du mehr verkaufen ohne erneute Werbung. Cooles Produkt = faire Gebote = mehr Umsatz!"
       }
     },
 
