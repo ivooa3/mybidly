@@ -4,7 +4,7 @@ export const landingTranslations = {
     hero: {
       urgencyBadge: "🔥 23 new shops joined last month",
       title: "Upsell on Your Thank-You Page",
-      subtitle: "Your thank-you page is empty. Make an irresistible offer. Customers bid their price and you grow revenue per order.",
+      subtitle: "Your thank-you page is empty. Make an irresistible offer. Let your customer bid their price and grow your revenue per order.",
       subtitleBold: "Only pay when you sell.",
       cta: "Get started for Free",
       ctaSecondary: "Watch Demo",
@@ -290,7 +290,7 @@ export const landingTranslations = {
     hero: {
       urgencyBadge: "🔥 23 neue Shops im letzten Monat",
       title: "Upsell auf deiner Danke-Seite",
-      subtitle: "Deine Danke-Seite ist leer. Mach ein unschlagbares Angebot. Kunden bieten ihren Preis und du steigerst den Umsatz pro Bestellung.",
+      subtitle: "Deine Danke-Seite ist leer. Mach ein unschlagbares Angebot. Dein Kunde bietet seinen Preis und Du steigerst den Umsatz pro Bestellung.",
       subtitleBold: "Zahle nur bei Verkauf.",
       cta: "Kostenlos starten",
       ctaSecondary: "Demo ansehen",
