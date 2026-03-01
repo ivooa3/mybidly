@@ -7,6 +7,8 @@ import { cookies } from 'next/headers'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import { Language } from '@/lib/translations'
 
+export const dynamic = 'force-dynamic'
+
 export default async function DashboardLayout({
   children,
 }: {

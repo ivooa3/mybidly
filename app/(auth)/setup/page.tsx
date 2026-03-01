@@ -1,5 +1,7 @@
 import { SetupForm } from '@/components/SetupForm'
 
+export const dynamic = 'force-dynamic'
+
 export default function SetupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">

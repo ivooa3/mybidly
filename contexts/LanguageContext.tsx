@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode } from 'react'
 import { Language, getTranslation } from '@/lib/translations'
 
 interface LanguageContextType {
@@ -18,7 +18,8 @@ export function LanguageProvider({
   children: ReactNode
   initialLanguage: Language
 }) {
-  const t = getTranslation(initialLanguage)
+  const [language, setLanguageState] = useState<Language>(initialLanguage)
+  const t = getTranslation(language)
 
   const setLanguage = async (lang: Language) => {
     try {
@@ -27,7 +28,9 @@ export function LanguageProvider({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ language: lang }),
       })
-      // Reload page to apply new language
+      // Update state immediately for better UX
+      setLanguageState(lang)
+      // Reload page to ensure all server components are re-rendered
       window.location.reload()
     } catch (error) {
       console.error('Failed to update language:', error)
@@ -35,7 +38,7 @@ export function LanguageProvider({
   }
 
   return (
-    <LanguageContext.Provider value={{ language: initialLanguage, t, setLanguage }}>
+    <LanguageContext.Provider value={{ language, t, setLanguage }}>
       {children}
     </LanguageContext.Provider>
   )
