@@ -100,11 +100,6 @@ export async function POST(request: NextRequest) {
       return errorResponse('Product is out of stock', 400)
     }
 
-    // Check if shop owner has connected Stripe account (SaaS model)
-    if (!offer.shop.stripeAccountId || !offer.shop.stripeOnboardingComplete) {
-      return errorResponse('Shop owner has not set up payment processing yet', 400)
-    }
-
     // Determine bid status based on fix price and stock
     const fixPrice = Number(offer.fixPrice)
     const minSellingPrice = Number(offer.minPrice) // Minimum selling price (base cost)
@@ -128,34 +123,76 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate platform fee (SaaS model)
-    const platformFeePercentage = Number(offer.shop.platformFeePercentage) / 100
-    const platformFeeAmount = Math.round(data.bidAmount * platformFeePercentage * 100) // in cents
+    let platformFeeAmount = 0
+
+    if (offer.shop.planTier === 'payg') {
+      // PAYG: 8% + €1
+      const percentageFee = data.bidAmount * 0.08
+      const fixedFee = 1.00
+      platformFeeAmount = Math.round((percentageFee + fixedFee) * 100) // Convert to cents
+    } else if (offer.shop.planTier === 'premium') {
+      // Premium: No platform fee (only Stripe fees)
+      platformFeeAmount = 0
+    }
+
     const totalAmount = Math.round(data.bidAmount * 100) // in cents
 
-    // Create payment intent on shop owner's connected account with platform fee
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalAmount,
-      currency: 'eur',
-      capture_method: shouldAutoCapture ? 'automatic' : 'manual', // Auto-capture for fix price, manual for others
-      application_fee_amount: platformFeeAmount,  // Platform fee goes to your account
-      automatic_payment_methods: {
-        enabled: true
-      },
-      metadata: {
-        offerId: data.offerId,
-        shopId: data.shopId,
-        customerEmail: data.customerEmail,
-        customerName: data.customerName,
-        locale: data.locale,
-        bidStatus: bidStatus,
-        isBelowMinSellingPrice: isBelowMinSellingPrice.toString(),
-        minSellingPrice: minSellingPrice.toString(),
-        platformFeeAmount: (platformFeeAmount / 100).toString(),
-        platformFeePercentage: offer.shop.platformFeePercentage.toString()
-      }
-    }, {
-      stripeAccount: offer.shop.stripeAccountId  // CRITICAL: Payment goes to shop owner's account
-    })
+    // UNREGISTERED MODE: Check if shop has connected Stripe
+    const isUnregisteredMode = !offer.shop.stripeAccountId || !offer.shop.stripeOnboardingComplete
+    let paymentIntent
+
+    if (isUnregisteredMode) {
+      // UNREGISTERED MODE: Payment stays in YOUR platform account (no transfer to seller)
+      paymentIntent = await stripe.paymentIntents.create({
+        amount: totalAmount,
+        currency: 'eur',
+        capture_method: shouldAutoCapture ? 'automatic' : 'manual',
+        automatic_payment_methods: {
+          enabled: true
+        },
+        metadata: {
+          offerId: data.offerId,
+          shopId: data.shopId,
+          customerEmail: data.customerEmail,
+          customerName: data.customerName,
+          locale: data.locale,
+          bidStatus: bidStatus,
+          isBelowMinSellingPrice: isBelowMinSellingPrice.toString(),
+          minSellingPrice: minSellingPrice.toString(),
+          platformFeeAmount: (platformFeeAmount / 100).toString(),
+          planTier: offer.shop.planTier || 'payg',
+          unregisteredMode: 'true',  // Flag for tracking
+          heldForShop: 'true' // Payment held for seller
+        }
+        // NO stripeAccount - stays in YOUR account
+        // NO application_fee_amount - you keep everything for now
+      })
+    } else {
+      // NORMAL MODE: Destination charge to seller's connected account
+      paymentIntent = await stripe.paymentIntents.create({
+        amount: totalAmount,
+        currency: 'eur',
+        capture_method: shouldAutoCapture ? 'automatic' : 'manual',
+        application_fee_amount: platformFeeAmount,  // Platform fee goes to your account
+        automatic_payment_methods: {
+          enabled: true
+        },
+        metadata: {
+          offerId: data.offerId,
+          shopId: data.shopId,
+          customerEmail: data.customerEmail,
+          customerName: data.customerName,
+          locale: data.locale,
+          bidStatus: bidStatus,
+          isBelowMinSellingPrice: isBelowMinSellingPrice.toString(),
+          minSellingPrice: minSellingPrice.toString(),
+          platformFeeAmount: (platformFeeAmount / 100).toString(),
+          planTier: offer.shop.planTier || 'payg'
+        }
+      }, {
+        stripeAccount: offer.shop.stripeAccountId  // Payment goes to shop owner's account
+      })
+    }
 
     // Calculate platform fee and shop owner amount
     const platformFee = platformFeeAmount / 100

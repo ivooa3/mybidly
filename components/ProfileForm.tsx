@@ -265,12 +265,7 @@ export function ProfileForm({ shop }: ProfileFormProps) {
           />
         </div>
 
-        {/* Payment Setup - Temporarily Hidden */}
-        {/*
-        NOTE: Stripe Connect feature temporarily disabled
-        To enable: Activate Stripe Connect in your Stripe Dashboard
-        https://dashboard.stripe.com/connect/overview
-
+        {/* Payment Setup */}
         <div className="bg-white rounded-lg shadow-soft p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Payment Setup</h2>
           <p className="text-sm text-gray-600 mb-4">
@@ -317,7 +312,6 @@ export function ProfileForm({ shop }: ProfileFormProps) {
             </div>
           )}
         </div>
-        */}
 
         {/* Save Button */}
         <div className="flex justify-between items-center">

@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { shopRegisterSchema, type ShopRegisterInput } from '@/lib/validations'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { TermsCheckbox } from '@/components/TermsCheckbox'
 
 interface RegisterFormProps {
   selectedPlan?: string | null
@@ -20,6 +21,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting }
   } = useForm<ShopRegisterInput>({
     resolver: zodResolver(shopRegisterSchema)
@@ -103,29 +105,18 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
           )}
         </div>
 
-        <div>
-          <label className="flex items-start">
-            <input
-              type="checkbox"
-              {...register('acceptTerms')}
-              className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+        <Controller
+          name="acceptTerms"
+          control={control}
+          render={({ field }) => (
+            <TermsCheckbox
+              checked={field.value || false}
+              onChange={field.onChange}
+              error={errors.acceptTerms?.message}
+              lang="en"
             />
-            <span className="ml-2 text-sm text-gray-700">
-              I accept the{' '}
-              <a
-                href="https://next-commerce.io/terms-of-services/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-600 hover:underline font-semibold"
-              >
-                Terms of Service
-              </a>
-            </span>
-          </label>
-          {errors.acceptTerms && (
-            <p className="mt-1 text-sm text-red-600">{errors.acceptTerms.message}</p>
           )}
-        </div>
+        />
       </div>
 
       <Button

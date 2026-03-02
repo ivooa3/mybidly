@@ -245,12 +245,12 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
                   ? 'By using this service, you agree to the '
                   : 'Durch die Nutzung dieses Dienstes stimmen Sie den '}
                 <a
-                  href="https://next-commerce.io/terms-of-services/"
+                  href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://mybidly.io'}/terms-of-service`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:underline"
                 >
-                  {locale === 'en' ? 'Terms of Service' : 'Nutzungsbedingungen'}
+                  {locale === 'en' ? 'Terms of Service' : 'AGB'}
                 </a>
                 {locale === 'de' ? ' zu' : ''}
               </p>

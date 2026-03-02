@@ -2,11 +2,14 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 import { formatCurrency } from '@/utils/calculations'
+import { UnregisteredModeBanner } from './UnregisteredModeBanner'
 
 interface DashboardContentProps {
   shopName: string
   isAdmin: boolean
   planTier: 'payg' | 'premium'
+  pendingPayouts: number
+  locale: 'en' | 'de'
   stats: {
     totalBids: number
     acceptedBids: number
@@ -17,7 +20,7 @@ interface DashboardContentProps {
   }
 }
 
-export function DashboardContent({ shopName, isAdmin, planTier, stats }: DashboardContentProps) {
+export function DashboardContent({ shopName, isAdmin, planTier, pendingPayouts, locale, stats }: DashboardContentProps) {
   const { t } = useLanguage()
 
   const { totalBids, acceptedBids, totalViews, totalRevenue, conversionRate, viewToBidRate } = stats
@@ -39,6 +42,9 @@ export function DashboardContent({ shopName, isAdmin, planTier, stats }: Dashboa
           {t.dashboard.title}
         </p>
       </div>
+
+      {/* Unregistered Mode Banner - Shows when seller has pending payouts */}
+      <UnregisteredModeBanner pendingPayouts={pendingPayouts} locale={locale} />
 
       {/* Stats Grid - Admin sees 5 boxes including plan tier, regular users see 3-column grid */}
       {isAdmin ? (

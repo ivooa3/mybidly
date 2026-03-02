@@ -35,6 +35,9 @@ model Shop {
   trialEndsAt              DateTime?    @map("trial_ends_at")
   trialEndedByFirstOrder   Boolean      @default(false) @map("trial_ended_by_first_order")
   registrationSource       String?      @map("registration_source") // 'premium', 'payg', or null
+  unregisteredMode         Boolean      @default(true) @map("unregistered_mode") // Seller hasn't connected Stripe yet
+  pendingPayouts           Decimal      @default(0) @map("pending_payouts") @db.Decimal(10, 2) // Held funds for unregistered sellers
+  pendingPayoutNotified    Boolean      @default(false) @map("pending_payout_notified") // Email sent flag
   bids                     Bid[]
   offers                   Offer[]
   widgetViews              WidgetView[]

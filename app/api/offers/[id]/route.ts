@@ -55,7 +55,10 @@ export async function PATCH(
 
     // Check if this is just a toggle (isActive only)
     if (Object.keys(body).length === 1 && 'isActive' in body) {
-      // Simple toggle - no validation needed
+      // Allow activation in unregistered mode - sellers can activate offers without Stripe
+      // Payments will be held until they complete onboarding
+
+      // Simple toggle - no Stripe requirement
       const offer = await prisma.offer.update({
         where: {
           id: params.id,

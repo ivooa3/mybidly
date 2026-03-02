@@ -188,32 +188,32 @@ export const landingTranslations = {
     pricing: {
       title: "Simple, Transparent Pricing",
       subtitle: "Choose the plan that fits your business",
-      comparison: "From 11 orders you save €185/month with Premium",
+      comparison: "From 15 orders you save with Premium",
       payg: {
         name: "Pay-As-You-Go",
         price: "8%",
-        priceNote: "per transaction",
+        priceNote: "per successful transaction",
         desc: "Perfect for getting started",
         feature1: "No monthly fee",
-        feature2: "Stripe fees included",
+        feature2: "myBidly fee: 8% + €1 per sale",
         feature3: "Unlimited offers",
         feature4: "All features included",
         feature5: "Powered by myBidly branding",
-        cta: "Get Started",
-        note: "All-in pricing - no hidden fees"
+        cta: "Get Started for Free",
+        note: "Only pay when you sell + Stripe fees"
       },
       premium: {
         name: "Premium",
-        price: "€55",
+        price: "€129",
         priceNote: "per month",
         desc: "For growing businesses",
         feature1: "0% myBidly fee",
-        feature2: "Only pay Stripe (~2.3%)",
+        feature2: "Only pay Stripe fees (~2.3%)",
         feature3: "Unlimited offers",
         feature4: "Priority support",
         feature5: "No branding",
         cta: "Start Premium",
-        note: "Billed yearly at €660 + Stripe fees",
+        note: "Save €240/year",
         badge: "Best Value"
       }
     },
@@ -245,7 +245,11 @@ export const landingTranslations = {
         },
         {
           q: "What about refunds?",
-          a: "Declined bids are automatically refunded via Stripe. For accepted orders, you handle refunds according to your store policy (standard EU 14-day right of withdrawal applies)."
+          a: "Declined bids are automatically refunded via Stripe. For accepted orders, you handle refunds according to your store policy (standard EU 14-day right of withdrawal applies). A €1 processing fee applies per refund to cover administrative costs."
+        },
+        {
+          q: "What are chargeback fees?",
+          a: "In the rare case of a payment dispute (chargeback), a €40 fee applies to cover our costs with payment processors and dispute handling. We recommend good customer service and clear product descriptions to minimize chargebacks."
         },
         {
           q: "Can I offer multiple products?",
@@ -474,32 +478,32 @@ export const landingTranslations = {
     pricing: {
       title: "Einfache, transparente Preise",
       subtitle: "Wähle den Plan, der zu deinem Unternehmen passt",
-      comparison: "Ab 11 Bestellungen sparst du €185/Monat mit Premium",
+      comparison: "Ab 15 Bestellungen sparst du mit Premium",
       payg: {
         name: "Pay-As-You-Go",
         price: "8%",
-        priceNote: "pro Transaktion",
+        priceNote: "pro erfolgreicher Transaktion",
         desc: "Perfekt für den Einstieg",
         feature1: "Keine monatliche Gebühr",
-        feature2: "Stripe-Gebühren inklusive",
+        feature2: "myBidly-Gebühr: 8% + €1 pro Verkauf",
         feature3: "Unbegrenzte Angebote",
         feature4: "Alle Funktionen inklusive",
         feature5: "Powered by myBidly Branding",
-        cta: "Jetzt starten",
-        note: "Alles inklusive - keine versteckten Kosten"
+        cta: "Kostenlos starten",
+        note: "Nur zahlen wenn du verkaufst + Stripe-Gebühren"
       },
       premium: {
         name: "Premium",
-        price: "€55",
+        price: "€129",
         priceNote: "pro Monat",
         desc: "Für wachsende Unternehmen",
         feature1: "0% myBidly-Gebühr",
-        feature2: "Nur Stripe zahlen (~2,3%)",
+        feature2: "Nur Stripe-Gebühren zahlen (~2,3%)",
         feature3: "Unbegrenzte Angebote",
         feature4: "Prioritäts-Support",
         feature5: "Kein Branding",
         cta: "Premium starten",
-        note: "Jährlich €660 + Stripe-Gebühren",
+        note: "Spare €240/Jahr",
         badge: "Bester Wert"
       }
     },
@@ -531,7 +535,11 @@ export const landingTranslations = {
         },
         {
           q: "Was ist mit Rückerstattungen?",
-          a: "Abgelehnte Gebote werden automatisch via Stripe erstattet. Für akzeptierte Bestellungen handelst du Rückerstattungen nach deiner Shop-Richtlinie (Standard-EU 14-Tage-Widerrufsrecht gilt)."
+          a: "Abgelehnte Gebote werden automatisch via Stripe erstattet. Für akzeptierte Bestellungen handelst du Rückerstattungen nach deiner Shop-Richtlinie (Standard-EU 14-Tage-Widerrufsrecht gilt). Pro Rückerstattung fällt eine Bearbeitungsgebühr von €1 an, um administrative Kosten zu decken."
+        },
+        {
+          q: "Was sind Chargeback-Gebühren?",
+          a: "Im seltenen Fall einer Zahlungsanfechtung (Chargeback) fällt eine Gebühr von €40 an, um unsere Kosten bei Zahlungsdienstleistern und der Streitbeilegung zu decken. Wir empfehlen guten Kundenservice und klare Produktbeschreibungen, um Chargebacks zu minimieren."
         },
         {
           q: "Kann ich mehrere Produkte anbieten?",

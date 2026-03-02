@@ -400,7 +400,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-slate-950 text-slate-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
             {/* Brand */}
             <div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent mb-4">
@@ -434,6 +434,15 @@ export default function Home() {
               <ul className="space-y-2 text-sm">
                 <li><a href="#faq" className="hover:text-purple-400 transition">{t.footer.links.faq}</a></li>
                 <li><Link href="mailto:support@mybidly.io" className="hover:text-purple-400 transition">{t.footer.links.contact}</Link></li>
+              </ul>
+            </div>
+
+            {/* Legal Links */}
+            <div>
+              <h4 className="font-semibold text-white mb-3">{lang === 'en' ? 'Legal' : 'Rechtliches'}</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/terms-of-service" className="hover:text-purple-400 transition">{lang === 'en' ? 'Terms of Service' : 'AGB'}</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-purple-400 transition">{lang === 'en' ? 'Privacy Policy' : 'Datenschutz'}</Link></li>
               </ul>
             </div>
           </div>

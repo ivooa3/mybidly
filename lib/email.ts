@@ -211,6 +211,44 @@ export async function sendWelcomeEmail(
 }
 
 /**
+ * Send Premium tier welcome email to shop owner
+ */
+export async function sendPremiumWelcomeEmail(
+  email: string,
+  shopName: string,
+  locale: 'en' | 'de' = 'en'
+) {
+  const subject = locale === 'de'
+    ? '🎉 Willkommen bei myBidly Premium!'
+    : '🎉 Welcome to myBidly Premium!'
+
+  const html = locale === 'de'
+    ? getPremiumWelcomeTemplateDE(shopName)
+    : getPremiumWelcomeTemplateEN(shopName)
+
+  if (!resend) {
+    console.warn('Resend not configured - skipping premium welcome email')
+    return null
+  }
+
+  try {
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: email,
+      bcc: BCC_EMAIL,
+      subject,
+      html
+    })
+    console.log('Premium welcome email sent:', result)
+    return result
+  } catch (error) {
+    console.error('Failed to send premium welcome email:', error)
+    // Don't throw - welcome email is not critical
+    return null
+  }
+}
+
+/**
  * Send password reset email to shop owner
  */
 export async function sendPasswordResetEmail(
@@ -263,8 +301,18 @@ interface MissedOpportunitiesEmailData {
 
 /**
  * Send weekly missed opportunities email to shop owner
+ *
+ * ⚠️ DEACTIVATED - Not needed with current pricing model (Pay-as-you-go)
+ * This function is kept for reference but should not be called.
+ *
+ * To re-enable: Remove this comment block and uncomment the function below
  */
 export async function sendMissedOpportunitiesEmail(data: MissedOpportunitiesEmailData) {
+  console.warn('⚠️ Missed opportunities email is deactivated - not sending')
+  return null
+
+  /*
+  // DEACTIVATED CODE - Uncomment to re-enable
   const subject = data.locale === 'de'
     ? `💰 Sie haben diese Woche ${data.missedViewsThisWeek} potenzielle Verkäufe verpasst`
     : `💰 You missed ${data.missedViewsThisWeek} potential sales this week`
@@ -292,6 +340,7 @@ export async function sendMissedOpportunitiesEmail(data: MissedOpportunitiesEmai
     console.error('Failed to send missed opportunities email:', error)
     throw error
   }
+  */
 }
 
 // Email Templates
@@ -1209,6 +1258,214 @@ function getMissedOpportunitiesTemplateEN(data: MissedOpportunitiesEmailData) {
   `.trim()
 }
 
+function getPremiumWelcomeTemplateEN(shopName: string) {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 40px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+    .box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #7c3aed; }
+    .highlight { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); padding: 20px; border-radius: 8px; border: 2px solid #7c3aed; margin: 20px 0; }
+    .feature { display: flex; align-items: start; margin: 15px 0; }
+    .feature-icon { font-size: 24px; margin-right: 15px; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 36px;">👑 Welcome to Premium!</h1>
+      <p style="margin: 15px 0 0 0; opacity: 0.9; font-size: 18px;">You've unlocked unlimited potential</p>
+    </div>
+
+    <div class="content">
+      <h2>Congratulations, ${shopName}!</h2>
+
+      <p>You've just upgraded to <strong>myBidly Premium</strong>. Thank you for choosing to grow your business with us!</p>
+
+      <div class="highlight">
+        <h3 style="margin-top: 0; color: #7c3aed;">🚀 What You Get with Premium</h3>
+
+        <div class="feature">
+          <div class="feature-icon">✅</div>
+          <div>
+            <strong>Unlimited Bids</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">No more limits - accept as many bids as you want</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">💎</div>
+          <div>
+            <strong>Priority Support</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Get faster responses from our support team</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div>
+            <strong>Advanced Analytics</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Track your performance with detailed insights</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <div>
+            <strong>Custom Branding (Coming Soon)</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Remove myBidly branding from your widget</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">💡 Pro Tip</h3>
+        <p>You're now free to scale without limits! The more bids you accept, the more revenue you generate. We recommend:</p>
+        <ul>
+          <li>Create multiple offers to test different products</li>
+          <li>Monitor your analytics dashboard daily</li>
+          <li>Adjust your pricing strategy based on bid patterns</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">📞 Need Help?</h3>
+        <p>As a Premium member, you get priority support. Reach out anytime:</p>
+        <p>Email: <a href="mailto:support@mybidly.io" style="color: #7c3aed;">support@mybidly.io</a></p>
+      </div>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard"
+           style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">
+          Go to Dashboard
+        </a>
+      </p>
+
+      <p style="text-align: center; color: #6b7280;">
+        Thank you for being a valued Premium member! 🎉
+      </p>
+
+      <div class="footer">
+        <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #7c3aed; text-decoration: none;">Next Commerce</a></p>
+        <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #7c3aed; text-decoration: none;">support@mybidly.io</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+function getPremiumWelcomeTemplateDE(shopName: string) {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 40px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }
+    .box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #7c3aed; }
+    .highlight { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); padding: 20px; border-radius: 8px; border: 2px solid #7c3aed; margin: 20px 0; }
+    .feature { display: flex; align-items: start; margin: 15px 0; }
+    .feature-icon { font-size: 24px; margin-right: 15px; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 36px;">👑 Willkommen bei Premium!</h1>
+      <p style="margin: 15px 0 0 0; opacity: 0.9; font-size: 18px;">Sie haben unbegrenztes Potenzial freigeschaltet</p>
+    </div>
+
+    <div class="content">
+      <h2>Glückwunsch, ${shopName}!</h2>
+
+      <p>Sie haben gerade auf <strong>myBidly Premium</strong> aufgerüstet. Vielen Dank, dass Sie sich entschieden haben, Ihr Geschäft mit uns auszubauen!</p>
+
+      <div class="highlight">
+        <h3 style="margin-top: 0; color: #7c3aed;">🚀 Was Sie mit Premium erhalten</h3>
+
+        <div class="feature">
+          <div class="feature-icon">✅</div>
+          <div>
+            <strong>Unbegrenzte Gebote</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Keine Limits mehr - akzeptieren Sie so viele Gebote wie Sie möchten</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">💎</div>
+          <div>
+            <strong>Priority Support</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Schnellere Antworten von unserem Support-Team</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div>
+            <strong>Erweiterte Analysen</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Verfolgen Sie Ihre Leistung mit detaillierten Einblicken</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <div>
+            <strong>Custom Branding (Demnächst)</strong><br>
+            <span style="color: #6b7280; font-size: 14px;">Entfernen Sie myBidly-Branding aus Ihrem Widget</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">💡 Pro-Tipp</h3>
+        <p>Sie können jetzt unbegrenzt skalieren! Je mehr Gebote Sie akzeptieren, desto mehr Umsatz generieren Sie. Wir empfehlen:</p>
+        <ul>
+          <li>Erstellen Sie mehrere Angebote, um verschiedene Produkte zu testen</li>
+          <li>Überprüfen Sie Ihr Analyse-Dashboard täglich</li>
+          <li>Passen Sie Ihre Preisstrategie basierend auf Gebotsmustern an</li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h3 style="margin-top: 0;">📞 Brauchen Sie Hilfe?</h3>
+        <p>Als Premium-Mitglied erhalten Sie Priority Support. Kontaktieren Sie uns jederzeit:</p>
+        <p>E-Mail: <a href="mailto:support@mybidly.io" style="color: #7c3aed;">support@mybidly.io</a></p>
+      </div>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard"
+           style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold;">
+          Zum Dashboard
+        </a>
+      </p>
+
+      <p style="text-align: center; color: #6b7280;">
+        Vielen Dank, dass Sie ein geschätztes Premium-Mitglied sind! 🎉
+      </p>
+
+      <div class="footer">
+        <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #7c3aed; text-decoration: none;">Next Commerce</a></p>
+        <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #7c3aed; text-decoration: none;">support@mybidly.io</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
 function getMissedOpportunitiesTemplateDE(data: MissedOpportunitiesEmailData) {
   const percentChange = data.missedViewsLastWeek > 0
     ? Math.round(((data.missedViewsThisWeek - data.missedViewsLastWeek) / data.missedViewsLastWeek) * 100)
@@ -1311,6 +1568,366 @@ function getMissedOpportunitiesTemplateDE(data: MissedOpportunitiesEmailData) {
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist Ihr wöchentlicher Bericht über verpasste Chancen. Abmelden in den Dashboard-Einstellungen.</p>
       </div>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+// ============================================================================
+// PENDING PAYOUT NOTIFICATION (Unregistered Mode)
+// ============================================================================
+
+interface PendingPayoutEmailData {
+  shopName: string
+  shopEmail: string
+  pendingPayouts: number
+  locale: 'en' | 'de'
+}
+
+/**
+ * Send pending payout notification to shop owner (after first sale in unregistered mode)
+ * Subject: "myBidly: You have pending payouts"
+ */
+export async function sendPendingPayoutNotification(data: PendingPayoutEmailData) {
+  const subject = 'myBidly: You have pending payouts'
+  
+  const html = data.locale === 'de'
+    ? getPendingPayoutTemplateDE(data)
+    : getPendingPayoutTemplateEN(data)
+
+  if (!resend) {
+    console.warn('Resend not configured - skipping pending payout notification')
+    return null
+  }
+
+  try {
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: data.shopEmail,
+      bcc: BCC_EMAIL,
+      subject,
+      html
+    })
+    console.log('Pending payout notification sent:', result)
+    return result
+  } catch (error) {
+    console.error('Failed to send pending payout notification:', error)
+    throw error
+  }
+}
+
+function getPendingPayoutTemplateEN(data: PendingPayoutEmailData): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #a8469a 0%, #ae40a5 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; }
+    .amount { font-size: 36px; font-weight: bold; color: #16a34a; text-align: center; margin: 20px 0; }
+    .button { display: inline-block; background: linear-gradient(135deg, #a8469a 0%, #ae40a5 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">🎉 Great News!</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">You have pending payouts</p>
+    </div>
+    
+    <div class="content">
+      <p>Hi ${data.shopName || 'there'},</p>
+      
+      <p><strong>Congratulations! A customer just purchased from your offer.</strong></p>
+      
+      <div class="amount">€${data.pendingPayouts.toFixed(2)}</div>
+      <p style="text-align: center; color: #6b7280;">in pending payouts</p>
+      
+      <p>To receive your money, please complete your Stripe onboarding:</p>
+      
+      <div style="text-align: center;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/profile" class="button">
+          Complete Stripe Setup
+        </a>
+      </div>
+      
+      <p style="margin-top: 30px;"><strong>What happens next?</strong></p>
+      <ul>
+        <li>Complete your Stripe onboarding (takes 2-3 minutes)</li>
+        <li>We'll automatically transfer your pending funds</li>
+        <li>All future sales will be paid directly to your Stripe account</li>
+      </ul>
+      
+      <p style="margin-top: 30px; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
+        <strong>⚠️ Important:</strong> Your funds are safe and held for you. Complete Stripe onboarding anytime to receive your money.
+      </p>
+      
+      <p style="margin-top: 30px;">Questions? Just reply to this email.</p>
+      
+      <p>Best regards,<br>The myBidly Team</p>
+    </div>
+    
+    <div class="footer">
+      <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+      <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+function getPendingPayoutTemplateDE(data: PendingPayoutEmailData): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #a8469a 0%, #ae40a5 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; }
+    .amount { font-size: 36px; font-weight: bold; color: #16a34a; text-align: center; margin: 20px 0; }
+    .button { display: inline-block; background: linear-gradient(135deg, #a8469a 0%, #ae40a5 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">🎉 Großartige Neuigkeiten!</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Sie haben ausstehende Auszahlungen</p>
+    </div>
+    
+    <div class="content">
+      <p>Hallo ${data.shopName || 'there'},</p>
+      
+      <p><strong>Glückwunsch! Ein Kunde hat gerade aus Ihrem Angebot gekauft.</strong></p>
+      
+      <div class="amount">€${data.pendingPayouts.toFixed(2)}</div>
+      <p style="text-align: center; color: #6b7280;">ausstehende Auszahlungen</p>
+      
+      <p>Um Ihr Geld zu erhalten, vervollständigen Sie bitte Ihr Stripe-Onboarding:</p>
+      
+      <div style="text-align: center;">
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard/profile" class="button">
+          Stripe-Einrichtung abschließen
+        </a>
+      </div>
+      
+      <p style="margin-top: 30px;"><strong>Was passiert als nächstes?</strong></p>
+      <ul>
+        <li>Schließen Sie Ihr Stripe-Onboarding ab (dauert 2-3 Minuten)</li>
+        <li>Wir überweisen automatisch Ihre ausstehenden Gelder</li>
+        <li>Alle zukünftigen Verkäufe werden direkt auf Ihr Stripe-Konto ausgezahlt</li>
+      </ul>
+      
+      <p style="margin-top: 30px; padding: 15px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
+        <strong>⚠️ Wichtig:</strong> Ihre Gelder sind sicher und werden für Sie aufbewahrt. Schließen Sie das Stripe-Onboarding jederzeit ab, um Ihr Geld zu erhalten.
+      </p>
+      
+      <p style="margin-top: 30px;">Fragen? Antworten Sie einfach auf diese E-Mail.</p>
+      
+      <p>Mit freundlichen Grüßen,<br>Das myBidly-Team</p>
+    </div>
+    
+    <div class="footer">
+      <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+      <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+// ============================================================================
+// PAYOUT COMPLETED NOTIFICATION
+// ============================================================================
+
+interface PayoutCompletedEmailData {
+  shopName: string
+  shopEmail: string
+  amount: number
+  transferId: string
+  locale: 'en' | 'de'
+}
+
+/**
+ * Send payout completed notification to shop owner (after auto-transfer on Stripe connect)
+ */
+export async function sendPayoutCompletedEmail(data: PayoutCompletedEmailData) {
+  const subject = data.locale === 'de'
+    ? 'myBidly: Ihre ausstehenden Auszahlungen wurden überwiesen'
+    : 'myBidly: Your pending payouts have been transferred'
+  
+  const html = data.locale === 'de'
+    ? getPayoutCompletedTemplateDE(data)
+    : getPayoutCompletedTemplateEN(data)
+
+  if (!resend) {
+    console.warn('Resend not configured - skipping payout completed email')
+    return null
+  }
+
+  try {
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: data.shopEmail,
+      bcc: BCC_EMAIL,
+      subject,
+      html
+    })
+    console.log('Payout completed email sent:', result)
+    return result
+  } catch (error) {
+    console.error('Failed to send payout completed email:', error)
+    throw error
+  }
+}
+
+function getPayoutCompletedTemplateEN(data: PayoutCompletedEmailData): string {
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; }
+    .amount { font-size: 36px; font-weight: bold; color: #16a34a; text-align: center; margin: 20px 0; }
+    .info-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">✅ Payment Transferred!</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Your Stripe account is now connected</p>
+    </div>
+    
+    <div class="content">
+      <p>Hi ${data.shopName || 'there'},</p>
+      
+      <p><strong>Great news! Your Stripe account is now connected and we've automatically transferred your pending payouts.</strong></p>
+      
+      <div class="info-box">
+        <table style="width: 100%;">
+          <tr>
+            <td style="padding: 10px 0;"><strong>Amount Transferred:</strong></td>
+            <td style="padding: 10px 0; text-align: right; font-size: 24px; font-weight: bold; color: #16a34a;">€${data.amount.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 0; border-top: 1px solid #e5e7eb;"><strong>Transfer Date:</strong></td>
+            <td style="padding: 10px 0; text-align: right; border-top: 1px solid #e5e7eb;">${today}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 0; border-top: 1px solid #e5e7eb;"><strong>Transfer ID:</strong></td>
+            <td style="padding: 10px 0; text-align: right; border-top: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">${data.transferId}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <p><strong>When will I receive the funds?</strong></p>
+      <p>You should see the funds in your Stripe account within 2-7 business days, depending on your bank and Stripe payout schedule.</p>
+      
+      <p style="margin-top: 30px; padding: 15px; background: #dcfce7; border-left: 4px solid #16a34a; border-radius: 4px;">
+        <strong>✅ All set!</strong> All future sales will be paid directly to your Stripe account. No action needed from you.
+      </p>
+      
+      <p style="margin-top: 30px;">You can view your payout details in your Stripe Dashboard.</p>
+      
+      <p>Questions? Just reply to this email.</p>
+      
+      <p>Best regards,<br>The myBidly Team</p>
+    </div>
+    
+    <div class="footer">
+      <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+      <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim()
+}
+
+function getPayoutCompletedTemplateDE(data: PayoutCompletedEmailData): string {
+  const today = new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })
+  
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #f9fafb; padding: 30px; }
+    .amount { font-size: 36px; font-weight: bold; color: #16a34a; text-align: center; margin: 20px 0; }
+    .info-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0;">✅ Zahlung überwiesen!</h1>
+      <p style="margin: 10px 0 0 0; opacity: 0.9;">Ihr Stripe-Konto ist jetzt verbunden</p>
+    </div>
+    
+    <div class="content">
+      <p>Hallo ${data.shopName || 'there'},</p>
+      
+      <p><strong>Großartige Neuigkeiten! Ihr Stripe-Konto ist jetzt verbunden und wir haben Ihre ausstehenden Auszahlungen automatisch überwiesen.</strong></p>
+      
+      <div class="info-box">
+        <table style="width: 100%;">
+          <tr>
+            <td style="padding: 10px 0;"><strong>Überwiesener Betrag:</strong></td>
+            <td style="padding: 10px 0; text-align: right; font-size: 24px; font-weight: bold; color: #16a34a;">€${data.amount.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 0; border-top: 1px solid #e5e7eb;"><strong>Überweisungsdatum:</strong></td>
+            <td style="padding: 10px 0; text-align: right; border-top: 1px solid #e5e7eb;">${today}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px 0; border-top: 1px solid #e5e7eb;"><strong>Überweisungs-ID:</strong></td>
+            <td style="padding: 10px 0; text-align: right; border-top: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">${data.transferId}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <p><strong>Wann erhalte ich das Geld?</strong></p>
+      <p>Sie sollten das Geld innerhalb von 2-7 Werktagen auf Ihrem Stripe-Konto sehen, abhängig von Ihrer Bank und dem Stripe-Auszahlungsplan.</p>
+      
+      <p style="margin-top: 30px; padding: 15px; background: #dcfce7; border-left: 4px solid #16a34a; border-radius: 4px;">
+        <strong>✅ Alles erledigt!</strong> Alle zukünftigen Verkäufe werden direkt auf Ihr Stripe-Konto ausgezahlt. Sie müssen nichts weiter tun.
+      </p>
+      
+      <p style="margin-top: 30px;">Sie können Ihre Auszahlungsdetails in Ihrem Stripe-Dashboard einsehen.</p>
+      
+      <p>Fragen? Antworten Sie einfach auf diese E-Mail.</p>
+      
+      <p>Mit freundlichen Grüßen,<br>Das myBidly-Team</p>
+    </div>
+    
+    <div class="footer">
+      <p><strong>myBidly</strong> - Powered by <a href="https://www.next-commerce.io" style="color: #9333ea; text-decoration: none;">Next Commerce</a></p>
+      <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
     </div>
   </div>
 </body>

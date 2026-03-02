@@ -53,6 +53,8 @@ export default async function DashboardPage() {
       shopName={session.user.shopName}
       isAdmin={userIsAdmin}
       planTier={shop.planTier as 'payg' | 'premium'}
+      pendingPayouts={Number(shop.pendingPayouts)}
+      locale={(shop.locale as 'en' | 'de') || 'en'}
       stats={{
         totalBids,
         acceptedBids,
