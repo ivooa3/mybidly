@@ -12,7 +12,13 @@ import {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    let body
+    try {
+      body = await request.json()
+    } catch (jsonError) {
+      console.error('JSON parse error:', jsonError)
+      return errorResponse('Invalid JSON in request body', 400)
+    }
 
     // Validate input
     const validation = shopRegisterSchema.safeParse(body)
