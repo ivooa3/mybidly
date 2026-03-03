@@ -393,7 +393,7 @@ function getPasswordResetTemplateEN(email: string, resetUrl: string) {
       </div>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is an automated email. Please do not reply.</p>
       </div>
@@ -452,7 +452,7 @@ function getPasswordResetTemplateDE(email: string, resetUrl: string) {
       </div>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische E-Mail. Bitte antworten Sie nicht darauf.</p>
       </div>
@@ -508,7 +508,7 @@ function getBidConfirmationTemplateEN(data: BidEmailData) {
       <p>Thank you for choosing myBidly!</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is an automated email. Please do not reply.</p>
       </div>
@@ -563,7 +563,7 @@ function getBidConfirmationTemplateDE(data: BidEmailData) {
       <p>Vielen Dank, dass Sie sich für myBidly entschieden haben!</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische E-Mail. Bitte nicht antworten.</p>
       </div>
@@ -631,7 +631,7 @@ function getBidAcceptedTemplateEN(data: BidEmailData) {
       <p>Thank you for your purchase!</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #10b981; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #10b981; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #10b981; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is an automated email. Please do not reply.</p>
       </div>
@@ -699,7 +699,7 @@ function getBidAcceptedTemplateDE(data: BidEmailData) {
       <p>Vielen Dank für Ihren Kauf!</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #10b981; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #10b981; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #10b981; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische E-Mail. Bitte nicht antworten.</p>
       </div>
@@ -749,7 +749,7 @@ function getBidDeclinedTemplateEN(data: BidEmailData) {
       <p>Thank you for your understanding.</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #6b7280; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #6b7280; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #6b7280; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is an automated email. Please do not reply.</p>
       </div>
@@ -799,7 +799,7 @@ function getBidDeclinedTemplateDE(data: BidEmailData) {
       <p>Vielen Dank für Ihr Verständnis.</p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #6b7280; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #6b7280; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #6b7280; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische E-Mail. Bitte nicht antworten.</p>
       </div>
@@ -909,7 +909,7 @@ function getShopOwnerOrderTemplateEN(data: ShopOwnerEmailData) {
       </p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is an automated notification.</p>
       </div>
@@ -1019,7 +1019,7 @@ function getShopOwnerOrderTemplateDE(data: ShopOwnerEmailData) {
       </p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist eine automatische Benachrichtigung.</p>
       </div>
@@ -1082,7 +1082,7 @@ function getWelcomeTemplateEN(shopName: string) {
       <p>Need help? Contact us at <a href="mailto:support@mybidly.io" style="color: #9333ea;">support@mybidly.io</a></p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
       </div>
     </div>
@@ -1139,7 +1139,7 @@ function getWelcomeTemplateDE(shopName: string) {
       <p>Brauchen Sie Hilfe? Kontaktieren Sie uns unter <a href="mailto:support@mybidly.io" style="color: #9333ea;">support@mybidly.io</a></p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
       </div>
     </div>
@@ -1247,7 +1247,7 @@ function getMissedOpportunitiesTemplateEN(data: MissedOpportunitiesEmailData) {
       </div>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">This is your weekly missed opportunities report. Unsubscribe in dashboard settings.</p>
       </div>
@@ -1352,7 +1352,7 @@ function getPremiumWelcomeTemplateEN(shopName: string) {
       </p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #7c3aed; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #7c3aed; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #7c3aed; text-decoration: none;">support@mybidly.io</a></p>
       </div>
     </div>
@@ -1456,7 +1456,7 @@ function getPremiumWelcomeTemplateDE(shopName: string) {
       </p>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #7c3aed; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #7c3aed; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #7c3aed; text-decoration: none;">support@mybidly.io</a></p>
       </div>
     </div>
@@ -1564,7 +1564,7 @@ function getMissedOpportunitiesTemplateDE(data: MissedOpportunitiesEmailData) {
       </div>
 
       <div class="footer">
-        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+        <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
         <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
         <p style="font-size: 12px; margin-top: 10px;">Dies ist Ihr wöchentlicher Bericht über verpasste Chancen. Abmelden in den Dashboard-Einstellungen.</p>
       </div>
@@ -1674,7 +1674,7 @@ function getPendingPayoutTemplateEN(data: PendingPayoutEmailData): string {
     </div>
     
     <div class="footer">
-      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
       <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
     </div>
   </div>
@@ -1739,7 +1739,7 @@ function getPendingPayoutTemplateDE(data: PendingPayoutEmailData): string {
     </div>
     
     <div class="footer">
-      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
       <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
     </div>
   </div>
@@ -1855,7 +1855,7 @@ function getPayoutCompletedTemplateEN(data: PayoutCompletedEmailData): string {
     </div>
     
     <div class="footer">
-      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
       <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
     </div>
   </div>
@@ -1926,7 +1926,7 @@ function getPayoutCompletedTemplateDE(data: PayoutCompletedEmailData): string {
     </div>
     
     <div class="footer">
-      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.vercel.app" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
+      <p><strong>myBidly</strong> - Powered by <a href="https://mybidly.io" style="color: #9333ea; text-decoration: none;">myBidly</a></p>
       <p style="margin-top: 10px;">Support: <a href="mailto:support@mybidly.io" style="color: #9333ea; text-decoration: none;">support@mybidly.io</a></p>
     </div>
   </div>

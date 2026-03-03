@@ -16,7 +16,15 @@ export default async function DashboardPage() {
 
   // Get shop info for plan tier
   const shop = await prisma.shop.findUnique({
-    where: { id: session.user.shopId }
+    where: { id: session.user.shopId },
+    select: {
+      planTier: true,
+      pendingPayouts: true,
+      locale: true,
+      unregisteredMode: true,
+      stripeAccountId: true,
+      stripeOnboardingComplete: true
+    }
   })
 
   if (!shop) {
@@ -53,7 +61,7 @@ export default async function DashboardPage() {
       shopName={session.user.shopName}
       isAdmin={userIsAdmin}
       planTier={shop.planTier as 'payg' | 'premium'}
-      pendingPayouts={Number(shop.pendingPayouts)}
+      pendingPayouts={Number(shop.pendingPayouts || 0)}
       locale={(shop.locale as 'en' | 'de') || 'en'}
       stats={{
         totalBids,

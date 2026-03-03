@@ -42,6 +42,8 @@ export async function GET(request: NextRequest) {
     const hasReachedLimit = !trialStatus.isInTrial && shop.planTier === 'free'
 
     // Domain validation: Check if request is from authorized domain
+    let isPreview = false // Track if this is a preview view
+
     if (shop.shopUrl && referer) {
       try {
         const shopDomain = new URL(shop.shopUrl).hostname
@@ -52,6 +54,11 @@ export async function GET(request: NextRequest) {
 
         // Allow mybidly.io and mybidly.vercel.app for widget preview in dashboard
         const isMyBidlyPreview = refererDomain.includes('mybidly.io') || refererDomain.includes('mybidly.vercel.app')
+
+        // Mark as preview if coming from myBidly domain
+        if (isMyBidlyPreview) {
+          isPreview = true
+        }
 
         if (!isLocalhost && !isMyBidlyPreview && shopDomain !== refererDomain) {
           console.warn(`Domain mismatch: ${refererDomain} !== ${shopDomain}`)
@@ -89,38 +96,41 @@ export async function GET(request: NextRequest) {
     })
 
     // Track widget view with appropriate viewType
-    let viewType = 'shown'
+    // IMPORTANT: Only track views from embedded widgets, NOT from dashboard preview
+    if (!isPreview) {
+      let viewType = 'shown'
 
-    if (hasReachedLimit) {
-      viewType = 'trial_ended' // Changed from limit_reached to trial_ended
-    } else if (!offer) {
-      viewType = 'no_offers'
-    } else if (offer.stockQuantity === 0) {
-      viewType = 'out_of_stock'
-    }
+      if (hasReachedLimit) {
+        viewType = 'trial_ended' // Changed from limit_reached to trial_ended
+      } else if (!offer) {
+        viewType = 'no_offers'
+      } else if (offer.stockQuantity === 0) {
+        viewType = 'out_of_stock'
+      }
 
-    // Always track the view (even when widget won't be shown)
-    try {
-      const visitorId = request.headers.get('x-visitor-id') || request.headers.get('x-forwarded-for') || 'unknown'
-      const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
-      const userAgent = request.headers.get('user-agent')
+      // Track the view (only for embedded widgets on actual customer websites)
+      try {
+        const visitorId = request.headers.get('x-visitor-id') || request.headers.get('x-forwarded-for') || 'unknown'
+        const ipAddress = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip')
+        const userAgent = request.headers.get('user-agent')
 
-      await prisma.widgetView.create({
-        data: {
-          shopId: shopId,
-          offerId: offer?.id || null,
-          productId: productId,
-          visitorId: visitorId,
-          ipAddress: ipAddress,
-          userAgent: userAgent,
-          referer: referer,
-          viewType: viewType,
-          didBid: false
-        }
-      })
-    } catch (trackingError) {
-      // Don't fail the request if tracking fails
-      console.error('Widget view tracking error:', trackingError)
+        await prisma.widgetView.create({
+          data: {
+            shopId: shopId,
+            offerId: offer?.id || null,
+            productId: productId,
+            visitorId: visitorId,
+            ipAddress: ipAddress,
+            userAgent: userAgent,
+            referer: referer,
+            viewType: viewType,
+            didBid: false
+          }
+        })
+      } catch (trackingError) {
+        // Don't fail the request if tracking fails
+        console.error('Widget view tracking error:', trackingError)
+      }
     }
 
     // If trial ended, return special response
