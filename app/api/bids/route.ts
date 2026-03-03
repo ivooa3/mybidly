@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
       }
     })
 
-    // If auto-accepted, decrement stock
+    // If auto-accepted, decrement stock and send confirmation email
     if (bidStatus === 'accepted') {
       await prisma.offer.update({
         where: { id: data.offerId },
@@ -230,7 +230,19 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      // TODO: Send acceptance email to customer
+      // Send order confirmation email to customer
+      const { sendBidAcceptedEmail } = await import('@/lib/email')
+      await sendBidAcceptedEmail({
+        customerName: data.customerName,
+        customerEmail: data.customerEmail,
+        bidAmount: data.bidAmount,
+        productName: offer.productName,
+        productSku: offer.productSku || '',
+        shippingAddress: data.shippingAddress
+      }, data.locale as 'en' | 'de').catch(err => {
+        console.error('Failed to send customer confirmation email:', err)
+        // Don't fail the request if email fails
+      })
     }
 
     return successResponse({

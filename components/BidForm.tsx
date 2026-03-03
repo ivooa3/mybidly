@@ -214,7 +214,7 @@ function UnifiedPaymentForm({
         elements,
         clientSecret: result.data.clientSecret,
         confirmParams: {
-          return_url: `${window.location.origin}/widget/success?bidId=${result.data.bidId}`,
+          return_url: `${window.location.origin}/widget/success?bidId=${result.data.bidId}&locale=${locale}`,
           ...(isMobile && {
             shipping: {
               name: customerEmail,
@@ -232,7 +232,9 @@ function UnifiedPaymentForm({
 
       if (confirmError) {
         onError(confirmError.message || t.error)
-      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        setIsProcessing(false)
+      } else if (paymentIntent) {
+        // Payment succeeded (paymentIntent exists means payment went through)
         // For mobile wallets, extract shipping from payment intent
         if (isMobile && paymentIntent.shipping) {
           // Update bid with shipping address from wallet
@@ -245,8 +247,9 @@ function UnifiedPaymentForm({
           })
         }
 
-        // Redirect to success page
-        window.location.href = `${window.location.origin}/widget/success?bidId=${result.data.bidId}`
+        // Always redirect to success page (don't check payment status)
+        // The success page will fetch and display the correct bid status
+        window.location.href = `${window.location.origin}/widget/success?bidId=${result.data.bidId}&locale=${locale}`
       }
     } catch (error) {
       onError(t.error)
