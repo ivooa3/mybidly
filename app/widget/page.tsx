@@ -10,10 +10,29 @@ export default function WidgetPage() {
   const searchParams = useSearchParams()
   const shopId = searchParams.get('shopId')
   const productId = searchParams.get('productId')
-  const locale = searchParams.get('locale') || 'en'
   const customTitle = searchParams.get('title') || undefined
   const customSubtitle = searchParams.get('subtitle') || undefined
   const [viewTracked, setViewTracked] = useState(false)
+
+  // Auto-detect locale from browser or use URL parameter
+  const [locale, setLocale] = useState<string>('en')
+
+  useEffect(() => {
+    // Check if locale is specified in URL
+    const urlLocale = searchParams.get('locale')
+    if (urlLocale) {
+      setLocale(urlLocale)
+      return
+    }
+
+    // Auto-detect from browser language
+    const browserLang = navigator.language.toLowerCase()
+    if (browserLang.startsWith('de')) {
+      setLocale('de')
+    } else {
+      setLocale('en')
+    }
+  }, [searchParams])
 
   // Track widget view when component mounts
   useEffect(() => {
