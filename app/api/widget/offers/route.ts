@@ -50,8 +50,8 @@ export async function GET(request: NextRequest) {
         // Allow localhost for testing
         const isLocalhost = refererDomain.includes('localhost') || refererDomain.includes('127.0.0.1')
 
-        // Allow mybidly.io for widget preview in dashboard
-        const isMyBidlyPreview = refererDomain.includes('mybidly.io')
+        // Allow mybidly.io and mybidly.vercel.app for widget preview in dashboard
+        const isMyBidlyPreview = refererDomain.includes('mybidly.io') || refererDomain.includes('mybidly.vercel.app')
 
         if (!isLocalhost && !isMyBidlyPreview && shopDomain !== refererDomain) {
           console.warn(`Domain mismatch: ${refererDomain} !== ${shopDomain}`)
