@@ -15,9 +15,13 @@ export async function POST(request: NextRequest) {
     let body
     try {
       const text = await request.text()
+      console.log('📥 Received request body text:', text)
+      console.log('📥 Request headers:', Object.fromEntries(request.headers.entries()))
       body = JSON.parse(text)
+      console.log('✅ Parsed body successfully:', body)
     } catch (jsonError) {
-      console.error('JSON parse error:', jsonError)
+      console.error('❌ JSON parse error:', jsonError)
+      console.error('❌ Error type:', jsonError instanceof Error ? jsonError.message : jsonError)
       return errorResponse('Invalid JSON in request body', 400)
     }
 
