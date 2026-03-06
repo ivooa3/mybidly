@@ -20,7 +20,7 @@ export default async function DashboardPage() {
     select: {
       planTier: true,
       pendingPayouts: true,
-      locale: true,
+      preferredLanguage: true,
       unregisteredMode: true,
       stripeAccountId: true,
       stripeOnboardingComplete: true
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
       isAdmin={userIsAdmin}
       planTier={shop.planTier as 'payg' | 'premium'}
       pendingPayouts={Number(shop.pendingPayouts || 0)}
-      locale={(shop.locale as 'en' | 'de') || 'en'}
+      locale={(shop.preferredLanguage as 'en' | 'de') || 'en'}
       stats={{
         totalBids,
         acceptedBids,
