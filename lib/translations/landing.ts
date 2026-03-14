@@ -132,7 +132,7 @@ export const landingTranslations = {
     // Testimonials
     testimonials: {
       title: "What Shop Owners Are Saying",
-      subtitle: "Join 500+ stores already earning more",
+      subtitle: "Join online stores owners already earning more",
       reviews: [
         {
           name: "Michael Weber",
@@ -265,7 +265,7 @@ export const landingTranslations = {
     // Final CTA
     finalCta: {
       title: "Ready to Turn Your Thank-You Page Into Revenue?",
-      subtitle: "Join 500+ stores earning more with myBidly",
+      subtitle: "Join online stores owners already earning more",
       cta: "Get Started",
       guarantee: "Start earning more today"
     },
@@ -422,7 +422,7 @@ export const landingTranslations = {
     // Testimonials
     testimonials: {
       title: "Was Shop-Besitzer sagen",
-      subtitle: "Über 500 Shops verdienen bereits mehr",
+      subtitle: "Schließe dich Online-Shop-Besitzern an, die bereits mehr verdienen",
       reviews: [
         {
           name: "Michael Weber",
@@ -555,7 +555,7 @@ export const landingTranslations = {
     // Final CTA
     finalCta: {
       title: "Bereit, deine Danke-Seite in Umsatz zu verwandeln?",
-      subtitle: "Über 500 Shops verdienen mehr mit myBidly",
+      subtitle: "Schließe dich Online-Shop-Besitzern an, die bereits mehr verdienen",
       cta: "Jetzt starten",
       guarantee: "Starte noch heute und verdiene mehr"
     },

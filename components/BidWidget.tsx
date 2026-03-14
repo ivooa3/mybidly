@@ -257,7 +257,7 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
               <p className="text-xs text-gray-400">
                 Powered by{' '}
                 <a
-                  href="https://mybidly.io"
+                  href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://mybidly.io'}/seen-on-a-shop`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-purple-600 hover:underline font-semibold"
