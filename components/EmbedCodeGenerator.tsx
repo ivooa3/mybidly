@@ -13,16 +13,18 @@ export function EmbedCodeGenerator({ shopId }: EmbedCodeGeneratorProps) {
   const { t } = useLanguage()
   const [copied, setCopied] = useState(false)
   const [showAdvancedOption, setShowAdvancedOption] = useState(false)
+  const [forceLanguage, setForceLanguage] = useState<'auto' | 'en' | 'de'>('auto')
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://yourdomain.com'
 
-  // Basic embed URL (without productId - for preview)
-  const embedUrl = `${baseUrl}/widget?shopId=${shopId}`
+  // Build embed URL with optional language parameter
+  const localeParam = forceLanguage !== 'auto' ? `&locale=${forceLanguage}` : ''
+  const embedUrl = `${baseUrl}/widget?shopId=${shopId}${localeParam}`
 
   // Simplified iframe code without productId (MVP version)
   const iframeCode = '<!-- myBidly Widget -->\n' +
     '<iframe\n' +
-    '  src="' + baseUrl + '/widget?shopId=' + shopId + '"\n' +
+    '  src="' + embedUrl + '"\n' +
     '  width="100%"\n' +
     '  height="800"\n' +
     '  frameborder="0"\n' +
@@ -30,13 +32,12 @@ export function EmbedCodeGenerator({ shopId }: EmbedCodeGeneratorProps) {
     '></iframe>'
 
   // Simplified script code without productId (MVP version)
-  const widgetBaseUrl = baseUrl + '/widget?shopId=' + shopId
   const scriptCode = '<!-- myBidly Widget -->\n' +
     '<div id="bidly-widget"></div>\n' +
     '<script>\n' +
     '(function() {\n' +
     '  var iframe = document.createElement(\'iframe\');\n' +
-    '  iframe.src = \'' + widgetBaseUrl + '\';\n' +
+    '  iframe.src = \'' + embedUrl + '\';\n' +
     '  iframe.width = \'100%\';\n' +
     '  iframe.height = \'800\';\n' +
     '  iframe.frameBorder = \'0\';\n' +
@@ -56,6 +57,68 @@ export function EmbedCodeGenerator({ shopId }: EmbedCodeGeneratorProps) {
 
   return (
     <div className="space-y-6">
+      {/* Language Selector */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-blue-900 mb-3">🌐 {t.embed.widgetLanguage}</h3>
+        <p className="text-sm text-blue-800 mb-4">{t.embed.languageDescription}</p>
+
+        <div className="flex gap-3">
+          <button
+            onClick={() => setForceLanguage('auto')}
+            className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+              forceLanguage === 'auto'
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-400'
+            }`}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <span>✨</span>
+              <span>{t.embed.autoDetect}</span>
+            </div>
+            {forceLanguage === 'auto' && (
+              <p className="text-xs mt-1 opacity-90">{t.embed.recommended}</p>
+            )}
+          </button>
+
+          <button
+            onClick={() => setForceLanguage('de')}
+            className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+              forceLanguage === 'de'
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-400'
+            }`}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <span>🇩🇪</span>
+              <span>{t.embed.forceGerman}</span>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setForceLanguage('en')}
+            className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all ${
+              forceLanguage === 'en'
+                ? 'bg-blue-600 text-white shadow-md'
+                : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-400'
+            }`}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <span>🇬🇧</span>
+              <span>{t.embed.forceEnglish}</span>
+            </div>
+          </button>
+        </div>
+
+        <div className="mt-4 bg-white border border-blue-200 rounded-lg p-3">
+          <p className="text-sm text-gray-700">
+            <strong>{t.embed.currentSelection}:</strong>{' '}
+            {forceLanguage === 'auto' && t.embed.autoDetectExplanation}
+            {forceLanguage === 'de' && t.embed.germanExplanation}
+            {forceLanguage === 'en' && t.embed.englishExplanation}
+          </p>
+        </div>
+      </div>
+
       {/* Preview */}
       <div className="bg-white rounded-lg shadow-soft p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.embed.preview}</h3>

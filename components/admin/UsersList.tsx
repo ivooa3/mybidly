@@ -196,7 +196,7 @@ export function UsersList({ users: initialUsers }: UsersListProps) {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-600" suppressHydrationWarning>
                       {format(new Date(user.createdAt), 'PP')}
                     </div>
                   </td>
@@ -312,7 +312,7 @@ function EditUserModal({
             )}
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-600">Joined:</span>
-              <span className="text-sm text-gray-900">{format(new Date(user.createdAt), 'PPP')}</span>
+              <span className="text-sm text-gray-900" suppressHydrationWarning>{format(new Date(user.createdAt), 'PPP')}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-600">Accepted Bids:</span>

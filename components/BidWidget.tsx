@@ -24,6 +24,7 @@ interface BidWidgetProps {
   locale: 'en' | 'de'
   customTitle?: string
   customSubtitle?: string
+  onLocaleChange?: (newLocale: 'en' | 'de') => void
 }
 
 const translations = {
@@ -44,12 +45,12 @@ const translations = {
     noOffers: 'Derzeit keine Angebote verfügbar.',
     inStock: 'Auf Lager',
     makeYourBid: 'Ihr Gebot abgeben',
-    buyNow: 'Sofort und sicher kaufen',
+    buyNow: 'Sofort kaufen',
     error: 'Angebote konnten nicht geladen werden. Bitte versuchen Sie es erneut.'
   }
 }
 
-export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWidgetProps) {
+export function BidWidget({ shopId, locale, customTitle, customSubtitle, onLocaleChange }: BidWidgetProps) {
   const [offer, setOffer] = useState<Offer | null>(null) // Changed from offers array to single offer
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
   const [loading, setLoading] = useState(true)
@@ -131,12 +132,42 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
 
   if (selectedOffer) {
     return (
-      <BidForm
-        offer={selectedOffer}
-        shopId={shopId}
-        locale={locale}
-        onBack={() => setSelectedOffer(null)}
-      />
+      <div className="w-full max-w-3xl mx-auto">
+        <BidForm
+          key={locale} // Force re-mount when locale changes
+          offer={selectedOffer}
+          shopId={shopId}
+          locale={locale}
+          onBack={() => setSelectedOffer(null)}
+        />
+        {/* Language toggle at bottom of payment form */}
+        {onLocaleChange && (
+          <div className="mt-6 pb-6 text-center border-t border-gray-200 pt-4 px-6">
+            <div className="flex items-center justify-center gap-3">
+              <p className="text-xs text-gray-400">
+                Powered by{' '}
+                <a
+                  href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://mybidly.io'}/seen-on-a-shop`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-600 hover:underline font-semibold"
+                >
+                  myBidly.io
+                </a>
+              </p>
+              <span className="text-gray-300">•</span>
+              <button
+                onClick={() => onLocaleChange(locale === 'en' ? 'de' : 'en')}
+                className="text-xs text-gray-500 hover:text-purple-600 transition-colors flex items-center gap-1"
+                title={locale === 'en' ? 'Switch to German' : 'Auf Englisch umschalten'}
+              >
+                <span>{locale === 'en' ? '🇩🇪' : '🇬🇧'}</span>
+                <span>{locale === 'en' ? 'DE' : 'EN'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     )
   }
 
@@ -160,11 +191,11 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
 
       <div className="w-full flex justify-center">
         <div className="bg-white rounded-lg shadow-lg overflow-visible hover:shadow-xl transition-shadow w-full max-w-2xl">
-          <div className="relative h-56">
+          <div className="relative h-80 bg-gray-50 flex items-center justify-center p-4">
             <img
               src={offer.imageUrl}
               alt={offer.productName}
-              className="w-full h-full object-cover rounded-t-lg"
+              className="max-w-full max-h-full object-contain rounded-t-lg"
             />
           </div>
 
@@ -254,17 +285,32 @@ export function BidWidget({ shopId, locale, customTitle, customSubtitle }: BidWi
                 </a>
                 {locale === 'de' ? ' zu' : ''}
               </p>
-              <p className="text-xs text-gray-400">
-                Powered by{' '}
-                <a
-                  href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://mybidly.io'}/seen-on-a-shop`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-600 hover:underline font-semibold"
-                >
-                  myBidly.io
-                </a>
-              </p>
+              <div className="flex items-center justify-center gap-3">
+                <p className="text-xs text-gray-400">
+                  Powered by{' '}
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://mybidly.io'}/seen-on-a-shop`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-600 hover:underline font-semibold"
+                  >
+                    myBidly.io
+                  </a>
+                </p>
+                {onLocaleChange && (
+                  <>
+                    <span className="text-gray-300">•</span>
+                    <button
+                      onClick={() => onLocaleChange(locale === 'en' ? 'de' : 'en')}
+                      className="text-xs text-gray-500 hover:text-purple-600 transition-colors flex items-center gap-1"
+                      title={locale === 'en' ? 'Switch to German' : 'Auf Englisch umschalten'}
+                    >
+                      <span>{locale === 'en' ? '🇩🇪' : '🇬🇧'}</span>
+                      <span>{locale === 'en' ? 'DE' : 'EN'}</span>
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>

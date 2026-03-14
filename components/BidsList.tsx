@@ -192,7 +192,7 @@ export function BidsList({ bids: initialBids }: BidsListProps) {
                         <h3 className="font-semibold text-lg text-gray-900">
                           {bid.offer.productName}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-gray-600 mt-1" suppressHydrationWarning>
                           {format(new Date(bid.createdAt), 'PPpp')}
                         </p>
                       </div>

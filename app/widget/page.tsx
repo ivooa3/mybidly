@@ -16,23 +16,59 @@ export default function WidgetPage() {
 
   // Auto-detect locale from browser or use URL parameter
   const [locale, setLocale] = useState<string>('en')
+  const [shopPreferredLanguage, setShopPreferredLanguage] = useState<string | null>(null)
+
+  // Fetch shop's preferred language from API
+  useEffect(() => {
+    if (!shopId) return
+
+    const fetchShopLanguage = async () => {
+      try {
+        const response = await fetch(`/api/widget/offers?shopId=${shopId}`)
+        const result = await response.json()
+
+        if (result.success && result.data.metadata?.language) {
+          setShopPreferredLanguage(result.data.metadata.language)
+        }
+      } catch (err) {
+        // Silent fail - don't break widget if language fetch fails
+        console.warn('Failed to fetch shop language preference:', err)
+      }
+    }
+
+    fetchShopLanguage()
+  }, [shopId])
 
   useEffect(() => {
-    // Check if locale is specified in URL
+    // Priority order for language selection:
+    // 1. URL parameter (highest priority - manual override)
     const urlLocale = searchParams.get('locale')
-    if (urlLocale) {
+    if (urlLocale && (urlLocale === 'en' || urlLocale === 'de')) {
       setLocale(urlLocale)
       return
     }
 
-    // Auto-detect from browser language
+    // 2. LocalStorage (customer's manual preference from language switcher)
+    const savedLocale = typeof window !== 'undefined' ? localStorage.getItem('bidly_locale') : null
+    if (savedLocale && (savedLocale === 'en' || savedLocale === 'de')) {
+      setLocale(savedLocale)
+      return
+    }
+
+    // 3. Shop owner's preferred language (from their account settings)
+    if (shopPreferredLanguage) {
+      setLocale(shopPreferredLanguage)
+      return
+    }
+
+    // 4. Browser auto-detection (fallback)
     const browserLang = navigator.language.toLowerCase()
     if (browserLang.startsWith('de')) {
       setLocale('de')
     } else {
       setLocale('en')
     }
-  }, [searchParams])
+  }, [searchParams, shopPreferredLanguage])
 
   // Track widget view when component mounts
   useEffect(() => {
@@ -63,6 +99,13 @@ export default function WidgetPage() {
     setViewTracked(true)
   }, [shopId, productId, viewTracked])
 
+  // Handle language change from customer's manual selection
+  const handleLocaleChange = (newLocale: 'en' | 'de') => {
+    setLocale(newLocale)
+    // Save to localStorage so it persists across sessions
+    localStorage.setItem('bidly_locale', newLocale)
+  }
+
   if (!shopId) {
     return (
       <div className="p-4 text-center text-red-600">
@@ -78,6 +121,7 @@ export default function WidgetPage() {
         locale={locale as 'en' | 'de'}
         customTitle={customTitle}
         customSubtitle={customSubtitle}
+        onLocaleChange={handleLocaleChange}
       />
     </div>
   )
