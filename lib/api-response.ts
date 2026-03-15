@@ -42,8 +42,36 @@ export function notFoundResponse(message = 'Resource not found') {
 
 export function serverErrorResponse(error: unknown) {
   console.error('Server error:', error)
+
+  // Enhanced error logging for debugging
+  if (error && typeof error === 'object') {
+    console.error('Error details:', {
+      name: (error as Error).name,
+      message: (error as Error).message,
+      stack: (error as Error).stack,
+      // Prisma-specific error info
+      ...(('code' in error) && { prismaCode: (error as any).code }),
+      ...(('meta' in error) && { prismaMeta: (error as any).meta }),
+    })
+  }
+
+  // TEMPORARY: Show error details in production for debugging
+  // TODO: Remove this after fixing the issue!
+  const showDetails = true // process.env.NODE_ENV === 'development'
+
   return NextResponse.json(
-    { success: false, error: 'Internal server error' },
+    {
+      success: false,
+      error: 'Internal server error',
+      // Include error message for debugging
+      ...(showDetails && {
+        details: (error as Error)?.message || 'Unknown error',
+        errorType: (error as Error)?.name || 'Error',
+        ...(error && typeof error === 'object' && 'code' in error && {
+          prismaCode: (error as any).code
+        })
+      })
+    },
     { status: 500 }
   )
 }

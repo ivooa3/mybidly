@@ -88,7 +88,15 @@ export async function DELETE(
       select: {
         role: true,
         email: true,
-        shopName: true
+        shopName: true,
+        stripeAccountId: true,
+        _count: {
+          select: {
+            bids: true,
+            offers: true,
+            widgetViews: true
+          }
+        }
       }
     })
 
@@ -101,16 +109,65 @@ export async function DELETE(
       return errorResponse('Cannot delete admin users', 403)
     }
 
-    // Delete the user (cascading deletes will handle related records)
-    await prisma.shop.delete({
-      where: { id: params.id }
+    console.log(`[DELETE USER] Attempting to delete user ${params.id} (${user.shopName || user.email})`)
+    console.log(`[DELETE USER] Related records: ${user._count.bids} bids, ${user._count.offers} offers, ${user._count.widgetViews} widget views`)
+    console.log(`[DELETE USER] Stripe account: ${user.stripeAccountId || 'none'}`)
+
+    // Optional: Clean up Stripe account if exists
+    // Note: We don't delete the Stripe account, just disconnect it
+    // The shop owner can still access their Stripe account independently
+    if (user.stripeAccountId) {
+      console.log(`[DELETE USER] User has Stripe account ${user.stripeAccountId} - this will remain active`)
+      // In production, you might want to send a notification to the shop owner
+      // or mark the account for manual review
+    }
+
+    // Delete the user using a transaction to ensure atomicity
+    // The CASCADE constraints will automatically delete:
+    // - All bids (and their associated data)
+    // - All offers (and their associated data)
+    // - All widget views
+    await prisma.$transaction(async (tx) => {
+      // First, verify the user still exists (race condition protection)
+      const userExists = await tx.shop.findUnique({
+        where: { id: params.id },
+        select: { id: true }
+      })
+
+      if (!userExists) {
+        throw new Error('User was deleted by another request')
+      }
+
+      // Delete the user (cascading deletes will handle related records)
+      await tx.shop.delete({
+        where: { id: params.id }
+      })
     })
 
+    console.log(`[DELETE USER] Successfully deleted user ${params.id}`)
+
     return successResponse({
-      message: `User ${user.shopName || user.email} has been deleted successfully`
+      message: `User ${user.shopName || user.email} has been deleted successfully`,
+      deletedRecords: {
+        bids: user._count.bids,
+        offers: user._count.offers,
+        widgetViews: user._count.widgetViews
+      }
     })
   } catch (error) {
-    console.error('Delete user error:', error)
-    return errorResponse('Failed to delete user', 500)
+    console.error('[DELETE USER ERROR] Full error:', error)
+    console.error('[DELETE USER ERROR] Error name:', (error as Error)?.name)
+    console.error('[DELETE USER ERROR] Error message:', (error as Error)?.message)
+
+    // Check for common Prisma errors
+    if (error && typeof error === 'object' && 'code' in error) {
+      const prismaError = error as { code: string; meta?: any }
+      console.error('[DELETE USER ERROR] Prisma error code:', prismaError.code)
+      console.error('[DELETE USER ERROR] Prisma error meta:', prismaError.meta)
+    }
+
+    // Provide more specific error message
+    const errorMessage = (error as Error)?.message || 'Unknown error occurred'
+    return errorResponse(`Failed to delete user: ${errorMessage}`, 500)
   }
 }
