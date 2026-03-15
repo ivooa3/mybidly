@@ -55,15 +55,14 @@ export function serverErrorResponse(error: unknown) {
     })
   }
 
-  // TEMPORARY: Show error details in production for debugging
-  // TODO: Remove this after fixing the issue!
-  const showDetails = true // process.env.NODE_ENV === 'development'
+  // Only show error details in development mode
+  const showDetails = process.env.NODE_ENV === 'development'
 
   return NextResponse.json(
     {
       success: false,
       error: 'Internal server error',
-      // Include error message for debugging
+      // Include error message in development only
       ...(showDetails && {
         details: (error as Error)?.message || 'Unknown error',
         errorType: (error as Error)?.name || 'Error',
