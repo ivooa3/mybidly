@@ -38,7 +38,6 @@ model Shop {
   unregisteredMode         Boolean      @default(true) @map("unregistered_mode") // Seller hasn't connected Stripe yet
   pendingPayouts           Decimal      @default(0) @map("pending_payouts") @db.Decimal(10, 2) // Held funds for unregistered sellers
   pendingPayoutNotified    Boolean      @default(false) @map("pending_payout_notified") // Email sent flag
-  environment              String?      // 'local', 'staging', 'production', or null
   bids                     Bid[]
   offers                   Offer[]
   widgetViews              WidgetView[]
