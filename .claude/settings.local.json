@@ -4,7 +4,9 @@
       "Bash(npx tsx scripts/check-test-user.ts)",
       "Bash(npx tsx scripts/check-all-users-environment.ts)",
       "Bash(echo $DATABASE_URL)",
-      "Bash(npx tsx scripts/check-all-environments.ts)"
+      "Bash(npx tsx scripts/check-all-environments.ts)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(git add -A)"
     ],
     "deny": [],
     "ask": []

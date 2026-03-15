@@ -9,7 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 
 interface SidebarProps {
   user: {
-    shopName: string
+    shopName: string | null
     email: string
     impersonatingFrom?: string
   }
@@ -62,7 +62,7 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="font-semibold">{t.sidebar.impersonating}</p>
-              <p className="text-xs opacity-90">{user.shopName}</p>
+              <p className="text-xs opacity-90">{user.shopName || 'Admin'}</p>
             </div>
           </div>
           <button
@@ -76,7 +76,7 @@ export function Sidebar({ user, isAdmin, planTier }: SidebarProps) {
 
       {/* User info */}
       <div className="p-4 border-b border-gray-200">
-        <p className="font-semibold text-gray-900">{user.shopName}</p>
+        <p className="font-semibold text-gray-900">{user.shopName || 'Admin'}</p>
         <p className="text-sm text-gray-500">{user.email}</p>
       </div>
 

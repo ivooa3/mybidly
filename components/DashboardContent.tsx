@@ -5,7 +5,7 @@ import { formatCurrency } from '@/utils/calculations'
 import { UnregisteredModeBanner } from './UnregisteredModeBanner'
 
 interface DashboardContentProps {
-  shopName: string
+  shopName: string | null
   isAdmin: boolean
   planTier: 'payg' | 'premium'
   pendingPayouts: number
@@ -17,6 +17,8 @@ interface DashboardContentProps {
     totalRevenue: number
     conversionRate: number
     viewToBidRate: number
+    missedOpportunities?: any
+    bidLimitStatus?: any
   }
 }
 
@@ -36,7 +38,7 @@ export function DashboardContent({ shopName, isAdmin, planTier, pendingPayouts, 
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
-          {t.dashboard.welcome}, {shopName}!
+          {t.dashboard.welcome}, {shopName || 'Admin'}!
         </h1>
         <p className="text-gray-600 mt-2">
           {t.dashboard.title}

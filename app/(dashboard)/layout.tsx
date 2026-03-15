@@ -31,20 +31,24 @@ export default async function DashboardLayout({
   // Check if user is active and has completed setup
   const user = await prisma.shop.findUnique({
     where: { id: actualUserId },
-    select: { isActive: true, shopName: true, shopUrl: true, preferredLanguage: true, planTier: true }
+    select: { isActive: true, shopName: true, shopUrl: true, preferredLanguage: true, planTier: true, role: true }
   })
 
-  if (!user?.isActive && !impersonatingFrom) {
+  if (!user) {
+    redirect('/login')
+  }
+
+  if (!user.isActive && !impersonatingFrom) {
     // Deactivated users cannot access dashboard (unless admin is impersonating)
     redirect('/login?error=account_deactivated')
   }
 
-  // Redirect to setup if user hasn't completed profile (unless admin is impersonating)
-  if (!user?.shopName && !impersonatingFrom) {
+  const userIsAdmin = await isAdmin()
+
+  // Redirect to setup if user hasn't completed profile (unless admin is impersonating or is admin)
+  if (!user.shopName && !impersonatingFrom && !userIsAdmin) {
     redirect('/setup')
   }
-
-  const userIsAdmin = await isAdmin()
 
   // Build modified session user object
   const displayUser = impersonatingAs ? {
@@ -54,8 +58,8 @@ export default async function DashboardLayout({
     impersonatingFrom: impersonatingFrom
   } : session.user
 
-  const userLanguage = (user?.preferredLanguage || 'en') as Language
-  const planTier = (user?.planTier || 'payg') as 'payg' | 'premium'
+  const userLanguage = (user.preferredLanguage || 'en') as Language
+  const planTier = (user.planTier || 'payg') as 'payg' | 'premium'
 
   return (
     <LanguageProvider initialLanguage={userLanguage}>
