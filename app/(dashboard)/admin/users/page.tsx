@@ -19,7 +19,6 @@ export default async function AdminUsersPage() {
         isActive: true,
         planTier: true,
         stripeOnboardingComplete: true,
-        environment: true,
         createdAt: true,
         _count: {
           select: {
@@ -56,6 +55,7 @@ export default async function AdminUsersPage() {
     // Serialize for client component
     const serializedUsers = usersWithRevenue.map(user => ({
       ...user,
+      environment: null, // Field doesn't exist in production DB yet
       createdAt: user.createdAt.toISOString()
     }))
 

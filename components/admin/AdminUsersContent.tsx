@@ -14,7 +14,7 @@ interface User {
   isActive: boolean
   planTier: string
   stripeOnboardingComplete: boolean
-  environment: string | null
+  environment?: string | null
   createdAt: string
   acceptedBids: number
   revenue: number
