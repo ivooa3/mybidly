@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 import { shopLoginSchema } from '@/lib/validations'
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true, // Required for production deployment
   providers: [
     CredentialsProvider({
       name: 'credentials',

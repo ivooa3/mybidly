@@ -8,12 +8,17 @@ import { redirect } from 'next/navigation'
 export async function requireAdmin() {
   const session = await auth()
 
-  if (!session) {
+  if (!session || !session.user) {
     redirect('/login')
   }
 
   // Get the original user ID (in case we're impersonating)
   const actualUserId = session.user.impersonatingFrom || session.user.shopId
+
+  if (!actualUserId) {
+    console.error('No user ID found in session:', session)
+    redirect('/login')
+  }
 
   // Check if the actual logged-in user is an admin
   const { prisma } = await import('@/lib/prisma')
@@ -22,7 +27,13 @@ export async function requireAdmin() {
     select: { role: true, isActive: true }
   })
 
-  if (!user || user.role !== 'admin') {
+  if (!user) {
+    console.error('User not found in database:', actualUserId)
+    redirect('/login')
+  }
+
+  if (user.role !== 'admin') {
+    console.error('User is not admin:', { actualUserId, role: user.role })
     redirect('/dashboard')
   }
 
