@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
@@ -9,13 +9,17 @@ import { shopLoginSchema, type ShopLoginInput } from '@/lib/validations'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import Link from 'next/link'
-import { translations, type Language } from '@/lib/translations'
+import { getTranslation, type Language } from '@/lib/translations'
 
-export function LoginForm() {
+interface LoginFormProps {
+  lang?: Language
+}
+
+export function LoginForm({ lang = 'en' }: LoginFormProps) {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [locale, setLocale] = useState<Language>('en')
+  const t = getTranslation(lang)
 
   const {
     register,
@@ -24,14 +28,6 @@ export function LoginForm() {
   } = useForm<ShopLoginInput>({
     resolver: zodResolver(shopLoginSchema)
   })
-
-  // Detect browser language on mount
-  useEffect(() => {
-    const browserLang = navigator.language.toLowerCase()
-    setLocale(browserLang.startsWith('de') ? 'de' : 'en')
-  }, [])
-
-  const t = translations[locale].auth
 
   const onSubmit = async (data: ShopLoginInput) => {
     setError(null)
@@ -46,16 +42,16 @@ export function LoginForm() {
       if (result?.error) {
         // Check if the error is ACCOUNT_DEACTIVATED
         if (result.error === 'ACCOUNT_DEACTIVATED') {
-          setError(t.accountDeactivated)
+          setError(t.auth.accountDeactivated)
         } else {
-          setError(t.invalidCredentials)
+          setError(t.auth.invalidCredentials)
         }
       } else {
         router.push('/dashboard')
         router.refresh()
       }
     } catch (err) {
-      setError(t.loginFailed)
+      setError(t.auth.loginFailed)
     }
   }
 
@@ -69,7 +65,7 @@ export function LoginForm() {
 
       <div className="space-y-4">
         <Input
-          label="Email"
+          label={t.auth.email}
           type="email"
           {...register('email')}
           error={errors.email?.message}
@@ -78,7 +74,7 @@ export function LoginForm() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Password
+            {t.auth.password}
           </label>
           <div className="relative">
             <input
@@ -114,7 +110,7 @@ export function LoginForm() {
             href="/forgot-password"
             className="text-sm text-purple-600 hover:text-purple-700 font-medium"
           >
-            Forgot password?
+            {t.auth.forgotPassword}
           </Link>
         </div>
       </div>
@@ -125,7 +121,7 @@ export function LoginForm() {
         className="w-full"
         size="lg"
       >
-        {isSubmitting ? 'Signing in...' : 'Sign in'}
+        {isSubmitting ? t.auth.loggingIn : t.auth.loginButton}
       </Button>
     </form>
   )

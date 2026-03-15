@@ -75,3 +75,42 @@ export async function PATCH(
     return errorResponse('Failed to update user', 500)
   }
 }
+
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await requireAdmin()
+
+    const user = await prisma.shop.findUnique({
+      where: { id: params.id },
+      select: {
+        role: true,
+        email: true,
+        shopName: true
+      }
+    })
+
+    if (!user) {
+      return errorResponse('User not found', 404)
+    }
+
+    // Prevent deleting admin users
+    if (user.role === 'admin') {
+      return errorResponse('Cannot delete admin users', 403)
+    }
+
+    // Delete the user (cascading deletes will handle related records)
+    await prisma.shop.delete({
+      where: { id: params.id }
+    })
+
+    return successResponse({
+      message: `User ${user.shopName || user.email} has been deleted successfully`
+    })
+  } catch (error) {
+    console.error('Delete user error:', error)
+    return errorResponse('Failed to delete user', 500)
+  }
+}

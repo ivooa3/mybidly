@@ -1,24 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(curl -s -X POST https://mybidly.vercel.app/api/auth/register -H \"Content-Type: application/json\" -d '{\"\"\"\"email\"\"\"\":\"\"\"\"working@example.com\"\"\"\",\"\"\"\"password\"\"\"\":\"\"\"\"TestPass123\"\"\"\",\"\"\"\"acceptTerms\"\"\"\":true}')",
-      "Bash(git commit -m \"Update email branding from Next Commerce to myBidly\n\n- Replace all ''Powered by Next Commerce'' with ''Powered by myBidly''\n- Update links to point to mybidly.vercel.app (staging) instead of next-commerce.io\n- Affects all email templates: customer confirmations, shop owner notifications, etc.\")",
-      "Bash(curl -I https://mybidly.io)",
-      "Bash(curl -sL https://mybidly.io)",
-      "Bash(git commit -m \"Fix widget view tracking, pending payout NaN, and update production URLs\n\n1. Widget View Tracking Fix:\n   - Preview views in dashboard are NO LONGER counted\n   - Only count views when widget is embedded on actual customer websites\n   - Detects if referer is from mybidly.io or mybidly.vercel.app and skips tracking\n   - This ensures accurate Widget Views metric\n\n2. Pending Payout Banner Fix:\n   - Fix €NaN display by explicitly selecting pendingPayouts field from database\n   - Add fallback to 0 if pendingPayouts is null/undefined\n   - Banner now displays correct amount (e.g., €25.00)\n\n3. Email Branding Update:\n   - Update all email template links from mybidly.vercel.app to mybidly.io\n   - ''Powered by myBidly'' now links to production URL\n   - Affects all customer and shop owner email templates (20+ templates)\n\n4. Documentation:\n   - Add STRIPE_WEBHOOK_SETUP.md guide for staging testing\")",
-      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_RQ6IELZoPq4p@ep-super-unit-aggqw9ws-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require\" npx tsx scripts/check-admin.ts)",
-      "Bash(vercel env ls)",
-      "Bash(curl -s http://localhost:3001/login)",
-      "Bash(kill 3338)",
-      "Bash(npm run dev)",
-      "Bash(curl -I http://localhost:3000/seen-on-a-shop)",
-      "Bash(curl -I https://mybidly.io/seen-on-a-shop)",
-      "Bash(curl -I https://www.mybidly.io/seen-on-a-shop)",
-      "Bash(curl -I http://localhost:3001/seen-on-a-shop)",
-      "Bash(curl -s http://localhost:3000/seen-on-a-shop)",
-      "Bash(git add app/seen-on-a-shop/page.tsx)",
-      "Bash(lsof -ti:3001)",
-      "Bash(kill 16925 21948)"
+      "Bash(npx tsx scripts/check-test-user.ts)",
+      "Bash(npx tsx scripts/check-all-users-environment.ts)",
+      "Bash(echo $DATABASE_URL)",
+      "Bash(npx tsx scripts/check-all-environments.ts)"
     ],
     "deny": [],
     "ask": []

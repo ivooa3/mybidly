@@ -1,13 +1,25 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { LoginForm } from '@/components/LoginForm'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { getTranslation, type Language } from '@/lib/translations'
 
-export const dynamic = 'force-dynamic'
+export default function LoginPage() {
+  const searchParams = useSearchParams()
+  const registered = searchParams.get('registered')
+  const [lang, setLang] = useState<Language>('en')
+  const t = getTranslation(lang)
 
-export default function LoginPage({
-  searchParams
-}: {
-  searchParams: { registered?: string }
-}) {
+  // Detect language from localStorage on mount
+  useEffect(() => {
+    const savedLang = localStorage.getItem('preferredLanguage') as Language | null
+    if (savedLang && (savedLang === 'en' || savedLang === 'de')) {
+      setLang(savedLang)
+    }
+  }, [])
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
       <div className="max-w-md w-full space-y-8">
@@ -16,22 +28,27 @@ export default function LoginPage({
             myBidly
           </h1>
           <h2 className="text-2xl font-bold text-gray-900 mt-4">
-            Sign in to your account
+            {t.auth.loginTitle}
           </h2>
-          {searchParams.registered && (
+          <p className="mt-2 text-sm text-gray-600">
+            {t.auth.loginSubtitle}
+          </p>
+          {registered && (
             <p className="mt-2 text-sm text-green-600">
-              Registration successful! Please sign in.
+              {lang === 'de'
+                ? 'Registrierung erfolgreich! Bitte melden Sie sich an.'
+                : 'Registration successful! Please sign in.'}
             </p>
           )}
         </div>
 
-        <LoginForm />
+        <LoginForm lang={lang} />
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
+            {t.auth.noAccount}{' '}
             <Link href="/register" className="text-purple-600 hover:underline font-semibold">
-              Sign up
+              {t.auth.signUp}
             </Link>
           </p>
         </div>

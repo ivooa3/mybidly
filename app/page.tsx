@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Testimonials } from '@/components/Testimonials'
 import { CustomerTestimonials } from '@/components/CustomerTestimonials'
@@ -11,6 +11,26 @@ import { landingTranslations, type Language } from '@/lib/translations/landing'
 export default function Home() {
   const [lang, setLang] = useState<Language>('en')
   const t = landingTranslations[lang]
+
+  // Initialize language from localStorage on mount
+  useEffect(() => {
+    const savedLang = localStorage.getItem('preferredLanguage') as Language | null
+    if (savedLang && (savedLang === 'en' || savedLang === 'de')) {
+      setLang(savedLang)
+    }
+  }, [])
+
+  // Store language preference in localStorage when changed
+  const handleLanguageChange = (newLang: Language) => {
+    setLang(newLang)
+    localStorage.setItem('preferredLanguage', newLang)
+  }
+
+  // Helper function to navigate to register with language persistence
+  const goToRegister = (plan?: string) => {
+    localStorage.setItem('preferredLanguage', lang)
+    window.location.href = plan ? `/register?plan=${plan}` : '/register'
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -27,17 +47,20 @@ export default function Home() {
       {/* Header - Fixed Top Right */}
       <div className="fixed top-4 right-4 z-50 flex gap-3">
         {/* Login Button */}
-        <Link
-          href="/login"
+        <button
+          onClick={() => {
+            localStorage.setItem('preferredLanguage', lang)
+            window.location.href = '/login'
+          }}
           className="bg-white rounded-lg shadow-lg px-6 py-2 border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
         >
           {lang === 'en' ? 'Login' : 'Anmelden'}
-        </Link>
+        </button>
 
         {/* Language Toggle */}
         <div className="flex gap-2 bg-white rounded-lg shadow-lg p-1 border border-gray-200">
           <button
-            onClick={() => setLang('en')}
+            onClick={() => handleLanguageChange('en')}
             className={`px-4 py-2 rounded-md text-sm font-medium transition ${
               lang === 'en'
                 ? 'bg-purple-600 text-white'
@@ -47,7 +70,7 @@ export default function Home() {
             🇬🇧 EN
           </button>
           <button
-            onClick={() => setLang('de')}
+            onClick={() => handleLanguageChange('de')}
             className={`px-4 py-2 rounded-md text-sm font-medium transition ${
               lang === 'de'
                 ? 'bg-purple-600 text-white'
@@ -88,12 +111,12 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Link
-                href="/register"
+              <button
+                onClick={() => goToRegister()}
                 className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-lg font-semibold rounded-lg hover:shadow-xl hover:scale-105 transition-all"
               >
                 {t.hero.cta}
-              </Link>
+              </button>
               <a
                 href="#demo"
                 className="px-8 py-4 bg-white text-gray-700 text-lg font-semibold rounded-lg border-2 border-gray-300 hover:border-purple-400 hover:shadow-lg transition-all"
@@ -177,12 +200,12 @@ export default function Home() {
       {/* CTA after Demo */}
       <section className="py-12 bg-gradient-to-br from-purple-50 to-slate-50">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <Link
-            href="/register"
+          <button
+            onClick={() => goToRegister()}
             className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
           >
             {t.hero.cta}
-          </Link>
+          </button>
         </div>
       </section>
 
@@ -254,12 +277,12 @@ export default function Home() {
       {/* CTA after Customer Testimonials */}
       <section className="py-12 bg-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <Link
-            href="/register"
+          <button
+            onClick={() => goToRegister()}
             className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
           >
             {t.hero.cta}
-          </Link>
+          </button>
         </div>
       </section>
 
@@ -303,12 +326,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/register"
+              <button
+                onClick={() => goToRegister()}
                 className="inline-block w-full px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
               >
                 {t.pricing.payg.cta}
-              </Link>
+              </button>
               <p className="text-gray-500 text-xs mt-4">
                 {t.pricing.payg.note}
               </p>
@@ -341,12 +364,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/register?plan=premium"
+              <button
+                onClick={() => goToRegister('premium')}
                 className="inline-block w-full px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
               >
                 {t.pricing.premium.cta}
-              </Link>
+              </button>
               <p className="text-gray-500 text-xs mt-4">
                 {t.pricing.premium.note}
               </p>
@@ -362,12 +385,12 @@ export default function Home() {
       {/* CTA before FAQ */}
       <section className="py-12 bg-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <Link
-            href="/register"
+          <button
+            onClick={() => goToRegister()}
             className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all"
           >
             {t.hero.cta}
-          </Link>
+          </button>
         </div>
       </section>
 
@@ -384,12 +407,12 @@ export default function Home() {
             {t.finalCta.subtitle}
           </p>
 
-          <Link
-            href="/register"
+          <button
+            onClick={() => goToRegister()}
             className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xl font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all mb-4"
           >
             {t.finalCta.cta}
-          </Link>
+          </button>
 
           <p className="text-slate-400 text-sm mt-4">
             ✓ {t.finalCta.guarantee}

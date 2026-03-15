@@ -9,6 +9,7 @@ import {
   errorResponse,
   serverErrorResponse
 } from '@/lib/api-response'
+import { detectRegistrationEnvironment } from '@/lib/detect-registration-environment'
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
 
     const { email, password } = validation.data
     const selectedPlan = body.selectedPlan // Get selected plan from request body
+    const preferredLanguage = body.preferredLanguage || 'en' // Get language preference from request body
 
     // Check if email already exists
     const existingShop = await prisma.shop.findUnique({
@@ -48,6 +50,18 @@ export async function POST(request: NextRequest) {
     // Set plan tier based on registration source
     const planTier = selectedPlan === 'premium' ? 'premium' : 'payg'
 
+    // Detect environment from request
+    const environment = detectRegistrationEnvironment(request)
+
+    // Debug logging
+    console.log('Registration Environment Detection:', {
+      environment,
+      host: request.headers.get('host'),
+      origin: request.headers.get('origin'),
+      referer: request.headers.get('referer'),
+      email
+    })
+
     // Create shop without shopName (will be set during first-time setup)
     const shop = await prisma.shop.create({
       data: {
@@ -56,6 +70,8 @@ export async function POST(request: NextRequest) {
         trialEndsAt,
         registrationSource: selectedPlan || null, // Save registration source
         planTier, // Set plan tier based on registration source
+        environment, // Save detected environment
+        preferredLanguage, // Save language preference
       },
       select: {
         id: true,
@@ -63,6 +79,8 @@ export async function POST(request: NextRequest) {
         createdAt: true,
         registrationSource: true,
         planTier: true,
+        environment: true,
+        preferredLanguage: true,
       }
     })
 

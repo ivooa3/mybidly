@@ -8,15 +8,18 @@ import { shopRegisterSchema, type ShopRegisterInput } from '@/lib/validations'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { TermsCheckbox } from '@/components/TermsCheckbox'
+import { getTranslation, type Language } from '@/lib/translations'
 
 interface RegisterFormProps {
   selectedPlan?: string | null
+  lang?: Language
 }
 
-export function RegisterForm({ selectedPlan }: RegisterFormProps) {
+export function RegisterForm({ selectedPlan, lang = 'en' }: RegisterFormProps) {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
+  const t = getTranslation(lang)
 
   const {
     register,
@@ -36,7 +39,8 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          selectedPlan: selectedPlan || null
+          selectedPlan: selectedPlan || null,
+          preferredLanguage: lang
         })
       })
 
@@ -49,7 +53,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
         setError(result.error)
       }
     } catch (err) {
-      setError('Registration failed. Please try again.')
+      setError(t.auth.registrationFailed)
     }
   }
 
@@ -63,7 +67,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
 
       <div className="space-y-4">
         <Input
-          label="Email"
+          label={t.auth.email}
           type="email"
           {...register('email')}
           error={errors.email?.message}
@@ -71,7 +75,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Password
+            {t.auth.password}
           </label>
           <div className="relative">
             <input
@@ -98,7 +102,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
             </button>
           </div>
           <p className="mt-1 text-xs text-gray-500">
-            Must be at least 8 characters with uppercase, lowercase, and number
+            {t.auth.passwordRequirements}
           </p>
           {errors.password && (
             <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
@@ -113,7 +117,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
               checked={field.value || false}
               onChange={field.onChange}
               error={errors.acceptTerms?.message}
-              lang="en"
+              lang={lang}
             />
           )}
         />
@@ -125,7 +129,7 @@ export function RegisterForm({ selectedPlan }: RegisterFormProps) {
         className="w-full"
         size="lg"
       >
-        {isSubmitting ? 'Creating account...' : 'Create account'}
+        {isSubmitting ? t.auth.creatingAccount : t.auth.createAccountButton}
       </Button>
     </form>
   )

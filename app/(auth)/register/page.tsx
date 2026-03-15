@@ -1,12 +1,24 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { RegisterForm } from '@/components/RegisterForm'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { getTranslation, type Language } from '@/lib/translations'
 
 export default function RegisterPage() {
   const searchParams = useSearchParams()
   const selectedPlan = searchParams.get('plan')
+  const [lang, setLang] = useState<Language>('en')
+  const t = getTranslation(lang)
+
+  // Detect language from localStorage on mount
+  useEffect(() => {
+    const savedLang = localStorage.getItem('preferredLanguage') as Language | null
+    if (savedLang && (savedLang === 'en' || savedLang === 'de')) {
+      setLang(savedLang)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
@@ -16,27 +28,27 @@ export default function RegisterPage() {
             myBidly
           </h1>
           <h2 className="text-2xl font-bold text-gray-900 mt-4">
-            Create your account
+            {t.auth.createAccount}
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Start earning with bid-based upsells
+            {t.auth.registerSubtitle}
           </p>
 
           {/* Display selected plan */}
           {selectedPlan === 'premium' && (
             <div className="mt-4 inline-block bg-purple-100 border border-purple-300 text-purple-800 px-4 py-2 rounded-lg text-sm font-semibold">
-              🎯 You selected: <strong>Premium Plan</strong>
+              🎯 {t.auth.selectedPlan} <strong>{t.auth.premiumPlan}</strong>
             </div>
           )}
         </div>
 
-        <RegisterForm selectedPlan={selectedPlan} />
+        <RegisterForm selectedPlan={selectedPlan} lang={lang} />
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Already have an account?{' '}
+            {t.auth.alreadyHaveAccount}{' '}
             <Link href="/login" className="text-purple-600 hover:underline font-semibold">
-              Sign in
+              {t.auth.signIn}
             </Link>
           </p>
         </div>

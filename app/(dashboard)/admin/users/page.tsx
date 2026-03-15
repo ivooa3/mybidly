@@ -18,6 +18,7 @@ export default async function AdminUsersPage() {
       isActive: true,
       planTier: true,
       stripeOnboardingComplete: true,
+      environment: true,
       createdAt: true,
       _count: {
         select: {
