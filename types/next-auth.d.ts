@@ -5,12 +5,15 @@ declare module 'next-auth' {
     user: {
       shopId: string
       shopName: string
+      role: string
+      impersonatingFrom?: string
     } & DefaultSession['user']
   }
 
   interface User {
     shopId?: string
     shopName?: string
+    role?: string
   }
 }
 
@@ -18,5 +21,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     shopId?: string
     shopName?: string
+    role?: string
+    impersonatingFrom?: string
   }
 }

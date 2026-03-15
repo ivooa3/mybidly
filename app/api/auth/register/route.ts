@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { shopRegisterSchema } from '@/lib/validations'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { sendWelcomeEmail } from '@/lib/email'
 import {
   successResponse,

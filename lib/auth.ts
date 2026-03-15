@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthConfig } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { shopLoginSchema } from '@/lib/validations'
 
 export const authConfig: NextAuthConfig = {
@@ -23,7 +23,15 @@ export const authConfig: NextAuthConfig = {
 
         // Find shop by email
         const shop = await prisma.shop.findUnique({
-          where: { email }
+          where: { email },
+          select: {
+            id: true,
+            email: true,
+            shopName: true,
+            passwordHash: true,
+            isActive: true,
+            role: true
+          }
         })
 
         if (!shop) {
@@ -50,6 +58,7 @@ export const authConfig: NextAuthConfig = {
           id: shop.id,
           email: shop.email,
           name: shop.shopName,
+          role: shop.role
         }
       }
     })
@@ -65,6 +74,7 @@ export const authConfig: NextAuthConfig = {
       if (user) {
         token.shopId = user.id
         token.shopName = user.name
+        token.role = user.role
       }
 
       // Handle impersonation via session update
@@ -92,6 +102,7 @@ export const authConfig: NextAuthConfig = {
       if (session.user) {
         session.user.shopId = token.shopId as string
         session.user.shopName = token.shopName as string
+        session.user.role = token.role as string
         session.user.impersonatingFrom = token.impersonatingFrom as string | undefined
       }
       return session
