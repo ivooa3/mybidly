@@ -14,9 +14,12 @@ export const authConfig: NextAuthConfig = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
+        console.log('[Auth] Authorize called with email:', credentials?.email)
+
         // Validate credentials
         const validation = shopLoginSchema.safeParse(credentials)
         if (!validation.success) {
+          console.log('[Auth] Validation failed:', validation.error)
           return null
         }
 
@@ -36,11 +39,15 @@ export const authConfig: NextAuthConfig = {
         })
 
         if (!shop) {
+          console.log('[Auth] Shop not found for email:', email)
           return null
         }
 
+        console.log('[Auth] Shop found:', { id: shop.id, email: shop.email, role: shop.role, isActive: shop.isActive })
+
         // Check if account is active
         if (!shop.isActive) {
+          console.log('[Auth] Account is not active')
           throw new Error('ACCOUNT_DEACTIVATED')
         }
 
@@ -51,8 +58,11 @@ export const authConfig: NextAuthConfig = {
         )
 
         if (!isValidPassword) {
+          console.log('[Auth] Invalid password')
           return null
         }
+
+        console.log('[Auth] Authentication successful for:', shop.email)
 
         // Return user object
         return {
@@ -73,6 +83,7 @@ export const authConfig: NextAuthConfig = {
     async jwt({ token, user, trigger, session }) {
       // Add shop ID to token
       if (user) {
+        console.log('[Auth] JWT callback - user login:', { id: user.id, email: user.email, role: user.role })
         token.shopId = user.id
         token.shopName = user.name
         token.role = user.role
@@ -96,6 +107,7 @@ export const authConfig: NextAuthConfig = {
         token.impersonatingFrom = undefined
       }
 
+      console.log('[Auth] JWT callback - token:', { shopId: token.shopId, role: token.role })
       return token
     },
     async session({ session, token }) {
@@ -106,6 +118,10 @@ export const authConfig: NextAuthConfig = {
         session.user.role = token.role as string
         session.user.impersonatingFrom = token.impersonatingFrom as string | undefined
       }
+      console.log('[Auth] Session callback - session user:', {
+        shopId: session.user?.shopId,
+        role: session.user?.role
+      })
       return session
     }
   },

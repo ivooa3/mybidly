@@ -8,7 +8,8 @@
       "Bash(npx tsc --noEmit)",
       "Bash(git add -A)",
       "Bash(curl -I https://www.mybidly.io/admin/users)",
-      "Bash(curl -v https://www.mybidly.io/api/auth/session)"
+      "Bash(curl -v https://www.mybidly.io/api/auth/session)",
+      "Bash(curl -v -c /tmp/cookies2.txt \"https://www.mybidly.io/api/auth/signin/credentials\")"
     ],
     "deny": [],
     "ask": []
