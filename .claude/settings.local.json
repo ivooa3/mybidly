@@ -6,7 +6,9 @@
       "Bash(echo $DATABASE_URL)",
       "Bash(npx tsx scripts/check-all-environments.ts)",
       "Bash(npx tsc --noEmit)",
-      "Bash(git add -A)"
+      "Bash(git add -A)",
+      "Bash(curl -I https://www.mybidly.io/admin/users)",
+      "Bash(curl -v https://www.mybidly.io/api/auth/session)"
     ],
     "deny": [],
     "ask": []
