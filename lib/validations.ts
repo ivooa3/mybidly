@@ -113,24 +113,52 @@ export type OfferCreateInput = z.infer<typeof offerCreateSchema>
 export const bidCreateSchema = z.object({
   shopId: z.string().cuid('Invalid shop ID'),
   offerId: z.string().cuid('Invalid offer ID'),
+
+  // Customer Information
   customerEmail: z.string().email('Invalid email address'),
   customerName: z
     .string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters'),
+  customerPhone: z
+    .string()
+    .min(5, 'Phone number must be at least 5 characters')
+    .max(20, 'Phone number must be less than 20 characters')
+    .optional(),
   shippingAddress: z.object({
     line1: z.string().min(1, 'Address line 1 is required'),
     line2: z.string().optional(),
     city: z.string().min(1, 'City is required'),
     postalCode: z.string().min(1, 'Postal code is required'),
     country: z.string().length(2, 'Country must be 2-letter code')
-  }).optional().nullable(), // Allow null/undefined for mobile wallet payments
+  }).optional().nullable(), // Allow null/undefined for wallet payments (Apple Pay, Google Pay, etc.)
+
+  // Bid Details
   bidAmount: z
     .number()
     .positive('Bid amount must be positive')
     .multipleOf(0.01, 'Invalid bid format'),
+  isFixPrice: z.boolean().optional(), // Flag to indicate fix price purchase
   locale: z.enum(['en', 'de']),
-  isMobileWallet: z.boolean().optional() // Flag to indicate mobile wallet payment
+  isMobileWallet: z.boolean().optional(), // Flag to indicate wallet payment (shipping from wallet)
+
+  // Original Order Context (optional - passed from widget embed)
+  originalOrderId: z.string().max(100).optional(),
+  originalOrderValue: z.number().positive().multipleOf(0.01).optional(),
+  originalOrderDate: z.string().datetime().optional(), // ISO datetime string
+
+  // Delivery Notes (optional - customer can add special instructions)
+  deliveryNotes: z.string().max(500).optional()
+})
+.refine((data) => {
+  // If not using wallet payment, shipping address must be provided
+  if (!data.isMobileWallet && !data.shippingAddress) {
+    return false
+  }
+  return true
+}, {
+  message: 'Shipping address is required for non-wallet payment methods',
+  path: ['shippingAddress']
 })
 
 export type BidCreateInput = z.infer<typeof bidCreateSchema>

@@ -39,12 +39,14 @@ const translations = {
     customerInfo: 'Customer Information',
     name: 'Full Name',
     email: 'Email Address',
+    phone: 'Phone Number',
     shippingAddress: 'Shipping Address',
     addressLine1: 'Address Line 1',
     addressLine2: 'Address Line 2 (optional)',
     city: 'City',
     postalCode: 'Postal Code',
     country: 'Country',
+    deliveryNotes: 'Delivery Instructions (optional)',
     payment: 'Payment Authorization',
     submitBid: 'Authorize Payment & Submit Bid',
     buyNow: 'Buy Now',
@@ -63,12 +65,14 @@ const translations = {
     customerInfo: 'Kundeninformationen',
     name: 'Vollständiger Name',
     email: 'E-Mail-Adresse',
+    phone: 'Telefonnummer',
     shippingAddress: 'Lieferadresse',
     addressLine1: 'Adresszeile 1',
     addressLine2: 'Adresszeile 2 (optional)',
     city: 'Stadt',
     postalCode: 'Postleitzahl',
     country: 'Land',
+    deliveryNotes: 'Lieferanweisungen (optional)',
     payment: 'Zahlungsautorisierung',
     submitBid: 'Zahlung autorisieren & Gebot abgeben',
     buyNow: 'Jetzt kaufen',
@@ -82,14 +86,24 @@ const translations = {
   }
 }
 
-const createBidSchema = (locale: 'en' | 'de') => z.object({
+const createBidSchema = (locale: 'en' | 'de', requireShipping: boolean = true) => z.object({
   customerName: z.string().min(2, locale === 'en' ? 'Name must be at least 2 characters' : 'Name muss mindestens 2 Zeichen lang sein'),
   customerEmail: z.string().email(locale === 'en' ? 'Invalid email address' : 'Ungültige E-Mail-Adresse'),
-  addressLine1: z.string().min(1, locale === 'en' ? 'Address is required' : 'Adresse ist erforderlich'),
+  customerPhone: z.string().min(5, locale === 'en' ? 'Phone number is required' : 'Telefonnummer ist erforderlich').optional(),
+  addressLine1: requireShipping
+    ? z.string().min(1, locale === 'en' ? 'Address is required' : 'Adresse ist erforderlich')
+    : z.string().optional(),
   addressLine2: z.string().optional(),
-  city: z.string().min(1, locale === 'en' ? 'City is required' : 'Stadt ist erforderlich'),
-  postalCode: z.string().min(1, locale === 'en' ? 'Postal code is required' : 'Postleitzahl ist erforderlich'),
-  country: z.string().length(2, locale === 'en' ? 'Country code must be 2 letters' : 'Ländercode muss 2 Buchstaben lang sein')
+  city: requireShipping
+    ? z.string().min(1, locale === 'en' ? 'City is required' : 'Stadt ist erforderlich')
+    : z.string().optional(),
+  postalCode: requireShipping
+    ? z.string().min(1, locale === 'en' ? 'Postal code is required' : 'Postleitzahl ist erforderlich')
+    : z.string().optional(),
+  country: requireShipping
+    ? z.string().length(2, locale === 'en' ? 'Country code must be 2 letters' : 'Ländercode muss 2 Buchstaben lang sein')
+    : z.string().optional(),
+  deliveryNotes: z.string().max(500).optional()
 })
 
 type BidFormInput = z.infer<ReturnType<typeof createBidSchema>>
@@ -102,7 +116,8 @@ function UnifiedPaymentForm({
   isFixPricePurchase,
   register,
   errors,
-  onError
+  onError,
+  onPaymentMethodChange
 }: {
   offer: Offer
   shopId: string
@@ -112,11 +127,14 @@ function UnifiedPaymentForm({
   register: any
   errors: any
   onError: (message: string) => void
+  onPaymentMethodChange: (isWallet: boolean) => void
 }) {
   const stripe = useStripe()
   const elements = useElements()
   const [isProcessing, setIsProcessing] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [shippingExpanded, setShippingExpanded] = useState(false)
+  const [paymentMethodType, setPaymentMethodType] = useState<string | null>(null)
   const t = translations[locale]
 
   // Detect if device is mobile
@@ -131,6 +149,32 @@ function UnifiedPaymentForm({
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Listen to payment method changes
+  useEffect(() => {
+    if (!elements) return
+
+    const paymentElement = elements.getElement('payment')
+    if (!paymentElement) return
+
+    paymentElement.on('change', (event: any) => {
+      if (event.value?.type) {
+        setPaymentMethodType(event.value.type)
+
+        // Check if it's a wallet payment method
+        const walletMethods = ['apple_pay', 'google_pay', 'paypal', 'link']
+        const isWalletPayment = walletMethods.includes(event.value.type)
+
+        // Notify parent component
+        onPaymentMethodChange(isWalletPayment)
+
+        // Auto-expand shipping section if non-wallet payment on mobile
+        if (isMobile && !isWalletPayment) {
+          setShippingExpanded(true)
+        }
+      }
+    })
+  }, [elements, isMobile, onPaymentMethodChange])
 
   // Calculate VAT (19% for Germany)
   const VAT_RATE = 0.19
@@ -152,13 +196,20 @@ function UnifiedPaymentForm({
       const form = e.currentTarget
       const formData = new FormData(form)
 
-      // For mobile: only email is required, address comes from wallet
-      // For desktop: all fields from form
+      // Check if payment method is a wallet (address comes from wallet)
+      const walletMethods = ['apple_pay', 'google_pay', 'paypal', 'link']
+      const isWalletMethod = paymentMethodType ? walletMethods.includes(paymentMethodType) : false
+
       const customerEmail = formData.get('customerEmail') as string
-      const customerData = isMobile ? {
-        customerEmail
+      const customerName = formData.get('customerName') as string || customerEmail
+
+      // For wallet payments: address comes from wallet
+      // For card/other payments: get address from form
+      const customerData = isWalletMethod ? {
+        customerEmail,
+        customerName
       } : {
-        customerName: formData.get('customerName') as string,
+        customerName,
         customerEmail: customerEmail,
         addressLine1: formData.get('addressLine1') as string,
         addressLine2: formData.get('addressLine2') as string || '',
@@ -179,6 +230,12 @@ function UnifiedPaymentForm({
       // Check if this is a fix price purchase (bid amount equals fix price)
       const isFixPrice = Math.abs(bidAmount - offer.fixPrice) < 0.01
 
+      // Get URL parameters for original order context
+      const urlParams = new URLSearchParams(window.location.search)
+      const originalOrderId = urlParams.get('orderId') || undefined
+      const originalOrderValue = urlParams.get('orderValue') ? parseFloat(urlParams.get('orderValue')!) : undefined
+      const originalOrderDate = urlParams.get('orderDate') || undefined
+
       const response = await fetch('/api/bids', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -187,17 +244,23 @@ function UnifiedPaymentForm({
           offerId: offer.id,
           bidAmount,
           isFixPrice,
-          customerName: isMobile ? 'customerEmail' : (customerData as any).customerName,
+          customerName: customerData.customerName,
           customerEmail: customerEmail,
-          shippingAddress: isMobile ? null : {
+          customerPhone: (customerData as any).customerPhone,
+          shippingAddress: isWalletMethod ? null : {
             line1: (customerData as any).addressLine1,
             line2: (customerData as any).addressLine2,
             city: (customerData as any).city,
             postalCode: (customerData as any).postalCode,
             country: (customerData as any).country
           },
-          isMobileWallet: isMobile,
-          locale
+          deliveryNotes: (customerData as any).deliveryNotes,
+          isMobileWallet: isWalletMethod,
+          locale,
+          // Original order context (if provided via URL params)
+          originalOrderId,
+          originalOrderValue,
+          originalOrderDate
         })
       })
 
@@ -215,9 +278,10 @@ function UnifiedPaymentForm({
         clientSecret: result.data.clientSecret,
         confirmParams: {
           return_url: `${window.location.origin}/widget/success?bidId=${result.data.bidId}&locale=${locale}`,
-          ...(isMobile && {
+          // Only request shipping from Stripe for wallet payments
+          ...(isWalletMethod && {
             shipping: {
-              name: customerEmail,
+              name: customerData.customerName,
               address: {
                 line1: '',
                 city: '',
@@ -235,8 +299,8 @@ function UnifiedPaymentForm({
         setIsProcessing(false)
       } else if (paymentIntent) {
         // Payment succeeded (paymentIntent exists means payment went through)
-        // For mobile wallets, extract shipping from payment intent
-        if (isMobile && paymentIntent.shipping) {
+        // For wallet payments, extract shipping from payment intent
+        if (isWalletMethod && paymentIntent.shipping) {
           // Update bid with shipping address from wallet
           await fetch(`/api/bids/${result.data.bidId}/shipping`, {
             method: 'PATCH',
@@ -312,16 +376,110 @@ function UnifiedPaymentForm({
             error={errors.customerEmail?.message}
             placeholder="john@example.com"
           />
-          {isMobile && (
-            <p className="text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-3">
-              ℹ️ Use Apple Pay, Google Pay, or PayPal for quick checkout. Your shipping address will be collected from your wallet.
-            </p>
+          {!isMobile && (
+            <Input
+              label={t.phone}
+              type="tel"
+              {...register('customerPhone')}
+              error={errors.customerPhone?.message}
+              placeholder="+49 123 456789"
+            />
           )}
         </div>
       </div>
 
-      {/* Shipping Address - Only show on desktop */}
-      {!isMobile && (
+      {/* Shipping Address */}
+      {isMobile ? (
+        <div>
+          <button
+            type="button"
+            onClick={() => setShippingExpanded(!shippingExpanded)}
+            className="w-full flex items-center justify-between bg-gray-50 border border-gray-300 rounded-lg p-4 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <h3 className="text-lg font-semibold text-gray-900">{t.shippingAddress}</h3>
+            </div>
+            <svg
+              className={`w-5 h-5 text-gray-600 transition-transform ${shippingExpanded ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {shippingExpanded && (
+            <div className="mt-4 space-y-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
+              <Input
+                label={t.name}
+                {...register('customerName')}
+                error={errors.customerName?.message}
+                placeholder="John Doe"
+              />
+              <Input
+                label={t.phone}
+                type="tel"
+                {...register('customerPhone')}
+                error={errors.customerPhone?.message}
+                placeholder="+49 123 456789"
+              />
+              <Input
+                label={t.addressLine1}
+                {...register('addressLine1')}
+                error={errors.addressLine1?.message}
+                placeholder="123 Main St"
+              />
+              <Input
+                label={t.addressLine2}
+                {...register('addressLine2')}
+                error={errors.addressLine2?.message}
+                placeholder="Apt 4B"
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label={t.city}
+                  {...register('city')}
+                  error={errors.city?.message}
+                  placeholder="Berlin"
+                />
+                <Input
+                  label={t.postalCode}
+                  {...register('postalCode')}
+                  error={errors.postalCode?.message}
+                  placeholder="10115"
+                />
+              </div>
+              <Input
+                label={t.country}
+                {...register('country')}
+                error={errors.country?.message}
+                placeholder="DE"
+                maxLength={2}
+              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t.deliveryNotes}
+                </label>
+                <textarea
+                  {...register('deliveryNotes')}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="e.g., Leave at front door, ring doorbell twice"
+                  rows={3}
+                  maxLength={500}
+                />
+                {errors.deliveryNotes?.message && (
+                  <p className="mt-1 text-sm text-red-600">{errors.deliveryNotes.message}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
         <div>
           <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.shippingAddress}</h3>
           <div className="space-y-4">
@@ -358,6 +516,21 @@ function UnifiedPaymentForm({
               placeholder="DE"
               maxLength={2}
             />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {t.deliveryNotes}
+              </label>
+              <textarea
+                {...register('deliveryNotes')}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                placeholder="e.g., Leave at front door, ring doorbell twice"
+                rows={3}
+                maxLength={500}
+              />
+              {errors.deliveryNotes?.message && (
+                <p className="mt-1 text-sm text-red-600">{errors.deliveryNotes.message}</p>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -400,9 +573,12 @@ export function BidForm({ offer, shopId, locale, onBack }: BidFormProps) {
   const [error, setError] = useState<string | null>(null)
   const [isLoadingPayment, setIsLoadingPayment] = useState(false)
   const [isMobileDevice, setIsMobileDevice] = useState(false)
+  const [isWalletPayment, setIsWalletPayment] = useState(false)
 
   const t = translations[locale]
-  const bidSchema = createBidSchema(locale)
+
+  // Dynamically update validation schema based on payment method
+  const bidSchema = createBidSchema(locale, !isWalletPayment)
 
   // Detect if device is mobile (for parent component)
   useEffect(() => {
@@ -413,7 +589,6 @@ export function BidForm({ offer, shopId, locale, onBack }: BidFormProps) {
 
   const {
     register,
-    handleSubmit,
     formState: { errors }
   } = useForm<BidFormInput>({
     resolver: zodResolver(bidSchema),
@@ -421,6 +596,11 @@ export function BidForm({ offer, shopId, locale, onBack }: BidFormProps) {
       country: 'DE'
     }
   })
+
+  // Handle payment method change
+  const handlePaymentMethodChange = (isWallet: boolean) => {
+    setIsWalletPayment(isWallet)
+  }
 
   // Create payment intent on component mount
   useEffect(() => {
@@ -539,6 +719,7 @@ export function BidForm({ offer, shopId, locale, onBack }: BidFormProps) {
               register={register}
               errors={errors}
               onError={setError}
+              onPaymentMethodChange={handlePaymentMethodChange}
             />
           </Elements>
         )}
