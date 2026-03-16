@@ -26,6 +26,9 @@ export default async function BidsPage() {
     orderBy: { createdAt: 'desc' }
   })
 
+  // Note: shippingAddress, customerPhone, and deliveryNotes are already included
+  // as they're direct fields on the Bid model
+
   // Convert Decimal to number for client component
   const bidsWithNumbers = bids.map(bid => {
     const minSellingPrice = Number(bid.offer.minPrice)

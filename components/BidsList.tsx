@@ -9,6 +9,9 @@ interface Bid {
   id: string
   customerName: string
   customerEmail: string
+  customerPhone: string | null
+  shippingAddress: any
+  deliveryNotes: string | null
   bidAmount: number
   isFixPrice: boolean
   status: string
@@ -31,6 +34,19 @@ export function BidsList({ bids: initialBids }: BidsListProps) {
   const [bids, setBids] = useState(initialBids)
   const [filter, setFilter] = useState<'all' | 'pending' | 'accepted' | 'declined'>('all')
   const [processingBidId, setProcessingBidId] = useState<string | null>(null)
+  const [expandedShippingIds, setExpandedShippingIds] = useState<Set<string>>(new Set())
+
+  const toggleShippingDetails = (bidId: string) => {
+    setExpandedShippingIds(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(bidId)) {
+        newSet.delete(bidId)
+      } else {
+        newSet.add(bidId)
+      }
+      return newSet
+    })
+  }
 
   const filteredBids = filter === 'all'
     ? bids
@@ -217,6 +233,81 @@ export function BidsList({ bids: initialBids }: BidsListProps) {
                           </p>
                         )}
                       </div>
+                    </div>
+
+                    {/* Shipping Details Toggle */}
+                    <div className="mt-4">
+                      <button
+                        onClick={() => toggleShippingDetails(bid.id)}
+                        className="flex items-center gap-2 text-sm font-medium text-purple-600 hover:text-purple-700 transition-colors"
+                      >
+                        <svg
+                          className={`w-4 h-4 transition-transform ${expandedShippingIds.has(bid.id) ? 'rotate-90' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span>{expandedShippingIds.has(bid.id) ? 'Hide' : 'View'} Shipping Details</span>
+                      </button>
+
+                      {expandedShippingIds.has(bid.id) && (
+                        <div className="mt-3 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                          <div className="space-y-3">
+                            {/* Customer Contact */}
+                            <div>
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Customer Contact</p>
+                              <div className="space-y-1 text-sm">
+                                <div className="flex items-start gap-2">
+                                  <span className="text-gray-500">📧</span>
+                                  <a href={`mailto:${bid.customerEmail}`} className="text-purple-600 hover:underline">
+                                    {bid.customerEmail}
+                                  </a>
+                                </div>
+                                {bid.customerPhone && (
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-gray-500">📱</span>
+                                    <a href={`tel:${bid.customerPhone}`} className="text-purple-600 hover:underline">
+                                      {bid.customerPhone}
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Shipping Address */}
+                            {bid.shippingAddress && (
+                              <div>
+                                <p className="text-xs font-semibold text-gray-700 mb-2">Shipping Address</p>
+                                <div className="text-sm text-gray-900">
+                                  {bid.shippingAddress.line1}<br />
+                                  {bid.shippingAddress.line2 && <>{bid.shippingAddress.line2}<br /></>}
+                                  {bid.shippingAddress.postalCode} {bid.shippingAddress.city}<br />
+                                  {bid.shippingAddress.country}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Delivery Notes */}
+                            {bid.deliveryNotes && (
+                              <div>
+                                <p className="text-xs font-semibold text-gray-700 mb-2">Delivery Instructions</p>
+                                <div className="text-sm text-gray-700 bg-yellow-50 border border-yellow-200 rounded p-2">
+                                  📝 {bid.deliveryNotes}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* No Shipping Info Message */}
+                            {!bid.shippingAddress && !bid.customerPhone && (
+                              <div className="text-sm text-gray-500 italic">
+                                Shipping information will be collected from payment wallet
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* Platform Fee Breakdown (only for accepted bids) */}

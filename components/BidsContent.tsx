@@ -7,6 +7,9 @@ interface Bid {
   id: string
   customerName: string
   customerEmail: string
+  customerPhone: string | null
+  shippingAddress: any
+  deliveryNotes: string | null
   bidAmount: number
   isFixPrice: boolean
   status: string
